@@ -1,4 +1,5 @@
 import React from "react";
+import { Provider } from "react-redux";
 import ReactDOM from "react-dom";
 import "./index.scss";
 import { BrowserRouter, Route } from "react-router-dom";
@@ -6,15 +7,16 @@ import { LandingPage } from "./pages/LandingPage";
 import { Login } from "./pages/Login";
 import { ApplicationControl } from "./pages/ApplicationControl";
 import reportWebVitals from "./reportWebVitals";
+import { store } from "./store/store";
 
 ReactDOM.render(
-  <React.StrictMode>
+  <Provider store={store}>
     <BrowserRouter>
       <Route exact path="/" component={LandingPage} />
       <Route path="/login" component={Login} />
       <Route path="/application" component={ApplicationControl} />
     </BrowserRouter>
-  </React.StrictMode>,
+  </Provider>,
   document.getElementById("root")
 );
 
