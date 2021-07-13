@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import "./index.scss";
 import { BrowserRouter, Route } from "react-router-dom";
 import { LandingPage } from "./pages/LandingPage";
+import { Login } from "./pages/Login";
 import { ApplicationControl } from "./pages/ApplicationControl";
 import reportWebVitals from "./reportWebVitals";
 
@@ -10,6 +11,7 @@ ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <Route exact path="/" component={LandingPage} />
+      <Route path="/login" component={Login} />
       <Route path="/application" component={ApplicationControl} />
     </BrowserRouter>
   </React.StrictMode>,

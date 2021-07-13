@@ -1,4 +1,4 @@
-import { Toolbar } from "../components/common/Toolbar";
+import { Toolbar } from "../../components/common/Toolbar";
 
 export const ApplicationControl = () => {
   document.title = "Etienen Thompson - Admin Center";

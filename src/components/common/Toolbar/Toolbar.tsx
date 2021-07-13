@@ -5,7 +5,7 @@ import "./Toolbar.scss";
 export const Toolbar = () => {
   const onButtonClicked = () => {
     window.open(
-      "http://localhost:4000?appid=aaaabbbb-cccc-dddd-eeee-ffffgggghhhh",
+      `http://localhost:4000?appid=${process.env.REACT_APP_APPLICATION_ID}`,
       "_self"
     );
   };
