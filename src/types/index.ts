@@ -1,3 +1,7 @@
+export enum LocalStorageKey {
+  ClientId = "ClientId",
+}
+
 export interface AdminPageUser {
   username: string;
 }

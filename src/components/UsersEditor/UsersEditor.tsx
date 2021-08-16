@@ -1,4 +1,5 @@
 import React from "react";
+import { LoadingSpinner } from "../common/LoadingSpinner";
 import api from "../../api";
 import { GetUsersResponse, AdminPageUser } from "../../types";
 import "./UsersEditor.scss";
@@ -23,9 +24,9 @@ export const UsersEditor = () => {
       {!showError && (
         <div>
           <div>User Editor</div>
-          {users.map((user, index) => (
-            <div key={index}>{user.username}</div>
-          ))}
+          {!users && <LoadingSpinner />}
+          {users &&
+            users.map((user, index) => <div key={index}>{user.username}</div>)}
         </div>
       )}
       {showError && <div>{errorMessage}</div>}

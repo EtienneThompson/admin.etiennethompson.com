@@ -6,3 +6,10 @@ export const updateClientId = (newClientId: string): AnyAction => {
     payload: newClientId,
   };
 };
+
+export const loadingClientId = (loading: boolean): AnyAction => {
+  return {
+    type: "clientId/loading",
+    payload: loading,
+  };
+};

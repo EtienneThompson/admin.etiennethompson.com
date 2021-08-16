@@ -17,13 +17,16 @@ export const Dashboard: React.FunctionComponent<DashboardProps> = (
   document.title = "Etienne Thompson - Dashboard";
   document.documentElement.className = "theme-light";
   const clientId = useSelector((state: AdminStore) => state.clientId);
+  const isClientIdLoading = useSelector(
+    (state: AdminStore) => state.isClientIdLoading
+  );
   const [currentEditor, setCurrentEditor] = React.useState("DashboardEditor");
 
   React.useEffect(() => {
-    if (!clientId) {
+    if (!isClientIdLoading && !clientId) {
       props.history.push("/401");
     }
-  }, [clientId, props.history]);
+  }, [isClientIdLoading, clientId, props.history]);
 
   const renderEditor = React.useMemo(() => {
     if (currentEditor === "UsersEditor") {
