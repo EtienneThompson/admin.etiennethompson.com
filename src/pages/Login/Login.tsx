@@ -19,7 +19,7 @@ export const Login: React.FunctionComponent<LoginProps> = (
         : params.clientId
       : "";
     dispatch(updateClientId(clientId));
-    props.history.push("/");
+    props.history.push("/dashboard");
   }, [dispatch, props.history]);
 
   return (

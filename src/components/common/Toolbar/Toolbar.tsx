@@ -11,7 +11,7 @@ export const Toolbar = () => {
 
   const onLoginButtonClicked = () => {
     window.open(
-      `http://localhost:4000?appid=${process.env.REACT_APP_APPLICATION_ID}`,
+      `http://login.etiennethompson.com?appid=${process.env.REACT_APP_APPLICATION_ID}`,
       "_self"
     );
   };

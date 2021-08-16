@@ -1,7 +1,7 @@
 import React from "react";
 
 export interface RowProps {
-  justify?: "start" | "center" | "end";
+  justify?: "start" | "flex-start" | "center" | "end";
   align?: "start" | "center" | "end";
   children: React.ReactNode;
 }
