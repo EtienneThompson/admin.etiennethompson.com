@@ -24,7 +24,7 @@ export const UsersEditor = () => {
       {!showError && (
         <div>
           <div>User Editor</div>
-          {!users && <LoadingSpinner />}
+          {users.length === 0 && <LoadingSpinner />}
           {users &&
             users.map((user, index) => <div key={index}>{user.username}</div>)}
         </div>

@@ -24,7 +24,7 @@ export const Dashboard: React.FunctionComponent<DashboardProps> = (
 
   React.useEffect(() => {
     if (!isClientIdLoading && !clientId) {
-      props.history.push("/401");
+      props.history.push("/");
     }
   }, [isClientIdLoading, clientId, props.history]);
 
