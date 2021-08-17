@@ -20,7 +20,7 @@ export const UsersEditor = () => {
       .get<GetUsersResponse>("/admin/users")
       .then((response) => setUsers(response.data.users))
       .catch((error) => {
-        setErrorMessage(error.data.message);
+        setErrorMessage(error.message);
         setShowError(true);
       });
   }, []);
@@ -41,14 +41,27 @@ export const UsersEditor = () => {
 
   const onSubmitButtonClicked = () => {
     console.log("submit button clicked");
+    api
+      .post("/admin/users/create", newUsers)
+      .then((response) => {
+        console.log("success");
+      })
+      .catch((error) => {
+        console.log("failure");
+      });
   };
 
   const existingUsersTableJSX = React.useMemo(() => {
     const onEditButtonClicked = (index: number, currentUsername: string) => {
       console.log("edit button clicked");
-      console.log(index);
       setEditingItem(index);
       setNewUsername(currentUsername);
+    };
+
+    const onSaveButtonClicked = (index: number) => {
+      users[index].username = newUsername;
+      setEditingItem(-1);
+      setNewUsername("");
     };
 
     return (
@@ -63,11 +76,18 @@ export const UsersEditor = () => {
           {users.map((user, index) => (
             <tr key={`existing-user-${index}`}>
               <td style={{ width: "30px" }}>
-                <Button
-                  onClick={() => onEditButtonClicked(index, user.username)}
-                >
-                  Edit
-                </Button>
+                {editingItem !== index && (
+                  <Button
+                    onClick={() => onEditButtonClicked(index, user.username)}
+                  >
+                    Edit
+                  </Button>
+                )}
+                {editingItem === index && (
+                  <Button onClick={() => onSaveButtonClicked(index)}>
+                    Save
+                  </Button>
+                )}
               </td>
               {editingItem !== index && <td>{user.username}</td>}
               {editingItem === index && (
@@ -101,14 +121,18 @@ export const UsersEditor = () => {
               <input
                 type="text"
                 id={`new-user-${index}-username`}
-                placeholder="username"
+                onChange={(event: React.FormEvent<HTMLInputElement>) => {
+                  newUsers[index].username = event.currentTarget.value;
+                }}
               />
             </td>
             <td>
               <input
                 type="text"
                 id={`new-user-${index}-password`}
-                placeholder="password"
+                onChange={(event: React.FormEvent<HTMLInputElement>) => {
+                  newUsers[index].password = event.currentTarget.value;
+                }}
               />
             </td>
           </tr>
@@ -131,7 +155,7 @@ export const UsersEditor = () => {
           <Row>
             <Button onClick={onNewButtonClicked}>New</Button>
           </Row>
-          {newUsers.length !== 0 && newUsersTableJSX}
+          <Row>{newUsers.length !== 0 && newUsersTableJSX}</Row>
           <Row>
             {newUsers.length !== 0 && (
               <Button onClick={onSubmitButtonClicked}>Submit</Button>
