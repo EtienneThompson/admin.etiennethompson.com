@@ -13,3 +13,17 @@ export const loadingClientId = (loading: boolean): AnyAction => {
     payload: loading,
   };
 };
+
+export const updateIsUser = (isUser: boolean): AnyAction => {
+  return {
+    type: "userStatus/setIsUser",
+    payload: isUser,
+  };
+};
+
+export const updateIsAdmin = (isAdmin: boolean): AnyAction => {
+  return {
+    type: "userStatus/setIsAdmin",
+    payload: isAdmin,
+  };
+};

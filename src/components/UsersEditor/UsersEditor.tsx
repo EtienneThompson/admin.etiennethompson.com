@@ -5,6 +5,7 @@ import { Button } from "../common/Button";
 import api from "../../api";
 import { GetUsersResponse, AdminPageUser } from "../../types";
 import { NewUser } from "./UserEditor.types";
+import { hashString } from "../../utils/hash";
 import "./UsersEditor.scss";
 
 export const UsersEditor = () => {
@@ -41,6 +42,11 @@ export const UsersEditor = () => {
 
   const onSubmitButtonClicked = () => {
     console.log("submit button clicked");
+    // Hash every new users password.
+    newUsers.map((user) => {
+      user.password = hashString(user.password);
+      return user;
+    });
     api
       .post("/admin/users/create", newUsers)
       .then((response) => {
