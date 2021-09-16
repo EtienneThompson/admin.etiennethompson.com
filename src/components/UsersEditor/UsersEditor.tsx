@@ -31,7 +31,6 @@ export const UsersEditor = () => {
   };
 
   const onNewButtonClicked = () => {
-    console.log("new button clicked");
     const newUser: NewUser = {
       username: "",
       password: "",
@@ -41,7 +40,6 @@ export const UsersEditor = () => {
   };
 
   const onSubmitButtonClicked = () => {
-    console.log("submit button clicked");
     // Hash every new users password.
     newUsers.map((user) => {
       user.password = hashString(user.password);
@@ -59,15 +57,28 @@ export const UsersEditor = () => {
 
   const existingUsersTableJSX = React.useMemo(() => {
     const onEditButtonClicked = (index: number, currentUsername: string) => {
-      console.log("edit button clicked");
       setEditingItem(index);
       setNewUsername(currentUsername);
     };
 
     const onSaveButtonClicked = (index: number) => {
       users[index].username = newUsername;
+      console.log(users[index]);
+      api
+        .put("/admin/users/update", users[index])
+        .then((response) => console.log(response))
+        .catch((error) => console.log(error));
       setEditingItem(-1);
       setNewUsername("");
+    };
+
+    const onDeleteButtonclicked = (index: number) => {
+      api
+        .delete("/admin/users/delete", {
+          data: { userid: users[index].userid },
+        })
+        .then((response) => console.log(response))
+        .catch((error) => console.log(error));
     };
 
     return (
@@ -76,6 +87,7 @@ export const UsersEditor = () => {
           <tr>
             <th></th>
             <th>Username</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -105,6 +117,11 @@ export const UsersEditor = () => {
                   />
                 </td>
               )}
+              <td style={{ width: "50px" }}>
+                <Button onClick={() => onDeleteButtonclicked(index)}>
+                  Delete
+                </Button>
+              </td>
             </tr>
           ))}
         </tbody>

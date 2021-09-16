@@ -8,7 +8,12 @@ import { ApplicationControl } from "./pages/ApplicationControl";
 
 import { readFromLocalStorage } from "./utils/localStorage";
 import { LocalStorageKey } from "./types";
-import { loadingClientId, updateClientId } from "./store/actions";
+import {
+  loadingClientId,
+  updateClientId,
+  updateIsUser,
+  updateIsAdmin,
+} from "./store/actions";
 import "./App.scss";
 
 export const App = () => {
@@ -19,6 +24,14 @@ export const App = () => {
     const clientId = readFromLocalStorage(LocalStorageKey.ClientId);
     if (clientId) {
       dispatch(updateClientId(clientId));
+    }
+    const isUser = readFromLocalStorage(LocalStorageKey.IsUser);
+    if (isUser) {
+      dispatch(updateIsUser(isUser === "true"));
+    }
+    const isAdmin = readFromLocalStorage(LocalStorageKey.IsAdmin);
+    if (isAdmin) {
+      dispatch(updateIsAdmin(isAdmin === "true"));
     }
     dispatch(loadingClientId(false));
   }, [dispatch]);
