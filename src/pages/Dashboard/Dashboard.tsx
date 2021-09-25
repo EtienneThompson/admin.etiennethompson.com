@@ -7,6 +7,7 @@ import {
   SideBarTitle,
 } from "../../components/common/SideBar";
 import { UsersEditor } from "../../components/UsersEditor";
+import { ApplicationsEditor } from "../../components/ApplicationsEditor";
 import "./Dashboard.scss";
 import { AdminStore } from "../../store/types";
 import { DashboardProps } from "./Dashboard.types";
@@ -31,6 +32,8 @@ export const Dashboard: React.FunctionComponent<DashboardProps> = (
   const renderEditor = React.useMemo(() => {
     if (currentEditor === "UsersEditor") {
       return <UsersEditor />;
+    } else if (currentEditor === "ApplicationsEditor") {
+      return <ApplicationsEditor />;
     } else {
       return <div style={{ width: "100%" }}>unknown</div>;
     }

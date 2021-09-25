@@ -11,6 +11,16 @@ export interface AdminPageUser {
   clientid: string;
 }
 
+export interface Application {
+  applicationid: string;
+  applicationname: string;
+  redirecturl: string;
+}
+
 export interface GetUsersResponse {
   users: AdminPageUser[];
+}
+
+export interface GetApplicationsResponse {
+  applications: Application[];
 }
