@@ -1,20 +1,15 @@
-import React from "react";
-import { Provider } from "react-redux";
 import ReactDOM from "react-dom";
-import "./index.scss";
-import { BrowserRouter, Route } from "react-router-dom";
-import { LandingPage } from "./pages/LandingPage";
-import { Login } from "./pages/Login";
-import { ApplicationControl } from "./pages/ApplicationControl";
-import reportWebVitals from "./reportWebVitals";
+import { Provider } from "react-redux";
+import { BrowserRouter } from "react-router-dom";
+import { App } from "./App";
 import { store } from "./store/store";
+import reportWebVitals from "./reportWebVitals";
+import "./index.scss";
 
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
-      <Route exact path="/" component={LandingPage} />
-      <Route path="/login" component={Login} />
-      <Route path="/application" component={ApplicationControl} />
+      <App />
     </BrowserRouter>
   </Provider>,
   document.getElementById("root")

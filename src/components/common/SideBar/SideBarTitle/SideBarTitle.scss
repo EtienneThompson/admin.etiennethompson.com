@@ -1,0 +1,9 @@
+@import "../../../../assets/styles/colors.scss";
+
+.side-bar-title {
+    font-weight: bold;
+    font-size: 18;
+    padding: 3px;
+    background-color: var(--primary);
+    width: 100%;
+}

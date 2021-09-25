@@ -1,0 +1,36 @@
+import axios from "axios";
+import { store } from "../store/store";
+
+const instance = axios.create({
+  baseURL: `${process.env.REACT_APP_API_ENDPOINT}`,
+  timeout: 5000,
+});
+
+instance.interceptors.request.use(
+  (req) => {
+    // Set the appid and clientid fields before sending the request.
+    if (req.method === "get") {
+      if (!req.params) {
+        req.params = {};
+      }
+      req.params.appid = process.env.REACT_APP_APPLICATION_ID;
+      req.params.clientid = store.getState().clientId;
+    } else {
+      let data;
+      if (typeof req.data === "string") {
+        data = JSON.parse(req.data);
+      } else {
+        data = req.data;
+      }
+      data.appid = process.env.REACT_APP_APPLICATION_ID;
+      data.clientid = store.getState().clientId;
+      req.data = data;
+    }
+    return req;
+  },
+  (err) => {
+    Promise.reject(err);
+  }
+);
+
+export default instance;
