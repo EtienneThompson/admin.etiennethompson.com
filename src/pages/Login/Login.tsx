@@ -36,7 +36,7 @@ export const Login: React.FunctionComponent<LoginProps> = (
     dispatch(updateIsUser(isUser));
     dispatch(updateIsAdmin(isAdmin));
     // Push to the dashboard.
-    // props.history.push("/dashboard");
+    props.history.push("/dashboard");
   }, [dispatch, props.history]);
 
   return (

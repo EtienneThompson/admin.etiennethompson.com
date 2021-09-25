@@ -17,7 +17,8 @@ export const Toolbar: React.FunctionComponent<ToolbarProps> = (
 
   const onLoginButtonClicked = () => {
     window.open(
-      `http://login.etiennethompson.com?appid=${process.env.REACT_APP_APPLICATION_ID}`,
+      // `http://login.etiennethompson.com?appid=${process.env.REACT_APP_APPLICATION_ID}`,
+      `http://localhost:4000/login?appid=${process.env.REACT_APP_APPLICATION_ID}`,
       "_self"
     );
   };

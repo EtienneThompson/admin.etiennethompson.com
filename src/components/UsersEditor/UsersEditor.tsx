@@ -1,9 +1,11 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { LoadingSpinner } from "../common/LoadingSpinner";
 import { Row } from "../common/Grid";
 import { Button } from "../common/Button";
 import api from "../../api";
 import { GetUsersResponse, AdminPageUser } from "../../types";
+import { AdminStore } from "../../store/types";
 import { NewUser } from "./UserEditor.types";
 import { hashString } from "../../utils/hash";
 import "./UsersEditor.scss";
@@ -16,6 +18,8 @@ export const UsersEditor = () => {
   const [editingItem, setEditingItem] = React.useState(-1);
   const [newUsername, setNewUsername] = React.useState("");
 
+  const clientId = useSelector((state: AdminStore) => state.clientId);
+
   React.useEffect(() => {
     api
       .get<GetUsersResponse>("/admin/users")
@@ -24,7 +28,7 @@ export const UsersEditor = () => {
         setErrorMessage(error.message);
         setShowError(true);
       });
-  }, []);
+  }, [clientId]);
 
   const onUsernameEdited = (event: React.FormEvent<HTMLInputElement>) => {
     setNewUsername(event.currentTarget.value);
@@ -46,7 +50,7 @@ export const UsersEditor = () => {
       return user;
     });
     api
-      .post("/admin/users/create", newUsers)
+      .post("/admin/users/create", { newUsers: newUsers })
       .then((response) => {
         console.log("success");
       })
@@ -63,9 +67,8 @@ export const UsersEditor = () => {
 
     const onSaveButtonClicked = (index: number) => {
       users[index].username = newUsername;
-      console.log(users[index]);
       api
-        .put("/admin/users/update", users[index])
+        .put("/admin/users/update", { user: users[index] })
         .then((response) => console.log(response))
         .catch((error) => console.log(error));
       setEditingItem(-1);
