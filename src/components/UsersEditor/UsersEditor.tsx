@@ -1,11 +1,9 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import { LoadingSpinner } from "../common/LoadingSpinner";
 import { Row } from "../common/Grid";
 import { Button } from "../common/Button";
 import api from "../../api";
 import { GetUsersResponse, AdminPageUser } from "../../types";
-import { AdminStore } from "../../store/types";
 import { NewUser } from "./UserEditor.types";
 import { hashString } from "../../utils/hash";
 import "./UsersEditor.scss";
@@ -18,8 +16,6 @@ export const UsersEditor = () => {
   const [editingItem, setEditingItem] = React.useState(-1);
   const [newUsername, setNewUsername] = React.useState("");
 
-  const clientId = useSelector((state: AdminStore) => state.clientId);
-
   React.useEffect(() => {
     api
       .get<GetUsersResponse>("/admin/users")
@@ -28,7 +24,7 @@ export const UsersEditor = () => {
         setErrorMessage(error.message);
         setShowError(true);
       });
-  }, [clientId]);
+  }, []);
 
   const onUsernameEdited = (event: React.FormEvent<HTMLInputElement>) => {
     setNewUsername(event.currentTarget.value);
