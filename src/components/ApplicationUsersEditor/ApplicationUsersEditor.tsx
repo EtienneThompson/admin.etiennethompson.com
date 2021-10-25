@@ -3,13 +3,14 @@ import {
   AdminPageUser,
   Application,
   ApplicationUser,
+  GetUsersResponse,
   GetApplicationsResponse,
   GetApplicationUsersResponse,
 } from "../../types";
 import { Button } from "../common/Button";
 import { Row } from "../common/Grid";
 import { LoadingSpinner } from "../common/LoadingSpinner";
-import { GetUsersResponse } from "../../types";
+import { NewAppUser } from "./ApplicationUsersEditor.types";
 import api from "../../api";
 import "./ApplicationUsersEditor.scss";
 
@@ -17,6 +18,9 @@ export const ApplicationUsersEditor = () => {
   const [users, setUsers] = React.useState([] as AdminPageUser[]);
   const [apps, setApps] = React.useState([] as Application[]);
   const [appUsers, setAppUsers] = React.useState([] as ApplicationUser[]);
+  const [newAppUsers, setNewAppUsers] = React.useState(
+    [] as ApplicationUser[]
+  );
   const [editingItem, setEditingItem] = React.useState(-1);
   const [isLoading, setIsLoading] = React.useState(false);
   // eslint-disable-next-line
@@ -65,6 +69,27 @@ export const ApplicationUsersEditor = () => {
 
   const onIsAdminEdited = (event: React.FormEvent<HTMLInputElement>) => {
     setNewIsAdmin(event.currentTarget.value === "true");
+  };
+
+  const onNewButtonClicked = () => {
+    const newAppUser: NewAppUser = {
+      userid: "",
+      applicationid: "",
+      isuser: false,
+      isadmin: false,
+    };
+    const addedAppUsers = newAppUsers.concat(newAppUser);
+    setNewAppUsers(addedAppUsers);
+  };
+
+  const onSubmitButtonClicked = () => {
+    console.log(newAppUsers);
+    // api
+    //   .post("/admin/applicationusers/create", {
+    //     newApplicationUsers: newAppUsers,
+    //   })
+    //   .then((response) => console.log("success"))
+    //   .catch((error) => console.log(error));
   };
 
   const existingAppUsersTableJSX = React.useMemo(() => {
@@ -175,6 +200,74 @@ export const ApplicationUsersEditor = () => {
     );
   }, [apps, appUsers, editingItem, newIsAdmin, newIsUser, users]);
 
+  const newAppUsersTableJSX = (
+    <table>
+      <thead>
+        <tr>
+          <th>User</th>
+          <th>Application</th>
+          <th>Is User</th>
+          <th>Is Admin</th>
+        </tr>
+      </thead>
+      <tbody>
+        {newAppUsers.map((appUser, index) => (
+          <tr key={`new-app-user-${index}`}>
+            <td>
+              <select
+                name={`user-${index}`}
+                id={`user-${index}`}
+                onChange={(event: any) =>
+                  (newAppUsers[index].userid = event.target.value)
+                }
+              >
+                {users.map((user, index) => (
+                  <option key={`user-option-${index}`} value={user.userid}>
+                    {user.username}
+                  </option>
+                ))}
+              </select>
+            </td>
+            <td>
+              <select
+                name={`app-${index}`}
+                id={`app-${index}`}
+                onChange={(event: any) =>
+                  (newAppUsers[index].applicationid = event.target.value)
+                }
+              >
+                {apps.map((app, index) => (
+                  <option
+                    key={`app-option-${index}`}
+                    value={app.applicationid}
+                  >
+                    {app.applicationname}
+                  </option>
+                ))}
+              </select>
+            </td>
+            <td>
+              <input
+                type="checkbox"
+                onChange={(event: any) => {
+                  newAppUsers[index].isuser = event.target.checked;
+                }}
+              />
+            </td>
+            <td>
+              <input
+                type="checkbox"
+                onChange={(event: any) => {
+                  newAppUsers[index].isadmin = event.target.checked;
+                }}
+              />
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+
   return (
     <div className="application-users-editor-containter">
       <Row>
@@ -185,6 +278,15 @@ export const ApplicationUsersEditor = () => {
           <Row>
             {isLoading && <LoadingSpinner />}
             {!isLoading && existingAppUsersTableJSX}
+          </Row>
+          <Row>
+            <Button onClick={onNewButtonClicked}>New</Button>
+          </Row>
+          <Row>{newAppUsers.length !== 0 && newAppUsersTableJSX}</Row>
+          <Row>
+            {newAppUsers.length !== 0 && (
+              <Button onClick={onSubmitButtonClicked}>Submit</Button>
+            )}
           </Row>
         </div>
       )}
