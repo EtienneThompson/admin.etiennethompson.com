@@ -17,10 +17,21 @@ export interface Application {
   redirecturl: string;
 }
 
+export interface ApplicationUser {
+  userid: string;
+  applicationid: string;
+  isuser: boolean;
+  isadmin: boolean;
+}
+
 export interface GetUsersResponse {
   users: AdminPageUser[];
 }
 
 export interface GetApplicationsResponse {
   applications: Application[];
+}
+
+export interface GetApplicationUsersResponse {
+  applicationUsers: ApplicationUser[];
 }
