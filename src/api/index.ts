@@ -3,7 +3,7 @@ import { store } from "../store/store";
 
 const instance = axios.create({
   baseURL: `${process.env.REACT_APP_API_ENDPOINT}`,
-  timeout: 5000,
+  timeout: 60000,
 });
 
 instance.interceptors.request.use(

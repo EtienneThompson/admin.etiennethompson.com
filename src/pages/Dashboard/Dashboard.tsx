@@ -8,6 +8,7 @@ import {
 } from "../../components/common/SideBar";
 import { UsersEditor } from "../../components/UsersEditor";
 import { ApplicationsEditor } from "../../components/ApplicationsEditor";
+import { ApplicationUsersEditor } from "../../components/ApplicationUsersEditor";
 import "./Dashboard.scss";
 import { AdminStore } from "../../store/types";
 import { DashboardProps } from "./Dashboard.types";
@@ -34,6 +35,8 @@ export const Dashboard: React.FunctionComponent<DashboardProps> = (
       return <UsersEditor />;
     } else if (currentEditor === "ApplicationsEditor") {
       return <ApplicationsEditor />;
+    } else if (currentEditor === "ApplicationUsersEditor") {
+      return <ApplicationUsersEditor />;
     } else {
       return <div style={{ width: "100%" }}>unknown</div>;
     }
