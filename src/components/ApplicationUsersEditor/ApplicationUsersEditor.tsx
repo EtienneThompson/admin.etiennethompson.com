@@ -23,9 +23,7 @@ export const ApplicationUsersEditor = () => {
   );
   const [editingItem, setEditingItem] = React.useState(-1);
   const [isLoading, setIsLoading] = React.useState(false);
-  // eslint-disable-next-line
   const [errorMessage, setErrorMessage] = React.useState("");
-  // eslint-disable-next-line
   const [showError, setShowError] = React.useState(false);
   const [newIsUser, setNewIsUser] = React.useState(false);
   const [newIsAdmin, setNewIsAdmin] = React.useState(false);
@@ -62,19 +60,19 @@ export const ApplicationUsersEditor = () => {
     retrieveData();
   }, [retrieveData]);
 
-  const onIsUserEdited = (event: React.FormEvent<HTMLInputElement>) => {
+  const onIsUserEdited = (event: any) => {
     console.log(event.currentTarget.checked);
-    setNewIsUser(event.currentTarget.value === "true");
+    setNewIsUser(event.target.checked);
   };
 
-  const onIsAdminEdited = (event: React.FormEvent<HTMLInputElement>) => {
-    setNewIsAdmin(event.currentTarget.value === "true");
+  const onIsAdminEdited = (event: any) => {
+    setNewIsAdmin(event.target.checked);
   };
 
   const onNewButtonClicked = () => {
     const newAppUser: NewAppUser = {
-      userid: "",
-      applicationid: "",
+      userid: users[0].userid,
+      applicationid: apps[0].applicationid,
       isuser: false,
       isadmin: false,
     };
@@ -84,12 +82,12 @@ export const ApplicationUsersEditor = () => {
 
   const onSubmitButtonClicked = () => {
     console.log(newAppUsers);
-    // api
-    //   .post("/admin/applicationusers/create", {
-    //     newApplicationUsers: newAppUsers,
-    //   })
-    //   .then((response) => console.log("success"))
-    //   .catch((error) => console.log(error));
+    api
+      .post("/admin/applicationusers/create", {
+        newApplicationUsers: newAppUsers,
+      })
+      .then((response) => console.log("success"))
+      .catch((error) => console.log(error));
   };
 
   const existingAppUsersTableJSX = React.useMemo(() => {
@@ -110,7 +108,12 @@ export const ApplicationUsersEditor = () => {
         .put("/admin/applicationusers/update", {
           applicationuser: appUsers[index],
         })
-        .then((response) => console.log(response))
+        .then((response) => {
+          console.log(response);
+          setEditingItem(-1);
+          setNewIsUser(false);
+          setNewIsAdmin(false);
+        })
         .catch((error) => console.log(error));
     };
 
@@ -119,7 +122,10 @@ export const ApplicationUsersEditor = () => {
         .delete("/admin/applicationusers/delete", {
           data: { applicationuser: appUsers[index] },
         })
-        .then((response) => console.log(response))
+        .then((response) => {
+          console.log(response);
+          appUsers.splice(index);
+        })
         .catch((error) => console.log(error));
     };
 
