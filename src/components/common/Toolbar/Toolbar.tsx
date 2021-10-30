@@ -1,9 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { updateClientId } from "../../../store/actions";
+import { logout } from "../../../store/actions";
 import { AdminStore } from "../../../store/types";
-import { LocalStorageKey } from "../../../types";
-import { deleteFromLocalStorage } from "../../../utils/localStorage";
 import { Button } from "../Button";
 import { Row, Col } from "../Grid";
 import { ToolbarProps } from "./Toolbar.types";
@@ -24,8 +22,7 @@ export const Toolbar: React.FunctionComponent<ToolbarProps> = (
   };
 
   const onLogoutButtonClicked = () => {
-    dispatch(updateClientId(""));
-    deleteFromLocalStorage(LocalStorageKey.ClientId);
+    dispatch(logout());
   };
 
   return (
