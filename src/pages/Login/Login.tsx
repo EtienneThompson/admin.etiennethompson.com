@@ -27,16 +27,18 @@ export const Login: React.FunctionComponent<LoginProps> = (
     let clientId = extractQueryParam(params, "clientId");
     let isUser = extractQueryParam(params, "isUser");
     let isAdmin = extractQueryParam(params, "isAdmin");
-    // Write the clientId to local storage for restoration on refresh.
-    writeToLocalStorage(LocalStorageKey.ClientId, clientId);
-    writeToLocalStorage(LocalStorageKey.IsUser, isUser);
-    writeToLocalStorage(LocalStorageKey.IsAdmin, isAdmin);
-    // Set the state based on return values.
-    dispatch(updateClientId(clientId));
-    dispatch(updateIsUser(isUser));
-    dispatch(updateIsAdmin(isAdmin));
-    // Push to the dashboard.
-    props.history.push("/dashboard");
+    if (clientId && isUser && isAdmin) {
+      // Write the clientId to local storage for restoration on refresh.
+      writeToLocalStorage(LocalStorageKey.ClientId, clientId);
+      writeToLocalStorage(LocalStorageKey.IsUser, isUser);
+      writeToLocalStorage(LocalStorageKey.IsAdmin, isAdmin);
+      // Set the state based on return values.
+      dispatch(updateClientId(clientId));
+      dispatch(updateIsUser(isUser));
+      dispatch(updateIsAdmin(isAdmin));
+      // Push to the dashboard.
+      props.history.push("/dashboard");
+    }
   }, [dispatch, props.history]);
 
   return (
