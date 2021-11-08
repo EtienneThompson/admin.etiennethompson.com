@@ -6,12 +6,13 @@ import {
   SideBarItem,
   SideBarTitle,
 } from "../../components/common/SideBar";
+import { Row, Col, Container } from "../../components/common/Grid";
 import { UsersEditor } from "../../components/UsersEditor";
 import { ApplicationsEditor } from "../../components/ApplicationsEditor";
 import { ApplicationUsersEditor } from "../../components/ApplicationUsersEditor";
-import "./Dashboard.scss";
 import { AdminStore } from "../../store/types";
 import { DashboardProps } from "./Dashboard.types";
+import "./Dashboard.scss";
 
 export const Dashboard: React.FunctionComponent<DashboardProps> = (
   props: DashboardProps
@@ -43,7 +44,7 @@ export const Dashboard: React.FunctionComponent<DashboardProps> = (
   }, [currentEditor]);
 
   return (
-    <div>
+    <Container>
       <Toolbar />
       <div className={"dashboard-container"}>
         <SideBar>
@@ -63,8 +64,10 @@ export const Dashboard: React.FunctionComponent<DashboardProps> = (
             ApplicationUsers
           </SideBarItem>
         </SideBar>
-        {renderEditor}
+        <Container>
+          <Col>{renderEditor}</Col>
+        </Container>
       </div>
-    </div>
+    </Container>
   );
 };

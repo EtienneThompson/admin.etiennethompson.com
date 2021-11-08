@@ -37,11 +37,11 @@ export const App = () => {
   }, [dispatch]);
 
   return (
-    <>
+    <div className="App">
       <Route exact path="/" component={LandingPage} />
       <Route path="/login" component={Login} />
       <Route path="/dashboard" component={Dashboard} />
       <Route path="/application" component={ApplicationControl} />
-    </>
+    </div>
   );
 };

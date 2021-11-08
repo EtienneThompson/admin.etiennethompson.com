@@ -2,6 +2,15 @@ import { AdminStore } from "../types";
 import { initialState } from "../store";
 import { AnyAction } from "redux";
 
+const setIsLoading = (state: AdminStore, action: AnyAction) => {
+  switch (action.type) {
+    case "loading/set":
+      return action.payload;
+  }
+
+  return state.isLoading;
+};
+
 const setClientId = (state: AdminStore, action: AnyAction) => {
   switch (action.type) {
     case "clientId/set":
@@ -38,14 +47,25 @@ const setIsAdmin = (state: AdminStore, action: AnyAction) => {
   return state.isAdmin;
 };
 
+const setIsLoggedIn = (state: AdminStore, action: AnyAction) => {
+  switch (action.type) {
+    case "login/set":
+      return action.payload;
+  }
+
+  return state.isLoggedIn;
+};
+
 export default function rootReducer(
   state: AdminStore = initialState,
   action: AnyAction
 ) {
   return {
+    isLoading: setIsLoading(state, action),
     clientId: setClientId(state, action),
     isClientIdLoading: setClientIdLoading(state, action),
     isUser: setIsUser(state, action),
     isAdmin: setIsAdmin(state, action),
+    isLoggedIn: setIsLoggedIn(state, action),
   };
 }

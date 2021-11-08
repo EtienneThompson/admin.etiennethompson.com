@@ -4,10 +4,12 @@ import { AdminStore } from "./types";
 import rootReducer from "./reducers";
 
 export const initialState: AdminStore = {
+  isLoading: false,
   clientId: undefined,
   isClientIdLoading: true,
   isUser: false,
   isAdmin: false,
+  isLoggedIn: false,
 };
 
 export const store = createStore(

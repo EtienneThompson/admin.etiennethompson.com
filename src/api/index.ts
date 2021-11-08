@@ -1,5 +1,6 @@
-import axios from "axios";
+import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import { store } from "../store/store";
+import { logout } from "../store/actions";
 
 const instance = axios.create({
   baseURL: `${process.env.REACT_APP_API_ENDPOINT}`,
@@ -7,7 +8,7 @@ const instance = axios.create({
 });
 
 instance.interceptors.request.use(
-  (req) => {
+  (req: AxiosRequestConfig) => {
     // Set the appid and clientid fields before sending the request.
     if (req.method === "get") {
       if (!req.params) {
@@ -30,6 +31,27 @@ instance.interceptors.request.use(
   },
   (err) => {
     Promise.reject(err);
+  }
+);
+
+instance.interceptors.response.use(
+  (res: AxiosResponse<any>) => {
+    console.log(res);
+    return res;
+  },
+  (err) => {
+    console.log("interceptor log");
+    console.log(err.response.status);
+    console.log(err.response.data.message);
+    if (
+      err.response.status === 400 &&
+      err.response.data.message ===
+        "Your session has expired. Please login again."
+    ) {
+      store.dispatch(logout());
+      return (window.location.href = "/login?reason=1");
+    }
+    return Promise.reject(err);
   }
 );
 
