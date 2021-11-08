@@ -5,7 +5,7 @@ import { AdminStore } from "../../store/types";
 import { login, setIsLoading } from "../../store/actions";
 import { Toolbar } from "../../components/common/Toolbar";
 import { LoadingSpinner } from "../../components/common/LoadingSpinner";
-import { Container } from "../../components/common/Grid";
+import { Row, Col, Container } from "../../components/common/Grid";
 import { LoginProps } from "./Login.types";
 import { extractQueryParam } from "./Login.utils";
 import "./Login.scss";
@@ -35,12 +35,17 @@ export const Login: React.FunctionComponent<LoginProps> = (
   }, [dispatch, props.history]);
 
   return (
-    <div>
+    <Container>
       <Toolbar />
       <Container>
         {isLoading && <LoadingSpinner />}
-        {!isLoading && <div>Not loading.</div>}
+        {!isLoading && (
+          <div style={{ width: "50%", textAlign: "center" }}>
+            Your session has expired. Please login again to continue using the
+            site.
+          </div>
+        )}
       </Container>
-    </div>
+    </Container>
   );
 };
