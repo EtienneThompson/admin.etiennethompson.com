@@ -1,9 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { updateClientId } from "../../../store/actions";
+import { logout } from "../../../store/actions";
 import { AdminStore } from "../../../store/types";
-import { LocalStorageKey } from "../../../types";
-import { deleteFromLocalStorage } from "../../../utils/localStorage";
 import { Button } from "../Button";
 import { Row, Col } from "../Grid";
 import { ToolbarProps } from "./Toolbar.types";
@@ -13,7 +11,7 @@ export const Toolbar: React.FunctionComponent<ToolbarProps> = (
   props: ToolbarProps
 ) => {
   const dispatch = useDispatch();
-  const clientId = useSelector((state: AdminStore) => state.clientId);
+  const isLoggedIn = useSelector((state: AdminStore) => state.isLoggedIn);
 
   const onLoginButtonClicked = () => {
     window.open(
@@ -24,8 +22,7 @@ export const Toolbar: React.FunctionComponent<ToolbarProps> = (
   };
 
   const onLogoutButtonClicked = () => {
-    dispatch(updateClientId(""));
-    deleteFromLocalStorage(LocalStorageKey.ClientId);
+    dispatch(logout());
   };
 
   return (
@@ -35,7 +32,7 @@ export const Toolbar: React.FunctionComponent<ToolbarProps> = (
           <div className="title">Etienne Thompson Admin Center</div>
         </Col>
         <Col cols="2" align="end">
-          {clientId ? (
+          {isLoggedIn ? (
             <Button onClick={onLogoutButtonClicked}>Logout</Button>
           ) : (
             <Button onClick={onLoginButtonClicked}>Login</Button>

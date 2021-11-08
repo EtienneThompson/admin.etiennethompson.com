@@ -1,8 +1,6 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import { store } from "../store/store";
-import { deleteFromLocalStorage } from "../utils/localStorage";
-import { LocalStorageKey } from "../types";
-import { updateClientId, updateIsAdmin, updateIsUser } from "../store/actions";
+import { logout } from "../store/actions";
 
 const instance = axios.create({
   baseURL: `${process.env.REACT_APP_API_ENDPOINT}`,
@@ -50,13 +48,8 @@ instance.interceptors.response.use(
       err.response.data.message ===
         "Your session has expired. Please login again."
     ) {
-      deleteFromLocalStorage(LocalStorageKey.ClientId);
-      deleteFromLocalStorage(LocalStorageKey.IsAdmin);
-      deleteFromLocalStorage(LocalStorageKey.IsUser);
-      store.dispatch(updateClientId(""));
-      store.dispatch(updateIsAdmin(false));
-      store.dispatch(updateIsUser(false));
-      return (window.location.href = "/login");
+      store.dispatch(logout());
+      return (window.location.href = "/login?reason=1");
     }
     return Promise.reject(err);
   }
