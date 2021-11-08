@@ -5,6 +5,7 @@ import { AdminStore } from "../../store/types";
 import { login, setIsLoading } from "../../store/actions";
 import { Toolbar } from "../../components/common/Toolbar";
 import { LoadingSpinner } from "../../components/common/LoadingSpinner";
+import { Container } from "../../components/common/Grid";
 import { LoginProps } from "./Login.types";
 import { extractQueryParam } from "./Login.utils";
 import "./Login.scss";
@@ -36,8 +37,10 @@ export const Login: React.FunctionComponent<LoginProps> = (
   return (
     <div>
       <Toolbar />
-      {isLoading && <LoadingSpinner />}
-      {!isLoading && <div>Not loading.</div>}
+      <Container>
+        {isLoading && <LoadingSpinner />}
+        {!isLoading && <div>Not loading.</div>}
+      </Container>
     </div>
   );
 };

@@ -11,7 +11,7 @@ export const Toolbar: React.FunctionComponent<ToolbarProps> = (
   props: ToolbarProps
 ) => {
   const dispatch = useDispatch();
-  const clientId = useSelector((state: AdminStore) => state.clientId);
+  const isLoggedIn = useSelector((state: AdminStore) => state.isLoggedIn);
 
   const onLoginButtonClicked = () => {
     window.open(
@@ -32,7 +32,7 @@ export const Toolbar: React.FunctionComponent<ToolbarProps> = (
           <div className="title">Etienne Thompson Admin Center</div>
         </Col>
         <Col cols="2" align="end">
-          {clientId ? (
+          {isLoggedIn ? (
             <Button onClick={onLogoutButtonClicked}>Logout</Button>
           ) : (
             <Button onClick={onLoginButtonClicked}>Login</Button>

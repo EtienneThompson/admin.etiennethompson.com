@@ -70,6 +70,8 @@ export const logout = (): AnyAction => {
   deleteFromLocalStorage(LocalStorageKey.IsAdmin);
   updateIsAdmin(false);
 
+  window.location.href = "/login";
+
   return {
     type: "login/set",
     payload: false,
