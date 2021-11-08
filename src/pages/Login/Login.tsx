@@ -5,9 +5,10 @@ import { AdminStore } from "../../store/types";
 import { login, setIsLoading } from "../../store/actions";
 import { Toolbar } from "../../components/common/Toolbar";
 import { LoadingSpinner } from "../../components/common/LoadingSpinner";
-import { Row, Col, Container } from "../../components/common/Grid";
+import { Container } from "../../components/common/Grid";
 import { LoginProps } from "./Login.types";
 import { extractQueryParam } from "./Login.utils";
+import { LogoutReasons } from ".";
 import "./Login.scss";
 
 export const Login: React.FunctionComponent<LoginProps> = (
@@ -16,6 +17,8 @@ export const Login: React.FunctionComponent<LoginProps> = (
   document.title = "Etienne Thompson Admin Center - Login";
   document.documentElement.className = "theme-light";
   const dispatch = useDispatch();
+
+  const [reason, setReason] = React.useState(0);
 
   const isLoading = useSelector((state: AdminStore) => state.isLoading);
 
@@ -31,8 +34,14 @@ export const Login: React.FunctionComponent<LoginProps> = (
       // Push to the dashboard.
       props.history.push("/dashboard");
     }
+    setReason(extractQueryParam(params, "reason"));
     dispatch(setIsLoading(false));
   }, [dispatch, props.history]);
+
+  const logoutReasons: LogoutReasons = {
+    0: "You have successfully been loged out.",
+    1: "Your session has expired. Please login again to continue.",
+  };
 
   return (
     <Container>
@@ -41,8 +50,7 @@ export const Login: React.FunctionComponent<LoginProps> = (
         {isLoading && <LoadingSpinner />}
         {!isLoading && (
           <div style={{ width: "50%", textAlign: "center" }}>
-            Your session has expired. Please login again to continue using the
-            site.
+            {logoutReasons[reason]}
           </div>
         )}
       </Container>
