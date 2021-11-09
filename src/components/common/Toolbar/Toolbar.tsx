@@ -15,7 +15,7 @@ export const Toolbar: React.FunctionComponent<ToolbarProps> = (
 
   const onLoginButtonClicked = () => {
     window.open(
-      `${process.env.REACT_APP_LOGIN_ENDPOINT}/login?appid=${process.env.REACT_APP_APPLICATION_ID}`,
+      `${process.env.REACT_APP_LOGIN_ENDPOINT}/login?appid=${process.env.REACT_APP_APPLICATION_ID}&redirectBase=${process.env.REACT_APP_LOGIN_REDIRECT}`,
       "_self"
     );
   };
