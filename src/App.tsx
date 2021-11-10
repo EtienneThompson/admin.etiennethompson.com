@@ -1,6 +1,8 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { Route } from "react-router-dom";
+import { Toolbar } from "./components/common/Toolbar";
+import { Container } from "./components/common/Grid";
 import { LandingPage } from "./pages/LandingPage";
 import { Login } from "./pages/Login";
 import { Dashboard } from "./pages/Dashboard";
@@ -38,10 +40,13 @@ export const App = () => {
 
   return (
     <div className="App">
-      <Route exact path="/" component={LandingPage} />
-      <Route path="/login" component={Login} />
-      <Route path="/dashboard" component={Dashboard} />
-      <Route path="/application" component={ApplicationControl} />
+      <Container>
+        <Toolbar />
+        <Route exact path="/" component={LandingPage} />
+        <Route path="/login" component={Login} />
+        <Route path="/dashboard" component={Dashboard} />
+        <Route path="/application" component={ApplicationControl} />
+      </Container>
     </div>
   );
 };

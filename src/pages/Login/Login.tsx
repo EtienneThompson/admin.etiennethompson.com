@@ -3,7 +3,6 @@ import queryString from "query-string";
 import { useDispatch, useSelector } from "react-redux";
 import { AdminStore } from "../../store/types";
 import { login, setIsLoading } from "../../store/actions";
-import { Toolbar } from "../../components/common/Toolbar";
 import { LoadingSpinner } from "../../components/common/LoadingSpinner";
 import { Container } from "../../components/common/Grid";
 import { LoginProps } from "./Login.types";
@@ -45,15 +44,12 @@ export const Login: React.FunctionComponent<LoginProps> = (
 
   return (
     <Container>
-      <Toolbar />
-      <Container>
-        {isLoading && <LoadingSpinner />}
-        {!isLoading && (
-          <div style={{ width: "50%", textAlign: "center" }}>
-            {logoutReasons[reason]}
-          </div>
-        )}
-      </Container>
+      {isLoading && <LoadingSpinner />}
+      {!isLoading && (
+        <div style={{ width: "50%", textAlign: "center" }}>
+          {logoutReasons[reason]}
+        </div>
+      )}
     </Container>
   );
 };
