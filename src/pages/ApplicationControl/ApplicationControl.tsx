@@ -1,13 +1,15 @@
-import { Toolbar } from "../../components/common/Toolbar";
+import { Row, Col } from "../../components/common/Grid";
+import "./ApplicationControl.scss";
 
 export const ApplicationControl = () => {
   document.title = "Etienen Thompson - Admin Center";
   document.documentElement.className = "theme-light";
 
   return (
-    <div>
-      <Toolbar />
-      <div>ApplicationControl</div>
+    <div className="application-control-content">
+      <Row>
+        <Col>ApplicationControl</Col>
+      </Row>
     </div>
   );
 };
