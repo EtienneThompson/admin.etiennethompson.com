@@ -1,5 +1,6 @@
 import React from "react";
 import { LoadingSpinner } from "../common/LoadingSpinner";
+import { AdminTable } from "../common/AdminTable/AdminTable";
 import { Row } from "../common/Grid";
 import { Button } from "../common/Button";
 import api from "../../api";
@@ -8,6 +9,43 @@ import { NewUser } from "./UserEditor.types";
 import { hashString } from "../../utils/hash";
 import "./UsersEditor.scss";
 
+export const UsersEditor = () => {
+  const [users, setUsers] = React.useState([] as any[]);
+
+  React.useEffect(() => {
+    api
+      .get<GetUsersResponse>("/admin/users")
+      .then((response) => {
+        let users = response.data.users.map((user) => {
+          return {
+            id: user.userid,
+            values: [user.username, user.userid, user.clientid],
+          };
+        });
+        setUsers(users);
+      })
+      .catch((error) => console.log(error));
+  }, []);
+
+  return (
+    <div className="users-editor-container">
+      <Row>
+        <h1>Users Editor</h1>
+      </Row>
+      <Row>
+        {users.length === 0 && <LoadingSpinner />}
+        {users.length !== 0 && (
+          <AdminTable
+            headers={["username", "user_id", "client_id"]}
+            elements={users}
+          />
+        )}
+      </Row>
+    </div>
+  );
+};
+
+/*
 export const UsersEditor = () => {
   const [users, setUsers] = React.useState([] as AdminPageUser[]);
   const [newUsers, setNewUsers] = React.useState([] as NewUser[]);
@@ -189,3 +227,4 @@ export const UsersEditor = () => {
     </div>
   );
 };
+*/
