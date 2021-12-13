@@ -1,10 +1,10 @@
-export interface ElementComponents {
+export interface ElementComponent {
   id: string;
   values: string[];
 }
 
 export interface AdminTableProps {
   headers: string[];
-  elements: ElementComponents[];
+  elements: ElementComponent[];
   onEditClick: (element: any) => void;
 }

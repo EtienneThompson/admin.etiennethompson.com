@@ -1,7 +1,11 @@
 import React from "react";
 import { LoadingSpinner } from "../common/LoadingSpinner";
 import { AdminTable } from "../common/AdminTable/AdminTable";
-import { AdminElementEditor } from "../common/AdminElementEditor";
+import {
+  AdminElementEditor,
+  AdminElementEditorProps,
+  EditingComponent,
+} from "../common/AdminElementEditor";
 import { Row } from "../common/Grid";
 import { Button } from "../common/Button";
 import api from "../../api";
@@ -9,10 +13,15 @@ import { GetUsersResponse, AdminPageUser } from "../../types";
 import { NewUser } from "./UserEditor.types";
 import { hashString } from "../../utils/hash";
 import "./UsersEditor.scss";
+import { ElementComponent } from "../common/AdminTable";
 
 export const UsersEditor = () => {
   const [users, setUsers] = React.useState([] as any[]);
-  const [editing, setEditing] = React.useState();
+  const [editing, setEditing] = React.useState<EditingComponent[] | undefined>(
+    undefined
+  );
+
+  let headers = ["username", "user_id", "client_id"];
 
   React.useEffect(() => {
     api
@@ -29,8 +38,20 @@ export const UsersEditor = () => {
       .catch((error) => console.log(error));
   }, []);
 
-  const onEditClick = (element: any) => {
-    setEditing(element);
+  const onEditClick = (element: ElementComponent) => {
+    let editingConfig: EditingComponent[] = element.values.map(
+      (value, index) => {
+        return {
+          id: value,
+          value: value,
+          label: headers[index],
+          component: "text",
+          onChange: (event: any) => console.log("hello"),
+        };
+      }
+    );
+    console.log(editingConfig);
+    setEditing(editingConfig);
   };
 
   return (
@@ -42,12 +63,14 @@ export const UsersEditor = () => {
         {users.length === 0 && <LoadingSpinner />}
         {users.length !== 0 && editing === undefined && (
           <AdminTable
-            headers={["username", "user_id", "client_id"]}
+            headers={headers}
             elements={users}
             onEditClick={onEditClick}
           />
         )}
-        {users.length !== 0 && editing !== undefined && <AdminElementEditor />}
+        {users.length !== 0 && editing !== undefined && (
+          <AdminElementEditor elements={editing} />
+        )}
       </Row>
     </div>
   );
