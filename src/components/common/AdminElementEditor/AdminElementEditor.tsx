@@ -1,5 +1,6 @@
 import React, { FunctionComponent } from "react";
 import { Row } from "../Grid";
+import { Button } from "../Button";
 import { AdminElementEditorProps } from "./AdminElementEditor.types";
 import "./AdminElementEditor.scss";
 
@@ -49,6 +50,9 @@ export const AdminElementEditor: FunctionComponent<AdminElementEditorProps> = (
           return <Row key={`${element.id}-${index}`}>{"what?"}</Row>;
         }
       })}
+      <Row>
+        <Button>Save</Button>
+      </Row>
     </div>
   );
 };
