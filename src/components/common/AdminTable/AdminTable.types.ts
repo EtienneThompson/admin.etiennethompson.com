@@ -6,4 +6,5 @@ export interface ElementComponents {
 export interface AdminTableProps {
   headers: string[];
   elements: ElementComponents[];
+  onEditClick: (element: any) => void;
 }

@@ -1,6 +1,7 @@
 import React from "react";
 import { LoadingSpinner } from "../common/LoadingSpinner";
 import { AdminTable } from "../common/AdminTable/AdminTable";
+import { AdminElementEditor } from "../common/AdminElementEditor";
 import { Row } from "../common/Grid";
 import { Button } from "../common/Button";
 import api from "../../api";
@@ -11,6 +12,7 @@ import "./UsersEditor.scss";
 
 export const UsersEditor = () => {
   const [users, setUsers] = React.useState([] as any[]);
+  const [editing, setEditing] = React.useState();
 
   React.useEffect(() => {
     api
@@ -27,6 +29,10 @@ export const UsersEditor = () => {
       .catch((error) => console.log(error));
   }, []);
 
+  const onEditClick = (element: any) => {
+    setEditing(element);
+  };
+
   return (
     <div className="users-editor-container">
       <Row>
@@ -34,12 +40,14 @@ export const UsersEditor = () => {
       </Row>
       <Row>
         {users.length === 0 && <LoadingSpinner />}
-        {users.length !== 0 && (
+        {users.length !== 0 && editing === undefined && (
           <AdminTable
             headers={["username", "user_id", "client_id"]}
             elements={users}
+            onEditClick={onEditClick}
           />
         )}
+        {users.length !== 0 && editing !== undefined && <AdminElementEditor />}
       </Row>
     </div>
   );

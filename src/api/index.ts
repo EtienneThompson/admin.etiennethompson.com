@@ -36,13 +36,9 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
   (res: AxiosResponse<any>) => {
-    // console.log(res);
     return res;
   },
   (err) => {
-    // console.log("interceptor log");
-    // console.log(err.response.status);
-    // console.log(err.response.data.message);
     if (
       err.response.status === 400 &&
       err.response.data.message ===

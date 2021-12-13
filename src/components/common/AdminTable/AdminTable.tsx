@@ -5,7 +5,7 @@ import "./AdminTable.scss";
 export const AdminTable: FunctionComponent<AdminTableProps> = (
   props: AdminTableProps
 ) => {
-  return (
+  const tableView = (
     <table>
       <thead>
         <tr>
@@ -16,7 +16,13 @@ export const AdminTable: FunctionComponent<AdminTableProps> = (
       </thead>
       <tbody>
         {props.elements.map((element) => (
-          <tr className={"admin-table-cell"} key={`${element.id}`}>
+          <tr
+            onClick={() => {
+              props.onEditClick(element);
+            }}
+            className={"admin-table-row"}
+            key={`${element.id}`}
+          >
             {element.values.map((value, index) => (
               <td className={"admin-table-cell"} key={`${value}-${index}`}>
                 {value}
@@ -27,4 +33,6 @@ export const AdminTable: FunctionComponent<AdminTableProps> = (
       </tbody>
     </table>
   );
+
+  return <div>{tableView}</div>;
 };
