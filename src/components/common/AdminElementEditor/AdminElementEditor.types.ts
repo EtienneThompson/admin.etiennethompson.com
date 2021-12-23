@@ -10,10 +10,14 @@ export interface EditingComponent {
   label: string;
   component: "text" | "select" | "checkbox";
   options?: OptionConfiguration[];
-  onChange: (event: any) => void;
 }
 
 export interface AdminElementEditorProps {
   elements: EditingComponent[];
+  headers: string[];
   onBackButtonClicked: () => void;
+}
+
+export interface UpdateBody {
+  [key: string]: string | boolean;
 }

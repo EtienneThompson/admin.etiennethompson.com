@@ -6,11 +6,8 @@ import {
   EditingComponent,
 } from "../common/AdminElementEditor";
 import { Row } from "../common/Grid";
-import { Button } from "../common/Button";
 import api from "../../api";
-import { GetUsersResponse, AdminPageUser } from "../../types";
-import { NewUser } from "./UserEditor.types";
-import { hashString } from "../../utils/hash";
+import { GetUsersResponse } from "../../types";
 import "./UsersEditor.scss";
 import { ElementComponent } from "../common/AdminTable";
 
@@ -20,7 +17,7 @@ export const UsersEditor = () => {
     undefined
   );
 
-  let headers = ["username", "user_id", "client_id"];
+  let headers = ["username", "userid", "clientid"];
 
   React.useEffect(() => {
     api
@@ -38,6 +35,7 @@ export const UsersEditor = () => {
   }, []);
 
   const onEditClick = (element: ElementComponent) => {
+    console.log(element);
     let editingConfig: EditingComponent[] = element.values.map(
       (value, index) => {
         return {
@@ -45,7 +43,6 @@ export const UsersEditor = () => {
           value: value,
           label: headers[index],
           component: "text",
-          onChange: (event: any) => console.log("hello"),
         };
       }
     );
@@ -73,6 +70,7 @@ export const UsersEditor = () => {
         {users.length !== 0 && editing !== undefined && (
           <AdminElementEditor
             elements={editing}
+            headers={headers}
             onBackButtonClicked={onBackButtonClicked}
           />
         )}
