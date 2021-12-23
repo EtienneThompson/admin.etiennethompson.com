@@ -15,4 +15,5 @@ export interface EditingComponent {
 
 export interface AdminElementEditorProps {
   elements: EditingComponent[];
+  onBackButtonClicked: () => void;
 }

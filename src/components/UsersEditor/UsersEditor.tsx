@@ -3,7 +3,6 @@ import { LoadingSpinner } from "../common/LoadingSpinner";
 import { AdminTable } from "../common/AdminTable/AdminTable";
 import {
   AdminElementEditor,
-  AdminElementEditorProps,
   EditingComponent,
 } from "../common/AdminElementEditor";
 import { Row } from "../common/Grid";
@@ -50,8 +49,11 @@ export const UsersEditor = () => {
         };
       }
     );
-    console.log(editingConfig);
     setEditing(editingConfig);
+  };
+
+  const onBackButtonClicked = () => {
+    setEditing(undefined);
   };
 
   return (
@@ -69,7 +71,10 @@ export const UsersEditor = () => {
           />
         )}
         {users.length !== 0 && editing !== undefined && (
-          <AdminElementEditor elements={editing} />
+          <AdminElementEditor
+            elements={editing}
+            onBackButtonClicked={onBackButtonClicked}
+          />
         )}
       </Row>
     </div>

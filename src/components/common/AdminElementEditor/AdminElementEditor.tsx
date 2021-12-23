@@ -7,6 +7,8 @@ import "./AdminElementEditor.scss";
 export const AdminElementEditor: FunctionComponent<AdminElementEditorProps> = (
   props: AdminElementEditorProps
 ) => {
+  const onSaveButtonClicked = () => {};
+
   return (
     <div>
       {props.elements.map((element, index) => {
@@ -51,7 +53,8 @@ export const AdminElementEditor: FunctionComponent<AdminElementEditorProps> = (
         }
       })}
       <Row>
-        <Button>Save</Button>
+        <Button onClick={props.onBackButtonClicked}>Back</Button>
+        <Button onClick={onSaveButtonClicked}>Save</Button>
       </Row>
     </div>
   );
