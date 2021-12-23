@@ -29,7 +29,17 @@ export const AdminElementEditor: FunctionComponent<AdminElementEditorProps> = (
     dispatch(setIsLoading(false));
   }, [props, dispatch]);
 
-  const onDeleteButtonClicked = () => {};
+  const onDeleteButtonClicked = () => {
+    let userid = props.elements.filter(
+      (element) => element.label === "userid"
+    )[0].value;
+    // api
+    //   .delete("/admin/users/delete", {
+    //     data: { userid: userid },
+    //   })
+    //   .then((response) => console.log(response))
+    //   .catch((error) => console.log(error));
+  };
 
   const onSaveButtonClicked = () => {
     console.log(props.elements);
