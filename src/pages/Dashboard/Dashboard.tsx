@@ -38,7 +38,9 @@ export const Dashboard: React.FunctionComponent<DashboardProps> = (
     } else if (currentEditor === "ApplicationUsersEditor") {
       return <ApplicationUsersEditor />;
     } else {
-      return <div style={{ width: "100%" }}>unknown</div>;
+      return (
+        <div style={{ width: "100%", justifyContent: "center" }}>unknown</div>
+      );
     }
   }, [currentEditor]);
 
@@ -62,7 +64,7 @@ export const Dashboard: React.FunctionComponent<DashboardProps> = (
         </SideBarItem>
       </SideBar>
       <Container>
-        <Col cols="1">{renderEditor}</Col>
+        <Col>{renderEditor}</Col>
       </Container>
     </div>
   );

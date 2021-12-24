@@ -34,5 +34,9 @@ export const AdminTable: FunctionComponent<AdminTableProps> = (
     </table>
   );
 
-  return <div>{tableView}</div>;
+  return (
+    <div style={{ justifyContent: "center", alignContent: "center" }}>
+      {tableView}
+    </div>
+  );
 };

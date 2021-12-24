@@ -16,7 +16,9 @@ export const Col: FunctionComponent<ColProps> = (props: ColProps) => {
 
   return (
     <div
-      className={`col-container-${props.cols ? "1" : props.cols}`}
+      className={`col-container col-${
+        props.cols === undefined ? "1" : props.cols
+      }`}
       style={propStyles()}
     >
       {props.children}

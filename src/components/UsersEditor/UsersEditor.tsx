@@ -88,10 +88,10 @@ export const UsersEditor = () => {
   return (
     <div className="users-editor-container">
       <Row>
-        <Col cols="2">
+        <Col cols="2" align="end">
           <h1>Users Editor</h1>
         </Col>
-        <Col cols="2" justify="end">
+        <Col cols="3" align="end">
           <Button>New</Button>
         </Col>
       </Row>
