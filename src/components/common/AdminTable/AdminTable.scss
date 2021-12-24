@@ -1,5 +1,9 @@
+@import "../../../assets/styles/colors.scss";
+
 th {
     padding: 5px;
+    background-color: var(--primary);
+    color: white;
 }
 
 tbody {
@@ -12,4 +16,17 @@ tbody {
 .admin-table-cell {
     width: auto;
     padding: 5px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 90%;
+}
+
+table td, th {
+    border: 1px solid lightgray;
+}
+
+tr:nth-child(even) {
+    background-color: lightgray;
 }

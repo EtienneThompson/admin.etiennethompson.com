@@ -34,5 +34,5 @@ export const AdminTable: FunctionComponent<AdminTableProps> = (
     </table>
   );
 
-  return <div>{tableView}</div>;
+  return tableView;
 };

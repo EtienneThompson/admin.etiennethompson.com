@@ -39,7 +39,14 @@ export const Dashboard: React.FunctionComponent<DashboardProps> = (
       return <ApplicationUsersEditor />;
     } else {
       return (
-        <div style={{ width: "100%", justifyContent: "center" }}>unknown</div>
+        <div
+          style={{
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          unknown
+        </div>
       );
     }
   }, [currentEditor]);
