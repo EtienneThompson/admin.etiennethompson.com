@@ -1,17 +1,35 @@
-.col-container-1 {
+.col-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     height: auto;
+}
+
+.col-1 {
     width: 100%;
 }
 
-.col-container-2 {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: auto;
+.col-2 {
     width: 50%;
+}
+
+.col-3 {
+    width: 33%;
+}
+
+.col-4 {
+    width: 25%;
+}
+
+.col-5 {
+    width: 20%;
+}
+
+.col-6 {
+    width: 16.67%;
+}
+
+.col-7 {
+    width: 14.29%;
 }

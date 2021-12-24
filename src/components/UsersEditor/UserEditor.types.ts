@@ -6,3 +6,7 @@ export interface NewUser {
 export interface CreateUsersRequest {
   newUsers: NewUser[];
 }
+
+export interface UpdateBody {
+  [key: string]: string | boolean;
+}

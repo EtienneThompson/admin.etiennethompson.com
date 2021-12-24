@@ -1,191 +1,185 @@
 import React from "react";
-import { LoadingSpinner } from "../common/LoadingSpinner";
-import { Row } from "../common/Grid";
+import { useDispatch, useSelector } from "react-redux";
 import { Button } from "../common/Button";
+import { Row, Col } from "../common/Grid";
+import { ElementComponent } from "../common/AdminTable";
+import { LoadingSpinner } from "../common/LoadingSpinner";
+import { AdminTable } from "../common/AdminTable/AdminTable";
+import {
+  AdminElementEditor,
+  EditingComponent,
+} from "../common/AdminElementEditor";
 import api from "../../api";
-import { GetUsersResponse, AdminPageUser } from "../../types";
-import { NewUser } from "./UserEditor.types";
+import { GetUsersResponse } from "../../types";
+import { UpdateBody } from "./UserEditor.types";
+import { AdminStore } from "../../store/types";
+import { setIsLoading } from "../../store/actions";
 import { hashString } from "../../utils/hash";
 import "./UsersEditor.scss";
 
 export const UsersEditor = () => {
-  const [users, setUsers] = React.useState([] as AdminPageUser[]);
-  const [newUsers, setNewUsers] = React.useState([] as NewUser[]);
-  const [errorMessage, setErrorMessage] = React.useState("");
-  const [showError, setShowError] = React.useState(false);
-  const [editingItem, setEditingItem] = React.useState(-1);
-  const [newUsername, setNewUsername] = React.useState("");
+  const dispatch = useDispatch();
+  const [users, setUsers] = React.useState([] as any[]);
+  const [editing, setEditing] = React.useState<EditingComponent[] | undefined>(
+    undefined
+  );
+  const [newElement, setNewElement] = React.useState(false);
+
+  const isLoading = useSelector((state: AdminStore) => state.isLoading);
+
+  let headers = ["username", "userid", "clientid"];
 
   React.useEffect(() => {
+    dispatch(setIsLoading(true));
     api
       .get<GetUsersResponse>("/admin/users")
-      .then((response) => setUsers(response.data.users))
+      .then((response) => {
+        let users = response.data.users.map((user) => {
+          return {
+            id: user.userid,
+            values: [user.username, user.userid, user.clientid],
+          };
+        });
+        setUsers(users);
+        dispatch(setIsLoading(false));
+      })
       .catch((error) => {
-        setErrorMessage(error.message);
-        setShowError(true);
+        console.log(error);
+        dispatch(setIsLoading(false));
       });
-  }, []);
+  }, [dispatch]);
 
-  const onUsernameEdited = (event: React.FormEvent<HTMLInputElement>) => {
-    setNewUsername(event.currentTarget.value);
+  const onEditClick = (element: ElementComponent) => {
+    let editingConfig: EditingComponent[] = element.values.map(
+      (value, index) => {
+        return {
+          id: value,
+          value: value,
+          label: headers[index],
+          component: "text",
+        };
+      }
+    );
+    setNewElement(false);
+    setEditing(editingConfig);
+  };
+
+  const onBackButtonClicked = () => {
+    setNewElement(false);
+    setEditing(undefined);
+  };
+
+  const onDeleteButtonClicked = () => {
+    if (!editing) {
+      return;
+    }
+    let userid = editing.filter((element) => element.label === "userid")[0]
+      .value;
+    console.log(userid);
+    api
+      .delete("/admin/users/delete", {
+        data: { userid: userid },
+      })
+      .then((response) => {
+        let updatedUsers = users.filter((user) => user.id !== userid);
+        setUsers(updatedUsers);
+        onBackButtonClicked();
+      })
+      .catch((error) => console.log(error));
+  };
+
+  const onSaveButtonClicked = (values: string[]) => {
+    let i = 0;
+    let updateBody = {} as UpdateBody;
+    while (i < headers.length) {
+      updateBody[headers[i]] = values[i];
+      i++;
+    }
+    api
+      .put("/admin/users/update", { user: updateBody })
+      .then((response) => {
+        let updatedUser = users.filter((user) => user.id === values[1])[0];
+        updatedUser.values[0] = values[0];
+        // The array is being modified itself, so we just set it to itself again.
+        setUsers(users);
+        onBackButtonClicked();
+      })
+      .catch((error) => console.log(error));
   };
 
   const onNewButtonClicked = () => {
-    const newUser: NewUser = {
-      username: "",
-      password: "",
-    };
-    const addedUsers = newUsers.concat(newUser);
-    setNewUsers(addedUsers);
-  };
-
-  const onSubmitButtonClicked = () => {
-    // Hash every new users password.
-    newUsers.map((user) => {
-      user.password = hashString(user.password);
-      return user;
+    let newUserFields = ["username", "password"];
+    let editingConfig: EditingComponent[] = newUserFields.map((element) => {
+      return {
+        id: element,
+        value: "",
+        label: element,
+        component: "text",
+      };
     });
-    api
-      .post("/admin/users/create", { newUsers: newUsers })
-      .then((response) => {
-        console.log("success");
-      })
-      .catch((error) => {
-        console.log("failure");
-      });
+    setNewElement(true);
+    setEditing(editingConfig);
   };
 
-  const existingUsersTableJSX = React.useMemo(() => {
-    const onEditButtonClicked = (index: number, currentUsername: string) => {
-      setEditingItem(index);
-      setNewUsername(currentUsername);
+  const onSubmitButtonClicked = (values: string[]) => {
+    let createBody = {
+      username: values[0],
+      password: hashString(values[1]),
     };
-
-    const onSaveButtonClicked = (index: number) => {
-      users[index].username = newUsername;
-      api
-        .put("/admin/users/update", { user: users[index] })
-        .then((response) => console.log(response))
-        .catch((error) => console.log(error));
-      setEditingItem(-1);
-      setNewUsername("");
-    };
-
-    const onDeleteButtonclicked = (index: number) => {
-      api
-        .delete("/admin/users/delete", {
-          data: { userid: users[index].userid },
-        })
-        .then((response) => console.log(response))
-        .catch((error) => console.log(error));
-    };
-
-    return (
-      <table>
-        <thead>
-          <tr>
-            <th></th>
-            <th>Username</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((user, index) => (
-            <tr key={`existing-user-${index}`}>
-              <td style={{ width: "30px" }}>
-                {editingItem !== index && (
-                  <Button
-                    onClick={() => onEditButtonClicked(index, user.username)}
-                  >
-                    Edit
-                  </Button>
-                )}
-                {editingItem === index && (
-                  <Button onClick={() => onSaveButtonClicked(index)}>
-                    Save
-                  </Button>
-                )}
-              </td>
-              {editingItem !== index && <td>{user.username}</td>}
-              {editingItem === index && (
-                <td>
-                  <input
-                    type="text"
-                    value={newUsername}
-                    onChange={onUsernameEdited}
-                  />
-                </td>
-              )}
-              <td style={{ width: "50px" }}>
-                <Button onClick={() => onDeleteButtonclicked(index)}>
-                  Delete
-                </Button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    );
-  }, [users, editingItem, newUsername]);
-
-  const newUsersTableJSX = (
-    <table>
-      <thead>
-        <tr>
-          <th>Username</th>
-          <th>Password</th>
-        </tr>
-      </thead>
-      <tbody>
-        {newUsers.map((user, index) => (
-          <tr key={`new-user-${index}`}>
-            <td>
-              <input
-                type="text"
-                id={`new-user-${index}-username`}
-                onChange={(event: React.FormEvent<HTMLInputElement>) => {
-                  newUsers[index].username = event.currentTarget.value;
-                }}
-              />
-            </td>
-            <td>
-              <input
-                type="text"
-                id={`new-user-${index}-password`}
-                onChange={(event: React.FormEvent<HTMLInputElement>) => {
-                  newUsers[index].password = event.currentTarget.value;
-                }}
-              />
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  );
+    api
+      .post("/admin/users/create", { newUser: createBody })
+      .then((response) => {
+        let newUsers = [...users];
+        let createdUser = response.data.createdUser;
+        newUsers.push({
+          id: createdUser.userid,
+          values: [
+            createdUser.username,
+            createdUser.userid,
+            createdUser.clientid,
+          ],
+        });
+        setUsers(newUsers);
+        onBackButtonClicked();
+      })
+      .catch((error) => console.log(error));
+  };
 
   return (
     <div className="users-editor-container">
-      {!showError && (
-        <div>
-          <Row>
-            <h1>User Editor</h1>
-          </Row>
-          <Row>
-            {users.length === 0 && <LoadingSpinner />}
-            {users.length !== 0 && existingUsersTableJSX}
-          </Row>
-          <Row>
+      <Row>
+        <Col
+          cols="2"
+          align={isLoading ? "center" : editing ? "center" : "end"}
+        >
+          <h1>Users Editor</h1>
+        </Col>
+        {!isLoading && !editing && (
+          <Col cols="3" align="end">
             <Button onClick={onNewButtonClicked}>New</Button>
-          </Row>
-          <Row>{newUsers.length !== 0 && newUsersTableJSX}</Row>
-          <Row>
-            {newUsers.length !== 0 && (
-              <Button onClick={onSubmitButtonClicked}>Submit</Button>
-            )}
-          </Row>
-        </div>
-      )}
-      {showError && <div>{errorMessage}</div>}
+          </Col>
+        )}
+      </Row>
+      <Row>
+        {isLoading && <LoadingSpinner />}
+        {!isLoading && !editing && (
+          <AdminTable
+            headers={headers}
+            elements={users}
+            onEditClick={onEditClick}
+          />
+        )}
+        {!isLoading && editing && (
+          <AdminElementEditor
+            elements={editing}
+            newElement={newElement}
+            onBackButtonClicked={onBackButtonClicked}
+            onDeleteButtonClicked={onDeleteButtonClicked}
+            onSaveButtonClicked={onSaveButtonClicked}
+            onSubmitButtonClicked={onSubmitButtonClicked}
+          />
+        )}
+      </Row>
     </div>
   );
 };

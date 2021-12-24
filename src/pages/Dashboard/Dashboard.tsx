@@ -5,12 +5,12 @@ import {
   SideBarItem,
   SideBarTitle,
 } from "../../components/common/SideBar";
-import { Col, Container } from "../../components/common/Grid";
 import { UsersEditor } from "../../components/UsersEditor";
+import { Col, Container } from "../../components/common/Grid";
 import { ApplicationsEditor } from "../../components/ApplicationsEditor";
 import { ApplicationUsersEditor } from "../../components/ApplicationUsersEditor";
-import { AdminStore } from "../../store/types";
 import { DashboardProps } from "./Dashboard.types";
+import { AdminStore } from "../../store/types";
 import "./Dashboard.scss";
 
 export const Dashboard: React.FunctionComponent<DashboardProps> = (
@@ -38,7 +38,16 @@ export const Dashboard: React.FunctionComponent<DashboardProps> = (
     } else if (currentEditor === "ApplicationUsersEditor") {
       return <ApplicationUsersEditor />;
     } else {
-      return <div style={{ width: "100%" }}>unknown</div>;
+      return (
+        <div
+          style={{
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          unknown
+        </div>
+      );
     }
   }, [currentEditor]);
 
