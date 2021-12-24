@@ -4,12 +4,8 @@ import { Row } from "../Grid";
 import { Button } from "../Button";
 import { LoadingSpinner } from "../LoadingSpinner";
 import { setIsLoading } from "../../../store/actions";
-import {
-  AdminElementEditorProps,
-  UpdateBody,
-} from "./AdminElementEditor.types";
+import { AdminElementEditorProps } from "./AdminElementEditor.types";
 import { AdminStore } from "../../../store/types";
-import api from "../../../api";
 import "./AdminElementEditor.scss";
 
 export const AdminElementEditor: FunctionComponent<AdminElementEditorProps> = (
@@ -28,32 +24,6 @@ export const AdminElementEditor: FunctionComponent<AdminElementEditorProps> = (
     setValues(defaultValues);
     dispatch(setIsLoading(false));
   }, [props, dispatch]);
-
-  const onDeleteButtonClicked = () => {
-    let userid = props.elements.filter(
-      (element) => element.label === "userid"
-    )[0].value;
-    // api
-    //   .delete("/admin/users/delete", {
-    //     data: { userid: userid },
-    //   })
-    //   .then((response) => console.log(response))
-    //   .catch((error) => console.log(error));
-  };
-
-  const onSaveButtonClicked = () => {
-    console.log(props.elements);
-    let updateBody = {} as UpdateBody;
-    let i = 0;
-    while (i < props.headers.length) {
-      updateBody[props.headers[i]] = values[i];
-      i++;
-    }
-    api
-      .put("/admin/users/update", { user: updateBody })
-      .then((response) => console.log(response))
-      .catch((error) => console.log(error));
-  };
 
   return (
     <div>
@@ -109,8 +79,17 @@ export const AdminElementEditor: FunctionComponent<AdminElementEditorProps> = (
         })}
       <Row>
         <Button onClick={props.onBackButtonClicked}>Back</Button>
-        <Button onClick={onDeleteButtonClicked}>Delete</Button>
-        <Button onClick={onSaveButtonClicked}>Save</Button>
+        <Button onClick={props.onDeleteButtonClicked}>Delete</Button>
+        {!props.newElement && (
+          <Button onClick={() => props.onSaveButtonClicked(values)}>
+            Save
+          </Button>
+        )}
+        {props.newElement && (
+          <Button onClick={() => props.onSubmitButtonClicked(values)}>
+            Submit
+          </Button>
+        )}
       </Row>
     </div>
   );

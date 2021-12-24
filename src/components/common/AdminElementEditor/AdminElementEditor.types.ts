@@ -14,10 +14,9 @@ export interface EditingComponent {
 
 export interface AdminElementEditorProps {
   elements: EditingComponent[];
-  headers: string[];
+  newElement: boolean;
   onBackButtonClicked: () => void;
-}
-
-export interface UpdateBody {
-  [key: string]: string | boolean;
+  onDeleteButtonClicked: () => void;
+  onSaveButtonClicked: (values: string[]) => void;
+  onSubmitButtonClicked: (values: string[]) => void;
 }

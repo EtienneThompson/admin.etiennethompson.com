@@ -62,7 +62,7 @@ export const Dashboard: React.FunctionComponent<DashboardProps> = (
         </SideBarItem>
       </SideBar>
       <Container>
-        <Col>{renderEditor}</Col>
+        <Col cols="1">{renderEditor}</Col>
       </Container>
     </div>
   );

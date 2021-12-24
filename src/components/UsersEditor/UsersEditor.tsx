@@ -1,15 +1,17 @@
 import React from "react";
 import { LoadingSpinner } from "../common/LoadingSpinner";
+import { Button } from "../common/Button";
 import { AdminTable } from "../common/AdminTable/AdminTable";
 import {
   AdminElementEditor,
   EditingComponent,
 } from "../common/AdminElementEditor";
-import { Row } from "../common/Grid";
+import { Row, Col } from "../common/Grid";
 import api from "../../api";
 import { GetUsersResponse } from "../../types";
 import "./UsersEditor.scss";
 import { ElementComponent } from "../common/AdminTable";
+import { UpdateBody } from "./UserEditor.types";
 
 export const UsersEditor = () => {
   const [users, setUsers] = React.useState([] as any[]);
@@ -53,10 +55,45 @@ export const UsersEditor = () => {
     setEditing(undefined);
   };
 
+  const onDeleteButtonClicked = () => {
+    if (!editing) {
+      return;
+    }
+    let userid = editing.filter((element) => element.label === "userid")[0]
+      .value;
+    console.log(userid);
+    // api
+    //   .delete("/admin/users/delete", {
+    //     data: { userid: userid },
+    //   })
+    //   .then((response) => console.log(response))
+    //   .catch((error) => console.log(error));
+  };
+
+  const onSaveButtonClicked = (values: string[]) => {
+    let i = 0;
+    let updateBody = {} as UpdateBody;
+    while (i < headers.length) {
+      updateBody[headers[i]] = values[i];
+      i++;
+    }
+    api
+      .put("/admin/users/update", { user: updateBody })
+      .then((response) => console.log(response))
+      .catch((error) => console.log(error));
+  };
+
+  const onSubmitButtonClicked = (values: string[]) => {};
+
   return (
     <div className="users-editor-container">
       <Row>
-        <h1>Users Editor</h1>
+        <Col cols="2">
+          <h1>Users Editor</h1>
+        </Col>
+        <Col cols="2" justify="end">
+          <Button>New</Button>
+        </Col>
       </Row>
       <Row>
         {users.length === 0 && <LoadingSpinner />}
@@ -70,8 +107,11 @@ export const UsersEditor = () => {
         {users.length !== 0 && editing !== undefined && (
           <AdminElementEditor
             elements={editing}
-            headers={headers}
+            newElement={false}
             onBackButtonClicked={onBackButtonClicked}
+            onDeleteButtonClicked={onDeleteButtonClicked}
+            onSaveButtonClicked={onSaveButtonClicked}
+            onSubmitButtonClicked={onSubmitButtonClicked}
           />
         )}
       </Row>
