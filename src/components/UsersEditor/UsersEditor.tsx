@@ -1,21 +1,21 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { LoadingSpinner } from "../common/LoadingSpinner";
 import { Button } from "../common/Button";
+import { Row, Col } from "../common/Grid";
+import { ElementComponent } from "../common/AdminTable";
+import { LoadingSpinner } from "../common/LoadingSpinner";
 import { AdminTable } from "../common/AdminTable/AdminTable";
 import {
   AdminElementEditor,
   EditingComponent,
 } from "../common/AdminElementEditor";
-import { Row, Col } from "../common/Grid";
 import api from "../../api";
 import { GetUsersResponse } from "../../types";
-import "./UsersEditor.scss";
-import { ElementComponent } from "../common/AdminTable";
 import { UpdateBody } from "./UserEditor.types";
 import { AdminStore } from "../../store/types";
 import { setIsLoading } from "../../store/actions";
 import { hashString } from "../../utils/hash";
+import "./UsersEditor.scss";
 
 export const UsersEditor = () => {
   const dispatch = useDispatch();

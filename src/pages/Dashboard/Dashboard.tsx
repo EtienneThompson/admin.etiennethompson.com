@@ -5,12 +5,12 @@ import {
   SideBarItem,
   SideBarTitle,
 } from "../../components/common/SideBar";
-import { Col, Container } from "../../components/common/Grid";
 import { UsersEditor } from "../../components/UsersEditor";
+import { Col, Container } from "../../components/common/Grid";
 import { ApplicationsEditor } from "../../components/ApplicationsEditor";
 import { ApplicationUsersEditor } from "../../components/ApplicationUsersEditor";
-import { AdminStore } from "../../store/types";
 import { DashboardProps } from "./Dashboard.types";
+import { AdminStore } from "../../store/types";
 import "./Dashboard.scss";
 
 export const Dashboard: React.FunctionComponent<DashboardProps> = (

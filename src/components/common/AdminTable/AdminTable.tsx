@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import { FunctionComponent } from "react";
 import { AdminTableProps } from "./AdminTable.types";
 import "./AdminTable.scss";
 

@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { Row } from "../Grid";
 import { Button } from "../Button";
 import { LoadingSpinner } from "../LoadingSpinner";
-import { setIsLoading } from "../../../store/actions";
 import { AdminElementEditorProps } from "./AdminElementEditor.types";
 import { AdminStore } from "../../../store/types";
+import { setIsLoading } from "../../../store/actions";
 import "./AdminElementEditor.scss";
 
 export const AdminElementEditor: FunctionComponent<AdminElementEditorProps> = (
