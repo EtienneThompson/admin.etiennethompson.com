@@ -80,7 +80,11 @@ export const UsersEditor = () => {
       .delete("/admin/users/delete", {
         data: { userid: userid },
       })
-      .then((response) => console.log(response))
+      .then((response) => {
+        let updatedUsers = users.filter((user) => user.id !== userid);
+        setUsers(updatedUsers);
+        onBackButtonClicked();
+      })
       .catch((error) => console.log(error));
   };
 
@@ -93,7 +97,13 @@ export const UsersEditor = () => {
     }
     api
       .put("/admin/users/update", { user: updateBody })
-      .then((response) => console.log(response))
+      .then((response) => {
+        let updatedUser = users.filter((user) => user.id === values[1])[0];
+        updatedUser.values[0] = values[0];
+        // The array is being modified itself, so we just set it to itself again.
+        setUsers(users);
+        onBackButtonClicked();
+      })
       .catch((error) => console.log(error));
   };
 
@@ -112,24 +122,39 @@ export const UsersEditor = () => {
   };
 
   const onSubmitButtonClicked = (values: string[]) => {
-    console.log(values);
     let createBody = {
       username: values[0],
       password: hashString(values[1]),
     };
     api
-      .post("/admin/users/create", { newUsers: [createBody] })
-      .then((response) => console.log(response))
+      .post("/admin/users/create", { newUser: createBody })
+      .then((response) => {
+        let newUsers = [...users];
+        let createdUser = response.data.createdUser;
+        newUsers.push({
+          id: createdUser.userid,
+          values: [
+            createdUser.username,
+            createdUser.userid,
+            createdUser.clientid,
+          ],
+        });
+        setUsers(newUsers);
+        onBackButtonClicked();
+      })
       .catch((error) => console.log(error));
   };
 
   return (
     <div className="users-editor-container">
       <Row>
-        <Col cols="2" align={isLoading ? "center" : "end"}>
+        <Col
+          cols="2"
+          align={isLoading ? "center" : editing ? "center" : "end"}
+        >
           <h1>Users Editor</h1>
         </Col>
-        {!isLoading && (
+        {!isLoading && !editing && (
           <Col cols="3" align="end">
             <Button onClick={onNewButtonClicked}>New</Button>
           </Col>
