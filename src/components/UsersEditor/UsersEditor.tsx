@@ -1,4 +1,5 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { LoadingSpinner } from "../common/LoadingSpinner";
 import { Button } from "../common/Button";
 import { AdminTable } from "../common/AdminTable/AdminTable";
@@ -12,16 +13,22 @@ import { GetUsersResponse } from "../../types";
 import "./UsersEditor.scss";
 import { ElementComponent } from "../common/AdminTable";
 import { UpdateBody } from "./UserEditor.types";
+import { AdminStore } from "../../store/types";
+import { setIsLoading } from "../../store/actions";
 
 export const UsersEditor = () => {
+  const dispatch = useDispatch();
   const [users, setUsers] = React.useState([] as any[]);
   const [editing, setEditing] = React.useState<EditingComponent[] | undefined>(
     undefined
   );
 
+  const isLoading = useSelector((state: AdminStore) => state.isLoading);
+
   let headers = ["username", "userid", "clientid"];
 
   React.useEffect(() => {
+    dispatch(setIsLoading(true));
     api
       .get<GetUsersResponse>("/admin/users")
       .then((response) => {
@@ -32,9 +39,13 @@ export const UsersEditor = () => {
           };
         });
         setUsers(users);
+        dispatch(setIsLoading(false));
       })
-      .catch((error) => console.log(error));
-  }, []);
+      .catch((error) => {
+        console.log(error);
+        dispatch(setIsLoading(false));
+      });
+  }, [dispatch]);
 
   const onEditClick = (element: ElementComponent) => {
     console.log(element);
@@ -88,23 +99,25 @@ export const UsersEditor = () => {
   return (
     <div className="users-editor-container">
       <Row>
-        <Col cols="2" align="end">
+        <Col cols="2" align={isLoading ? "center" : "end"}>
           <h1>Users Editor</h1>
         </Col>
-        <Col cols="3" align="end">
-          <Button>New</Button>
-        </Col>
+        {!isLoading && (
+          <Col cols="3" align="end">
+            <Button>New</Button>
+          </Col>
+        )}
       </Row>
       <Row>
-        {users.length === 0 && <LoadingSpinner />}
-        {users.length !== 0 && editing === undefined && (
+        {isLoading && <LoadingSpinner />}
+        {!isLoading && !editing && (
           <AdminTable
             headers={headers}
             elements={users}
             onEditClick={onEditClick}
           />
         )}
-        {users.length !== 0 && editing !== undefined && (
+        {!isLoading && editing && (
           <AdminElementEditor
             elements={editing}
             newElement={false}
