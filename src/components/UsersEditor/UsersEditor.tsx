@@ -15,6 +15,7 @@ import { ElementComponent } from "../common/AdminTable";
 import { UpdateBody } from "./UserEditor.types";
 import { AdminStore } from "../../store/types";
 import { setIsLoading } from "../../store/actions";
+import { hashString } from "../../utils/hash";
 
 export const UsersEditor = () => {
   const dispatch = useDispatch();
@@ -22,6 +23,7 @@ export const UsersEditor = () => {
   const [editing, setEditing] = React.useState<EditingComponent[] | undefined>(
     undefined
   );
+  const [newElement, setNewElement] = React.useState(false);
 
   const isLoading = useSelector((state: AdminStore) => state.isLoading);
 
@@ -48,7 +50,6 @@ export const UsersEditor = () => {
   }, [dispatch]);
 
   const onEditClick = (element: ElementComponent) => {
-    console.log(element);
     let editingConfig: EditingComponent[] = element.values.map(
       (value, index) => {
         return {
@@ -59,10 +60,12 @@ export const UsersEditor = () => {
         };
       }
     );
+    setNewElement(false);
     setEditing(editingConfig);
   };
 
   const onBackButtonClicked = () => {
+    setNewElement(false);
     setEditing(undefined);
   };
 
@@ -73,12 +76,12 @@ export const UsersEditor = () => {
     let userid = editing.filter((element) => element.label === "userid")[0]
       .value;
     console.log(userid);
-    // api
-    //   .delete("/admin/users/delete", {
-    //     data: { userid: userid },
-    //   })
-    //   .then((response) => console.log(response))
-    //   .catch((error) => console.log(error));
+    api
+      .delete("/admin/users/delete", {
+        data: { userid: userid },
+      })
+      .then((response) => console.log(response))
+      .catch((error) => console.log(error));
   };
 
   const onSaveButtonClicked = (values: string[]) => {
@@ -94,7 +97,31 @@ export const UsersEditor = () => {
       .catch((error) => console.log(error));
   };
 
-  const onSubmitButtonClicked = (values: string[]) => {};
+  const onNewButtonClicked = () => {
+    let newUserFields = ["username", "password"];
+    let editingConfig: EditingComponent[] = newUserFields.map((element) => {
+      return {
+        id: element,
+        value: "",
+        label: element,
+        component: "text",
+      };
+    });
+    setNewElement(true);
+    setEditing(editingConfig);
+  };
+
+  const onSubmitButtonClicked = (values: string[]) => {
+    console.log(values);
+    let createBody = {
+      username: values[0],
+      password: hashString(values[1]),
+    };
+    api
+      .post("/admin/users/create", { newUsers: [createBody] })
+      .then((response) => console.log(response))
+      .catch((error) => console.log(error));
+  };
 
   return (
     <div className="users-editor-container">
@@ -104,7 +131,7 @@ export const UsersEditor = () => {
         </Col>
         {!isLoading && (
           <Col cols="3" align="end">
-            <Button>New</Button>
+            <Button onClick={onNewButtonClicked}>New</Button>
           </Col>
         )}
       </Row>
@@ -120,7 +147,7 @@ export const UsersEditor = () => {
         {!isLoading && editing && (
           <AdminElementEditor
             elements={editing}
-            newElement={false}
+            newElement={newElement}
             onBackButtonClicked={onBackButtonClicked}
             onDeleteButtonClicked={onDeleteButtonClicked}
             onSaveButtonClicked={onSaveButtonClicked}

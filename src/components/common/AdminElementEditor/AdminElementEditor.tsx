@@ -23,7 +23,7 @@ export const AdminElementEditor: FunctionComponent<AdminElementEditorProps> = (
     });
     setValues(defaultValues);
     dispatch(setIsLoading(false));
-  }, [props, dispatch]);
+  }, [props.newElement, props.elements, dispatch]);
 
   return (
     <div>
