@@ -2,16 +2,14 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "../common/Button";
 import { Row, Col } from "../common/Grid";
-import { ElementComponent } from "../common/AdminTable";
 import { LoadingSpinner } from "../common/LoadingSpinner";
-import { AdminTable } from "../common/AdminTable/AdminTable";
+import { AdminTable, ElementComponent } from "../common/AdminTable";
 import {
   AdminElementEditor,
   EditingComponent,
 } from "../common/AdminElementEditor";
 import api from "../../api";
-import { GetUsersResponse } from "../../types";
-import { UpdateBody } from "./UserEditor.types";
+import { GenericStringMap, GetUsersResponse } from "../../types";
 import { AdminStore } from "../../store/types";
 import { setIsLoading } from "../../store/actions";
 import { hashString } from "../../utils/hash";
@@ -90,7 +88,7 @@ export const UsersEditor = () => {
 
   const onSaveButtonClicked = (values: string[]) => {
     let i = 0;
-    let updateBody = {} as UpdateBody;
+    let updateBody = {} as GenericStringMap;
     while (i < keys.length) {
       updateBody[keys[i]] = values[i];
       i++;
