@@ -27,7 +27,8 @@ export const UsersEditor = () => {
 
   const isLoading = useSelector((state: AdminStore) => state.isLoading);
 
-  let headers = ["username", "userid", "clientid"];
+  const headers = ["Username", "User ID", "Client ID"];
+  const keys = ["username", "userid", "clientid"];
 
   React.useEffect(() => {
     dispatch(setIsLoading(true));
@@ -90,8 +91,8 @@ export const UsersEditor = () => {
   const onSaveButtonClicked = (values: string[]) => {
     let i = 0;
     let updateBody = {} as UpdateBody;
-    while (i < headers.length) {
-      updateBody[headers[i]] = values[i];
+    while (i < keys.length) {
+      updateBody[keys[i]] = values[i];
       i++;
     }
     api
