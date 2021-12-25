@@ -12,13 +12,20 @@ import api from "../../api";
 import "./ApplicationUsersEditor.scss";
 import { AdminStore } from "../../store/types";
 import { setIsLoading } from "../../store/actions";
-import { AdminTable } from "../common/AdminTable";
+import { AdminTable, ElementComponent } from "../common/AdminTable";
+import {
+  AdminElementEditor,
+  EditingComponent,
+} from "../common/AdminElementEditor";
 
 export const ApplicationUsersEditor = () => {
   const dispatch = useDispatch();
   const [users, setUsers] = React.useState([] as any[]);
   const [apps, setApps] = React.useState([] as any[]);
   const [appUsers, setAppUsers] = React.useState([] as any[]);
+  const [editing, setEditing] = React.useState<EditingComponent[] | undefined>(
+    undefined
+  );
 
   const isLoading = useSelector((state: AdminStore) => state.isLoading);
 
@@ -80,24 +87,83 @@ export const ApplicationUsersEditor = () => {
     fetchData();
   }, [dispatch]);
 
-  const onEditClick = () => {
-    console.log("edit");
+  const onEditClick = (element: ElementComponent) => {
+    let editingConfig: EditingComponent[] = element.values.map(
+      (value, index) => {
+        return {
+          id: `${value.toString()}-${index}`,
+          value: value,
+          label: headers[index],
+          component: headers[index].includes("Status") ? "checkbox" : "select",
+        };
+      }
+    );
+    editingConfig[0].options = users.map((user) => {
+      return {
+        id: user.userid,
+        value: user.userid,
+        text: user.username,
+      };
+    });
+    editingConfig[1].options = apps.map((app) => {
+      return {
+        id: app.applicationid,
+        value: app.applicationid,
+        text: app.applicationname,
+      };
+    });
+    setEditing(editingConfig);
+  };
+
+  const onBackButtonClicked = () => {
+    setEditing(undefined);
+  };
+
+  const onDeleteButtonClicked = () => {
+    console.log("delete");
+  };
+
+  const onSaveButtonClicked = () => {
+    console.log("saved");
+  };
+
+  const onNewButtonClicked = () => {
+    console.log("new");
+  };
+
+  const onSubmitButtonClicked = () => {
+    console.log("submit");
   };
 
   return (
     <div className="application-users-editor-container">
       <Row>
-        <Col>
+        <Col align={isLoading ? "center" : editing ? "center" : "end"}>
           <h1>Application Users Editor</h1>
         </Col>
+        {!isLoading && !editing && (
+          <Col cols="3" align="end">
+            <Button onClick={onNewButtonClicked}>New</Button>
+          </Col>
+        )}
       </Row>
       <Row>
         {isLoading && <LoadingSpinner />}
-        {!isLoading && (
+        {!isLoading && !editing && (
           <AdminTable
             headers={headers}
             elements={appUsers}
             onEditClick={onEditClick}
+          />
+        )}
+        {!isLoading && editing && (
+          <AdminElementEditor
+            elements={editing}
+            newElement={false}
+            onBackButtonClicked={onBackButtonClicked}
+            onDeleteButtonClicked={onDeleteButtonClicked}
+            onSaveButtonClicked={onSaveButtonClicked}
+            onSubmitButtonClicked={onSubmitButtonClicked}
           />
         )}
       </Row>

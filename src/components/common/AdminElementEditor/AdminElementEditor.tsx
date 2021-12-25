@@ -64,11 +64,13 @@ export const AdminElementEditor: FunctionComponent<AdminElementEditorProps> = (
               </Row>
             );
           } else if (element.component === "checkbox") {
+            let value = element.value as boolean;
             return (
               <Row key={`${element.id}-${index}`}>
                 <div style={{ padding: "5px" }}>{element.label + ":"}</div>
                 <input
                   type="checkbox"
+                  checked={value}
                   onChange={() => console.log("change!")}
                 />
               </Row>
