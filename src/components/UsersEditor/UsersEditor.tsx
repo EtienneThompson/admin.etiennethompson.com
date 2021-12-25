@@ -2,16 +2,14 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "../common/Button";
 import { Row, Col } from "../common/Grid";
-import { ElementComponent } from "../common/AdminTable";
 import { LoadingSpinner } from "../common/LoadingSpinner";
-import { AdminTable } from "../common/AdminTable/AdminTable";
+import { AdminTable, ElementComponent } from "../common/AdminTable";
 import {
   AdminElementEditor,
   EditingComponent,
 } from "../common/AdminElementEditor";
 import api from "../../api";
-import { GetUsersResponse } from "../../types";
-import { UpdateBody } from "./UserEditor.types";
+import { GenericStringMap, GetUsersResponse } from "../../types";
 import { AdminStore } from "../../store/types";
 import { setIsLoading } from "../../store/actions";
 import { hashString } from "../../utils/hash";
@@ -27,7 +25,8 @@ export const UsersEditor = () => {
 
   const isLoading = useSelector((state: AdminStore) => state.isLoading);
 
-  let headers = ["username", "userid", "clientid"];
+  const headers = ["Username", "User ID", "Client ID"];
+  const keys = ["username", "userid", "clientid"];
 
   React.useEffect(() => {
     dispatch(setIsLoading(true));
@@ -75,7 +74,6 @@ export const UsersEditor = () => {
     }
     let userid = editing.filter((element) => element.label === "userid")[0]
       .value;
-    console.log(userid);
     api
       .delete("/admin/users/delete", {
         data: { userid: userid },
@@ -90,9 +88,9 @@ export const UsersEditor = () => {
 
   const onSaveButtonClicked = (values: string[]) => {
     let i = 0;
-    let updateBody = {} as UpdateBody;
-    while (i < headers.length) {
-      updateBody[headers[i]] = values[i];
+    let updateBody = {} as GenericStringMap;
+    while (i < keys.length) {
+      updateBody[keys[i]] = values[i];
       i++;
     }
     api
