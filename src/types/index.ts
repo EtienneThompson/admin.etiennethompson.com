@@ -4,6 +4,10 @@ export enum LocalStorageKey {
   IsAdmin = "IsAdmin",
 }
 
+export interface GenericStringMap {
+  [key: string]: string;
+}
+
 export interface AdminPageUser {
   userid: string;
   username: string;
