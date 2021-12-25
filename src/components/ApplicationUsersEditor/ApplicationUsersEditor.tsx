@@ -1,18 +1,111 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
-  AdminPageUser,
-  Application,
-  ApplicationUser,
   GetUsersResponse,
   GetApplicationsResponse,
   GetApplicationUsersResponse,
 } from "../../types";
 import { Button } from "../common/Button";
-import { Row } from "../common/Grid";
+import { Row, Col } from "../common/Grid";
 import { LoadingSpinner } from "../common/LoadingSpinner";
-import { NewAppUser } from "./ApplicationUsersEditor.types";
 import api from "../../api";
 import "./ApplicationUsersEditor.scss";
+import { AdminStore } from "../../store/types";
+import { setIsLoading } from "../../store/actions";
+import { AdminTable } from "../common/AdminTable";
+
+export const ApplicationUsersEditor = () => {
+  const dispatch = useDispatch();
+  const [users, setUsers] = React.useState([] as any[]);
+  const [apps, setApps] = React.useState([] as any[]);
+  const [appUsers, setAppUsers] = React.useState([] as any[]);
+
+  const isLoading = useSelector((state: AdminStore) => state.isLoading);
+
+  const headers = ["Username", "Application", "User Status", "Admin Status"];
+
+  React.useEffect(() => {
+    let fetchData = async () => {
+      dispatch(setIsLoading(true));
+      let usersRequest = api.get<GetUsersResponse>("/admin/users");
+      let appsRequest = api.get<GetApplicationsResponse>(
+        "/admin/applications"
+      );
+      let appUsersRequest = api.get<GetApplicationUsersResponse>(
+        "/admin/applicationusers"
+      );
+
+      let usersResponse = await usersRequest;
+      let appsResponse = await appsRequest;
+      let appUsersResponse = await appUsersRequest;
+
+      let usersData = [] as any[];
+      let appsData = [] as any[];
+      if (usersResponse.status === 200) {
+        usersData = usersResponse.data.users;
+        setUsers(usersResponse.data.users);
+      } else {
+        console.log("Failed to fetch users");
+      }
+
+      if (appsResponse.status === 200) {
+        appsData = appsResponse.data.applications;
+        setApps(appsResponse.data.applications);
+      } else {
+        console.log("Failed to fetch apps");
+      }
+
+      if (appUsersResponse.status === 200) {
+        // setAppUsers(appUsersResponse.data.applicationUsers);
+        let data = appUsersResponse.data.applicationUsers.map((appUser) => {
+          return {
+            id: appUser.userid,
+            values: [
+              usersData.filter((user) => user.userid === appUser.userid)[0]
+                .username,
+              appsData.filter(
+                (app) => app.applicationid === appUser.applicationid
+              )[0].applicationname,
+              appUser.isuser,
+              appUser.isadmin,
+            ],
+          };
+        });
+        setAppUsers(data);
+      } else {
+        console.log("Failed to fetch application users");
+      }
+      dispatch(setIsLoading(false));
+    };
+    fetchData();
+  }, [dispatch]);
+
+  const onEditClick = () => {
+    console.log("edit");
+  };
+
+  return (
+    <div className="application-users-editor-container">
+      <Row>
+        <Col>
+          <h1>Application Users Editor</h1>
+        </Col>
+      </Row>
+      <Row>
+        {isLoading && <LoadingSpinner />}
+        {!isLoading && (
+          <AdminTable
+            headers={headers}
+            elements={appUsers}
+            onEditClick={onEditClick}
+          />
+        )}
+      </Row>
+    </div>
+  );
+};
+
+/*
 
 export const ApplicationUsersEditor = () => {
   const [users, setUsers] = React.useState([] as AdminPageUser[]);
@@ -304,3 +397,5 @@ export const ApplicationUsersEditor = () => {
     </div>
   );
 };
+
+*/
