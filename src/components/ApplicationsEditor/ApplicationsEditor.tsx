@@ -1,11 +1,110 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Row } from "../common/Grid";
-import { Button } from "../common/Button";
-import { Application, GetApplicationsResponse } from "../../types";
+import { GetApplicationsResponse } from "../../types";
 import api from "../../api";
-import { ApplicationsEditorProps } from "./ApplicationsEditor.types";
 import "./ApplicationsEditor.scss";
 import { LoadingSpinner } from "../common/LoadingSpinner";
+import { setIsLoading } from "../../store/actions";
+import { AdminStore } from "../../store/types";
+import { AdminTable, ElementComponent } from "../common/AdminTable";
+import {
+  AdminElementEditor,
+  EditingComponent,
+} from "../common/AdminElementEditor";
+
+export const ApplicationsEditor = () => {
+  const dispatch = useDispatch();
+  const [apps, setApps] = React.useState([] as any[]);
+  const [editing, setEditing] = React.useState<EditingComponent[] | undefined>(
+    undefined
+  );
+
+  const isLoading = useSelector((state: AdminStore) => state.isLoading);
+
+  const headers = ["Application Name", "Application ID", "Redirect URL"];
+
+  React.useEffect(() => {
+    dispatch(setIsLoading(true));
+    api
+      .get<GetApplicationsResponse>("/admin/applications")
+      .then((response) => {
+        let apps = response.data.applications.map((app) => {
+          return {
+            id: app.applicationid,
+            values: [app.applicationname, app.applicationid, app.redirecturl],
+          };
+        });
+        setApps(apps);
+        dispatch(setIsLoading(false));
+      })
+      .catch((error) => console.log(error));
+  }, [dispatch]);
+
+  const onEditClick = (element: ElementComponent) => {
+    let editingConfig: EditingComponent[] = element.values.map(
+      (value, index) => {
+        return {
+          id: value,
+          value: value,
+          label: headers[index],
+          component: "text",
+        };
+      }
+    );
+    setEditing(editingConfig);
+  };
+
+  const onBackButtonClicked = () => {
+    setEditing(undefined);
+  };
+
+  const onDeleteButtonClicked = () => {
+    console.log("delete");
+  };
+
+  const onSaveButtonClicked = (values: string[]) => {
+    console.log("save");
+  };
+
+  const onNewButtonClicked = () => {
+    console.log("new");
+  };
+
+  const onSubmitButtonClicked = (values: string[]) => {
+    console.log("submit");
+  };
+
+  return (
+    <div className="applications-editor-container">
+      <Row>
+        <h1>Applications Editor</h1>
+      </Row>
+      <Row>
+        {isLoading && <LoadingSpinner />}
+        {!isLoading && !editing && (
+          <AdminTable
+            headers={headers}
+            elements={apps}
+            onEditClick={onEditClick}
+          />
+        )}
+        {!isLoading && editing && (
+          <AdminElementEditor
+            elements={editing}
+            newElement={false}
+            onBackButtonClicked={onBackButtonClicked}
+            onDeleteButtonClicked={onDeleteButtonClicked}
+            onSaveButtonClicked={onSaveButtonClicked}
+            onSubmitButtonClicked={onSubmitButtonClicked}
+          />
+        )}
+      </Row>
+    </div>
+  );
+};
+
+/*
 
 export const ApplicationsEditor: React.FunctionComponent<ApplicationsEditorProps> =
   (props: ApplicationsEditorProps) => {
@@ -226,3 +325,5 @@ export const ApplicationsEditor: React.FunctionComponent<ApplicationsEditorProps
       </div>
     );
   };
+
+*/

@@ -75,7 +75,6 @@ export const UsersEditor = () => {
     }
     let userid = editing.filter((element) => element.label === "userid")[0]
       .value;
-    console.log(userid);
     api
       .delete("/admin/users/delete", {
         data: { userid: userid },
