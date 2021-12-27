@@ -25,7 +25,7 @@ export const AdminTable: FunctionComponent<AdminTableProps> = (
           >
             {element.values.map((value, index) => (
               <td className={"admin-table-cell"} key={`${value}-${index}`}>
-                {value}
+                {value.toString()}
               </td>
             ))}
           </tr>
