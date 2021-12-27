@@ -40,6 +40,13 @@ export const updateIsAdmin = (isAdmin: boolean): AnyAction => {
   };
 };
 
+export const setLoginStatus = (loginStatus: boolean): AnyAction => {
+  return {
+    type: "login/set",
+    payload: loginStatus,
+  };
+};
+
 export const login = (
   clientId: string,
   isUser: boolean,
