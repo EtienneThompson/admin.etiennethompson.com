@@ -4,6 +4,7 @@ import {
   deleteFromLocalStorage,
 } from "../../utils/localStorage";
 import { LocalStorageKey } from "../../types";
+import { store } from "../store";
 
 export const setIsLoading = (status: boolean): AnyAction => {
   return {
@@ -53,13 +54,13 @@ export const login = (
   isAdmin: boolean
 ): AnyAction => {
   writeToLocalStorage(LocalStorageKey.ClientId, clientId);
-  updateClientId(clientId);
+  store.dispatch(updateClientId(clientId));
 
   writeToLocalStorage(LocalStorageKey.IsUser, isUser);
-  updateIsUser(isUser);
+  store.dispatch(updateIsUser(isUser));
 
   writeToLocalStorage(LocalStorageKey.IsAdmin, isAdmin);
-  updateIsAdmin(isAdmin);
+  store.dispatch(updateIsAdmin(isAdmin));
 
   return {
     type: "login/set",
@@ -69,13 +70,13 @@ export const login = (
 
 export const logout = (): AnyAction => {
   deleteFromLocalStorage(LocalStorageKey.ClientId);
-  updateClientId(undefined);
+  store.dispatch(updateClientId(undefined));
 
   deleteFromLocalStorage(LocalStorageKey.IsUser);
-  updateIsUser(false);
+  store.dispatch(updateIsUser(false));
 
   deleteFromLocalStorage(LocalStorageKey.IsAdmin);
-  updateIsAdmin(false);
+  store.dispatch(updateIsAdmin(false));
 
   return {
     type: "login/set",
