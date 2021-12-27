@@ -68,6 +68,7 @@ export const ApplicationsEditor = () => {
     if (!editing) {
       return;
     }
+    dispatch(setIsLoading(true));
     let appid = editing.filter(
       (element) => element.label === "Application ID"
     )[0].value;
@@ -78,12 +79,17 @@ export const ApplicationsEditor = () => {
       .then((response) => {
         let updatedApps = apps.filter((app) => app.id !== appid);
         setApps(updatedApps);
+        dispatch(setIsLoading(false));
         onBackButtonClicked();
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(error);
+        dispatch(setIsLoading(false));
+      });
   };
 
   const onSaveButtonClicked = (values: string[]) => {
+    dispatch(setIsLoading(true));
     let i = 0;
     let updateBody = {} as GenericStringMap;
     while (i < keys.length) {
@@ -97,7 +103,12 @@ export const ApplicationsEditor = () => {
         updatedApp.values[0] = values[0];
         updatedApp.values[2] = values[2];
         setApps(apps);
+        dispatch(setIsLoading(false));
         onBackButtonClicked();
+      })
+      .catch((error) => {
+        console.log(error);
+        dispatch(setIsLoading(false));
       });
   };
 
@@ -116,6 +127,7 @@ export const ApplicationsEditor = () => {
   };
 
   const onSubmitButtonClicked = (values: string[]) => {
+    dispatch(setIsLoading(true));
     let createBody = {
       applicationname: values[0],
       redirecturl: values[1],
@@ -134,9 +146,13 @@ export const ApplicationsEditor = () => {
           ],
         });
         setApps(newApps);
+        dispatch(setIsLoading(false));
         onBackButtonClicked();
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(error);
+        dispatch(setIsLoading(false));
+      });
   };
 
   return (
