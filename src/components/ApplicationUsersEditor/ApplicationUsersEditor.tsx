@@ -26,6 +26,7 @@ export const ApplicationUsersEditor = () => {
   const [editing, setEditing] = React.useState<EditingComponent[] | undefined>(
     undefined
   );
+  const [newElement, setNewElement] = React.useState(false);
 
   const isLoading = useSelector((state: AdminStore) => state.isLoading);
 
@@ -66,7 +67,7 @@ export const ApplicationUsersEditor = () => {
         // setAppUsers(appUsersResponse.data.applicationUsers);
         let data = appUsersResponse.data.applicationUsers.map((appUser) => {
           return {
-            id: appUser.userid,
+            id: `${appUser.userid}-${appUser.applicationid}`,
             values: [
               usersData.filter((user) => user.userid === appUser.userid)[0]
                 .username,
@@ -112,15 +113,44 @@ export const ApplicationUsersEditor = () => {
         text: app.applicationname,
       };
     });
+    setNewElement(false);
     setEditing(editingConfig);
   };
 
   const onBackButtonClicked = () => {
+    setNewElement(false);
     setEditing(undefined);
   };
 
   const onDeleteButtonClicked = () => {
-    console.log("delete");
+    if (!editing) {
+      return;
+    }
+
+    let username = editing.filter((element) => element.label === "Username")[0]
+      .value;
+    let appname = editing.filter(
+      (element) => element.label === "Application"
+    )[0].value;
+    let userid = users.filter((user) => user.username === username)[0].userid;
+    let appid = apps.filter((app) => app.applicationname === appname)[0]
+      .applicationid;
+    console.log(userid);
+    console.log(appid);
+
+    api
+      .delete("/admin/applicationusers/delete", {
+        data: { applicationuser: { userid: userid, applicationid: appid } },
+      })
+      .then((response) => {
+        let updatedAppUsers = appUsers.filter(
+          (appUser) =>
+            appUser.values[0] !== username || appUser.values[1] !== appname
+        );
+        setAppUsers(updatedAppUsers);
+        onBackButtonClicked();
+      })
+      .catch((error) => console.log(error));
   };
 
   const onSaveButtonClicked = () => {
@@ -128,11 +158,69 @@ export const ApplicationUsersEditor = () => {
   };
 
   const onNewButtonClicked = () => {
-    console.log("new");
+    let defaultValues = [
+      users[0].userid,
+      apps[0].applicationid,
+      "false",
+      "false",
+    ];
+    let editingConfig: EditingComponent[] = headers.map((header, index) => {
+      return {
+        id: header,
+        value: defaultValues[index],
+        label: header,
+        component: header.includes("Status") ? "checkbox" : "select",
+      };
+    });
+    editingConfig[0].options = users.map((user) => {
+      return {
+        id: user.userid,
+        value: user.userid,
+        text: user.username,
+      };
+    });
+    editingConfig[1].options = apps.map((app) => {
+      return {
+        id: app.applicationid,
+        value: app.applicationid,
+        text: app.applicationname,
+      };
+    });
+    setNewElement(true);
+    setEditing(editingConfig);
   };
 
-  const onSubmitButtonClicked = () => {
-    console.log("submit");
+  const onSubmitButtonClicked = (values: string[]) => {
+    let createBody = {
+      userid: values[0],
+      applicationid: values[1],
+      isuser: values[2] === "true",
+      isadmin: values[3] === "true",
+    };
+    api
+      .post("/admin/applicationusers/create", {
+        newApplicationUser: createBody,
+      })
+      .then((response) => {
+        let newAppUsers = [...appUsers];
+        console.log(response.data);
+        let createdAppUser = response.data.createdApplicationUser;
+        newAppUsers.push({
+          id: createdAppUser.userid,
+          values: [
+            users.filter((user) => user.userid === createdAppUser.userid)[0]
+              .username,
+            apps.filter(
+              (app) => app.applicationid === createdAppUser.applicationid
+            )[0].applicationname,
+            createdAppUser.isuser,
+            createdAppUser.isadmin,
+          ],
+        });
+        setAppUsers(newAppUsers);
+        onBackButtonClicked();
+      })
+      .catch((error) => console.log(error));
   };
 
   return (
@@ -159,7 +247,7 @@ export const ApplicationUsersEditor = () => {
         {!isLoading && editing && (
           <AdminElementEditor
             elements={editing}
-            newElement={false}
+            newElement={newElement}
             onBackButtonClicked={onBackButtonClicked}
             onDeleteButtonClicked={onDeleteButtonClicked}
             onSaveButtonClicked={onSaveButtonClicked}

@@ -52,7 +52,11 @@ export const AdminElementEditor: FunctionComponent<AdminElementEditorProps> = (
                 <select
                   name={element.id}
                   id={element.id}
-                  onChange={() => console.log("change!")}
+                  onChange={(event: any) => {
+                    let newValues = [...values];
+                    newValues[index] = event.target.value;
+                    setValues(newValues);
+                  }}
                 >
                   {element.options &&
                     element.options.map((option, index) => (
@@ -64,14 +68,17 @@ export const AdminElementEditor: FunctionComponent<AdminElementEditorProps> = (
               </Row>
             );
           } else if (element.component === "checkbox") {
-            let value = element.value as boolean;
             return (
               <Row key={`${element.id}-${index}`}>
                 <div style={{ padding: "5px" }}>{element.label + ":"}</div>
                 <input
                   type="checkbox"
-                  checked={value}
-                  onChange={() => console.log("change!")}
+                  checked={values[index] === "true"}
+                  onChange={(event: any) => {
+                    let newValues = [...values];
+                    newValues[index] = event.target.checked.toString();
+                    setValues(newValues);
+                  }}
                 />
               </Row>
             );
