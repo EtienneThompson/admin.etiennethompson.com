@@ -126,7 +126,7 @@ export const ApplicationUsersEditor = () => {
     if (!editing) {
       return;
     }
-
+    dispatch(setIsLoading(true));
     let username = editing.filter((element) => element.label === "Username")[0]
       .value;
     let appname = editing.filter(
@@ -146,12 +146,17 @@ export const ApplicationUsersEditor = () => {
             appUser.values[0] !== username || appUser.values[1] !== appname
         );
         setAppUsers(updatedAppUsers);
+        dispatch(setIsLoading(false));
         onBackButtonClicked();
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(error);
+        dispatch(setIsLoading(false));
+      });
   };
 
   const onSaveButtonClicked = (values: string[]) => {
+    dispatch(setIsLoading(true));
     let [username, appname, isuser, isadmin] = values;
     let userid = users.filter((user) => user.username === username)[0].userid;
     let appid = apps.filter((app) => app.applicationname === appname)[0]
@@ -174,7 +179,12 @@ export const ApplicationUsersEditor = () => {
         updatedAppUser.values[2] = isuser;
         updatedAppUser.values[3] = isadmin;
         setAppUsers(appUsers);
+        dispatch(setIsLoading(false));
         onBackButtonClicked();
+      })
+      .catch((error) => {
+        console.log(error);
+        dispatch(setIsLoading(false));
       });
   };
 
@@ -207,6 +217,7 @@ export const ApplicationUsersEditor = () => {
   };
 
   const onSubmitButtonClicked = (values: string[]) => {
+    dispatch(setIsLoading(true));
     let createBody = {
       userid: values[0],
       applicationid: values[1],
@@ -234,9 +245,13 @@ export const ApplicationUsersEditor = () => {
           ],
         });
         setAppUsers(newAppUsers);
+        dispatch(setIsLoading(false));
         onBackButtonClicked();
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(error);
+        dispatch(setIsLoading(false));
+      });
   };
 
   return (
