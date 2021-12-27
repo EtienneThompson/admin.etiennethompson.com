@@ -1,5 +1,4 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import {
   SideBar,
   SideBarItem,
@@ -10,7 +9,6 @@ import { Col, Container } from "../../components/common/Grid";
 import { ApplicationsEditor } from "../../components/ApplicationsEditor";
 import { ApplicationUsersEditor } from "../../components/ApplicationUsersEditor";
 import { DashboardProps } from "./Dashboard.types";
-import { AdminStore } from "../../store/types";
 import "./Dashboard.scss";
 
 export const Dashboard: React.FunctionComponent<DashboardProps> = (
@@ -18,17 +16,7 @@ export const Dashboard: React.FunctionComponent<DashboardProps> = (
 ) => {
   document.title = "Etienne Thompson - Dashboard";
   document.documentElement.className = "theme-light";
-  const clientId = useSelector((state: AdminStore) => state.clientId);
-  const isClientIdLoading = useSelector(
-    (state: AdminStore) => state.isClientIdLoading
-  );
   const [currentEditor, setCurrentEditor] = React.useState("DashboardEditor");
-
-  React.useEffect(() => {
-    if (!isClientIdLoading && !clientId) {
-      props.history.push("/");
-    }
-  }, [isClientIdLoading, clientId, props.history]);
 
   const renderEditor = React.useMemo(() => {
     if (currentEditor === "UsersEditor") {

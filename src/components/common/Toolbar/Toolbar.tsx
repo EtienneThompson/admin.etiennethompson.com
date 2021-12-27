@@ -32,7 +32,7 @@ export const Toolbar: React.FunctionComponent<ToolbarProps> = (
         </Col>
         <Col cols="2" align="end">
           {isLoggedIn ? (
-            <Button onClick={onLogoutButtonClicked}>Logout</Button>
+            <Button onClick={props.onLogoutButtonClicked}>Logout</Button>
           ) : (
             <Button onClick={onLoginButtonClicked}>Login</Button>
           )}

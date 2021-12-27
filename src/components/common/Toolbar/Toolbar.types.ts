@@ -1,1 +1,3 @@
-export interface ToolbarProps {}
+export interface ToolbarProps {
+  onLogoutButtonClicked: () => void;
+}
