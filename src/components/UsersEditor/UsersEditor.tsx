@@ -72,7 +72,8 @@ export const UsersEditor = () => {
     if (!editing) {
       return;
     }
-    let userid = editing.filter((element) => element.label === "userid")[0]
+    dispatch(setIsLoading(true));
+    let userid = editing.filter((element) => element.label === "User ID")[0]
       .value;
     api
       .delete("/admin/users/delete", {
@@ -81,12 +82,17 @@ export const UsersEditor = () => {
       .then((response) => {
         let updatedUsers = users.filter((user) => user.id !== userid);
         setUsers(updatedUsers);
+        dispatch(setIsLoading(false));
         onBackButtonClicked();
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(error);
+        dispatch(setIsLoading(false));
+      });
   };
 
   const onSaveButtonClicked = (values: string[]) => {
+    dispatch(setIsLoading(true));
     let i = 0;
     let updateBody = {} as GenericStringMap;
     while (i < keys.length) {
@@ -100,9 +106,13 @@ export const UsersEditor = () => {
         updatedUser.values[0] = values[0];
         // The array is being modified itself, so we just set it to itself again.
         setUsers(users);
+        dispatch(setIsLoading(false));
         onBackButtonClicked();
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(error);
+        dispatch(setIsLoading(false));
+      });
   };
 
   const onNewButtonClicked = () => {
@@ -120,6 +130,7 @@ export const UsersEditor = () => {
   };
 
   const onSubmitButtonClicked = (values: string[]) => {
+    dispatch(setIsLoading(true));
     let createBody = {
       username: values[0],
       password: hashString(values[1]),
@@ -138,9 +149,13 @@ export const UsersEditor = () => {
           ],
         });
         setUsers(newUsers);
+        dispatch(setIsLoading(false));
         onBackButtonClicked();
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(error);
+        dispatch(setIsLoading(false));
+      });
   };
 
   return (
