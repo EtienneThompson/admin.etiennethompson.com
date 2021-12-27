@@ -179,12 +179,7 @@ export const ApplicationUsersEditor = () => {
   };
 
   const onNewButtonClicked = () => {
-    let defaultValues = [
-      users[0].userid,
-      apps[0].applicationid,
-      "false",
-      "false",
-    ];
+    let defaultValues = ["---", "---", "false", "false"];
     let editingConfig: EditingComponent[] = headers.map((header, index) => {
       return {
         id: header,

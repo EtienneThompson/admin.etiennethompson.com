@@ -18,7 +18,18 @@ export const AdminElementEditor: FunctionComponent<AdminElementEditorProps> = (
 
   React.useEffect(() => {
     dispatch(setIsLoading(true));
-    let defaultValues = props.elements.map((element) => {
+    let defaultValues = props.elements.map((element, index) => {
+      if (
+        element.component === "select" &&
+        element.options &&
+        props.newElement
+      ) {
+        element.options.splice(0, 0, {
+          id: `---${index}`,
+          value: "---",
+          text: "---",
+        });
+      }
       return element.value.toString();
     });
     setValues(defaultValues);
@@ -52,6 +63,7 @@ export const AdminElementEditor: FunctionComponent<AdminElementEditorProps> = (
                 <select
                   name={element.id}
                   id={element.id}
+                  value={values[index]}
                   onChange={(event: any) => {
                     let newValues = [...values];
                     newValues[index] = event.target.value;
@@ -95,7 +107,14 @@ export const AdminElementEditor: FunctionComponent<AdminElementEditorProps> = (
           </Button>
         )}
         {props.newElement && (
-          <Button onClick={() => props.onSubmitButtonClicked(values)}>
+          <Button
+            onClick={() => {
+              if (values[0] === "---" || values[1] === "---") {
+                return;
+              }
+              props.onSubmitButtonClicked(values);
+            }}
+          >
             Submit
           </Button>
         )}
