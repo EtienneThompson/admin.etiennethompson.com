@@ -65,6 +65,7 @@ export const ApplicationsEditor = () => {
   };
 
   const onBackButtonClicked = () => {
+    setErrorMessage("");
     setNewElement(false);
     setEditing(undefined);
   };
