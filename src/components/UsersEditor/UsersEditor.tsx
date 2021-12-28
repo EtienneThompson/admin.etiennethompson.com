@@ -131,6 +131,10 @@ export const UsersEditor = () => {
 
   const onSubmitButtonClicked = (values: string[]) => {
     dispatch(setIsLoading(true));
+    if (values[0].match(/\s/g) != null || values[1].match(/\s/g) != null) {
+      dispatch(setIsLoading(false));
+      return;
+    }
     let createBody = {
       username: values[0],
       password: hashString(values[1]),

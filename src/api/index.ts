@@ -45,7 +45,7 @@ instance.interceptors.response.use(
         "Your session has expired. Please login again."
     ) {
       store.dispatch(logout());
-      return (window.location.href = "/login?reason=1");
+      return (window.location.href = "/logout?reason=1");
     }
     return Promise.reject(err);
   }
