@@ -132,7 +132,6 @@ export const UsersEditor = () => {
   const onSubmitButtonClicked = (values: string[]) => {
     dispatch(setIsLoading(true));
     if (values[0].match(/\s/g) != null || values[1].match(/\s/g) != null) {
-      console.log("invalid character");
       dispatch(setIsLoading(false));
       return;
     }
