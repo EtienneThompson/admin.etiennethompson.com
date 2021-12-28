@@ -2,6 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "../common/Button";
 import { Row, Col } from "../common/Grid";
+import { ErrorMessage } from "../common/ErrorMessage";
 import { LoadingSpinner } from "../common/LoadingSpinner";
 import { AdminTable, ElementComponent } from "../common/AdminTable";
 import {
@@ -22,6 +23,7 @@ export const UsersEditor = () => {
     undefined
   );
   const [newElement, setNewElement] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState("");
 
   const isLoading = useSelector((state: AdminStore) => state.isLoading);
 
@@ -39,11 +41,13 @@ export const UsersEditor = () => {
             values: [user.username, user.userid, user.clientid],
           };
         });
+        setErrorMessage("");
         setUsers(users);
         dispatch(setIsLoading(false));
       })
       .catch((error) => {
         console.log(error);
+        setErrorMessage("Failed to fetch user data.");
         dispatch(setIsLoading(false));
       });
   }, [dispatch]);
@@ -64,6 +68,7 @@ export const UsersEditor = () => {
   };
 
   const onBackButtonClicked = () => {
+    setErrorMessage("");
     setNewElement(false);
     setEditing(undefined);
   };
@@ -87,6 +92,7 @@ export const UsersEditor = () => {
       })
       .catch((error) => {
         console.log(error);
+        setErrorMessage("Failed to delete the user.");
         dispatch(setIsLoading(false));
       });
   };
@@ -111,6 +117,7 @@ export const UsersEditor = () => {
       })
       .catch((error) => {
         console.log(error);
+        setErrorMessage("Failed to update the user.");
         dispatch(setIsLoading(false));
       });
   };
@@ -133,6 +140,9 @@ export const UsersEditor = () => {
     dispatch(setIsLoading(true));
     if (values[0].match(/\s/g) != null || values[1].match(/\s/g) != null) {
       dispatch(setIsLoading(false));
+      setErrorMessage(
+        "Invalid character in username or password. Cannot contain whitespace."
+      );
       return;
     }
     let createBody = {
@@ -158,6 +168,7 @@ export const UsersEditor = () => {
       })
       .catch((error) => {
         console.log(error);
+        setErrorMessage("Failed to create the user.");
         dispatch(setIsLoading(false));
       });
   };
@@ -178,24 +189,29 @@ export const UsersEditor = () => {
         )}
       </Row>
       <Row>
-        {isLoading && <LoadingSpinner />}
-        {!isLoading && !editing && (
-          <AdminTable
-            headers={headers}
-            elements={users}
-            onEditClick={onEditClick}
-          />
-        )}
-        {!isLoading && editing && (
-          <AdminElementEditor
-            elements={editing}
-            newElement={newElement}
-            onBackButtonClicked={onBackButtonClicked}
-            onDeleteButtonClicked={onDeleteButtonClicked}
-            onSaveButtonClicked={onSaveButtonClicked}
-            onSubmitButtonClicked={onSubmitButtonClicked}
-          />
-        )}
+        <Col>
+          {isLoading && !errorMessage && <LoadingSpinner />}
+          {!isLoading && errorMessage && (
+            <ErrorMessage message={errorMessage} />
+          )}
+          {!isLoading && !editing && (
+            <AdminTable
+              headers={headers}
+              elements={users}
+              onEditClick={onEditClick}
+            />
+          )}
+          {!isLoading && editing && (
+            <AdminElementEditor
+              elements={editing}
+              newElement={newElement}
+              onBackButtonClicked={onBackButtonClicked}
+              onDeleteButtonClicked={onDeleteButtonClicked}
+              onSaveButtonClicked={onSaveButtonClicked}
+              onSubmitButtonClicked={onSubmitButtonClicked}
+            />
+          )}
+        </Col>
       </Row>
     </div>
   );
