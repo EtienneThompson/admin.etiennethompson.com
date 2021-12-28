@@ -13,6 +13,7 @@ import { GenericStringMap, GetApplicationsResponse } from "../../types";
 import { AdminStore } from "../../store/types";
 import { setIsLoading } from "../../store/actions";
 import "./ApplicationsEditor.scss";
+import { ErrorMessage } from "../common/ErrorMessage";
 
 export const ApplicationsEditor = () => {
   const dispatch = useDispatch();
@@ -21,6 +22,7 @@ export const ApplicationsEditor = () => {
     undefined
   );
   const [newElement, setNewElement] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState("");
 
   const isLoading = useSelector((state: AdminStore) => state.isLoading);
 
@@ -41,7 +43,10 @@ export const ApplicationsEditor = () => {
         setApps(apps);
         dispatch(setIsLoading(false));
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        setErrorMessage("Failed to fetch application data.");
+        dispatch(setIsLoading(false));
+      });
   }, [dispatch]);
 
   const onEditClick = (element: ElementComponent) => {
@@ -60,6 +65,7 @@ export const ApplicationsEditor = () => {
   };
 
   const onBackButtonClicked = () => {
+    setErrorMessage("");
     setNewElement(false);
     setEditing(undefined);
   };
@@ -83,7 +89,7 @@ export const ApplicationsEditor = () => {
         onBackButtonClicked();
       })
       .catch((error) => {
-        console.log(error);
+        setErrorMessage("Failed to delete the application.");
         dispatch(setIsLoading(false));
       });
   };
@@ -107,7 +113,7 @@ export const ApplicationsEditor = () => {
         onBackButtonClicked();
       })
       .catch((error) => {
-        console.log(error);
+        setErrorMessage("Failed to update the application");
         dispatch(setIsLoading(false));
       });
   };
@@ -150,7 +156,7 @@ export const ApplicationsEditor = () => {
         onBackButtonClicked();
       })
       .catch((error) => {
-        console.log(error);
+        setErrorMessage("Failed to create the application.");
         dispatch(setIsLoading(false));
       });
   };
@@ -171,24 +177,29 @@ export const ApplicationsEditor = () => {
         )}
       </Row>
       <Row>
-        {isLoading && <LoadingSpinner />}
-        {!isLoading && !editing && (
-          <AdminTable
-            headers={headers}
-            elements={apps}
-            onEditClick={onEditClick}
-          />
-        )}
-        {!isLoading && editing && (
-          <AdminElementEditor
-            elements={editing}
-            newElement={newElement}
-            onBackButtonClicked={onBackButtonClicked}
-            onDeleteButtonClicked={onDeleteButtonClicked}
-            onSaveButtonClicked={onSaveButtonClicked}
-            onSubmitButtonClicked={onSubmitButtonClicked}
-          />
-        )}
+        <Col>
+          {isLoading && <LoadingSpinner />}
+          {!isLoading && errorMessage && (
+            <ErrorMessage message={errorMessage} />
+          )}
+          {!isLoading && !editing && (
+            <AdminTable
+              headers={headers}
+              elements={apps}
+              onEditClick={onEditClick}
+            />
+          )}
+          {!isLoading && editing && (
+            <AdminElementEditor
+              elements={editing}
+              newElement={newElement}
+              onBackButtonClicked={onBackButtonClicked}
+              onDeleteButtonClicked={onDeleteButtonClicked}
+              onSaveButtonClicked={onSaveButtonClicked}
+              onSubmitButtonClicked={onSubmitButtonClicked}
+            />
+          )}
+        </Col>
       </Row>
     </div>
   );

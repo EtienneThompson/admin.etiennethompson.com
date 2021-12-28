@@ -1,9 +1,36 @@
 @import "../../../assets/styles/colors.scss";
 
-th {
+table {
+    width: 90%;
+    border: 1px solid lightgray;
+    border-radius: 10px;
+    border-spacing: 0;
+}
+
+tr:nth-child(even) {
+    background-color: lightgray;
+}
+
+thead tr th:first-child {
+    border-top-left-radius: 10px;
+}
+
+thead tr th:last-child {
+    border-top-right-radius: 10px;
+}
+
+table th {
     padding: 5px;
     background-color: var(--primary);
     color: white;
+}
+
+table td, table th {
+    border-bottom: 1px solid lightgray;
+}
+
+table tr:last-child > td {
+    border-bottom: none;
 }
 
 tbody {
@@ -16,17 +43,4 @@ tbody {
 .admin-table-cell {
     width: auto;
     padding: 5px;
-}
-
-table {
-    border-collapse: collapse;
-    width: 90%;
-}
-
-table td, th {
-    border: 1px solid lightgray;
-}
-
-tr:nth-child(even) {
-    background-color: lightgray;
 }
