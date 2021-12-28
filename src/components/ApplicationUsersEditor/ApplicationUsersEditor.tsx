@@ -17,6 +17,7 @@ import {
   AdminElementEditor,
   EditingComponent,
 } from "../common/AdminElementEditor";
+import { ErrorMessage } from "../common/ErrorMessage";
 
 export const ApplicationUsersEditor = () => {
   const dispatch = useDispatch();
@@ -27,6 +28,7 @@ export const ApplicationUsersEditor = () => {
     undefined
   );
   const [newElement, setNewElement] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState("");
 
   const isLoading = useSelector((state: AdminStore) => state.isLoading);
 
@@ -53,14 +55,16 @@ export const ApplicationUsersEditor = () => {
         usersData = usersResponse.data.users;
         setUsers(usersResponse.data.users);
       } else {
-        console.log("Failed to fetch users");
+        setErrorMessage("Failed to fetch user data.");
+        return;
       }
 
       if (appsResponse.status === 200) {
         appsData = appsResponse.data.applications;
         setApps(appsResponse.data.applications);
       } else {
-        console.log("Failed to fetch apps");
+        setErrorMessage("Failed to fetch application data.");
+        return;
       }
 
       if (appUsersResponse.status === 200) {
@@ -81,7 +85,8 @@ export const ApplicationUsersEditor = () => {
         });
         setAppUsers(data);
       } else {
-        console.log("Failed to fetch application users");
+        setErrorMessage("Failed to fetch application user data.");
+        return;
       }
       dispatch(setIsLoading(false));
     };
@@ -118,6 +123,7 @@ export const ApplicationUsersEditor = () => {
   };
 
   const onBackButtonClicked = () => {
+    setErrorMessage("");
     setNewElement(false);
     setEditing(undefined);
   };
@@ -150,7 +156,7 @@ export const ApplicationUsersEditor = () => {
         onBackButtonClicked();
       })
       .catch((error) => {
-        console.log(error);
+        setErrorMessage("Failed to delete the application user.");
         dispatch(setIsLoading(false));
       });
   };
@@ -183,7 +189,7 @@ export const ApplicationUsersEditor = () => {
         onBackButtonClicked();
       })
       .catch((error) => {
-        console.log(error);
+        setErrorMessage("Failed to update the application user.");
         dispatch(setIsLoading(false));
       });
   };
@@ -218,6 +224,11 @@ export const ApplicationUsersEditor = () => {
 
   const onSubmitButtonClicked = (values: string[]) => {
     dispatch(setIsLoading(true));
+    if (values[0] === "---" || values[1] === "---") {
+      dispatch(setIsLoading(false));
+      setErrorMessage("You must select both a user and an application.");
+      return;
+    }
     let createBody = {
       userid: values[0],
       applicationid: values[1],
@@ -249,7 +260,7 @@ export const ApplicationUsersEditor = () => {
         onBackButtonClicked();
       })
       .catch((error) => {
-        console.log(error);
+        setErrorMessage("Failed to create the application user.");
         dispatch(setIsLoading(false));
       });
   };
@@ -267,24 +278,29 @@ export const ApplicationUsersEditor = () => {
         )}
       </Row>
       <Row>
-        {isLoading && <LoadingSpinner />}
-        {!isLoading && !editing && (
-          <AdminTable
-            headers={headers}
-            elements={appUsers}
-            onEditClick={onEditClick}
-          />
-        )}
-        {!isLoading && editing && (
-          <AdminElementEditor
-            elements={editing}
-            newElement={newElement}
-            onBackButtonClicked={onBackButtonClicked}
-            onDeleteButtonClicked={onDeleteButtonClicked}
-            onSaveButtonClicked={onSaveButtonClicked}
-            onSubmitButtonClicked={onSubmitButtonClicked}
-          />
-        )}
+        <Col>
+          {isLoading && <LoadingSpinner />}
+          {!isLoading && errorMessage && (
+            <ErrorMessage message={errorMessage} />
+          )}
+          {!isLoading && !editing && (
+            <AdminTable
+              headers={headers}
+              elements={appUsers}
+              onEditClick={onEditClick}
+            />
+          )}
+          {!isLoading && editing && (
+            <AdminElementEditor
+              elements={editing}
+              newElement={newElement}
+              onBackButtonClicked={onBackButtonClicked}
+              onDeleteButtonClicked={onDeleteButtonClicked}
+              onSaveButtonClicked={onSaveButtonClicked}
+              onSubmitButtonClicked={onSubmitButtonClicked}
+            />
+          )}
+        </Col>
       </Row>
     </div>
   );

@@ -107,14 +107,7 @@ export const AdminElementEditor: FunctionComponent<AdminElementEditorProps> = (
           </Button>
         )}
         {props.newElement && (
-          <Button
-            onClick={() => {
-              if (values[0] === "---" || values[1] === "---") {
-                return;
-              }
-              props.onSubmitButtonClicked(values);
-            }}
-          >
+          <Button onClick={() => props.onSubmitButtonClicked(values)}>
             Submit
           </Button>
         )}
