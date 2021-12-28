@@ -46,7 +46,6 @@ export const UsersEditor = () => {
         dispatch(setIsLoading(false));
       })
       .catch((error) => {
-        console.log(error);
         setErrorMessage("Failed to fetch user data.");
         dispatch(setIsLoading(false));
       });
@@ -91,7 +90,6 @@ export const UsersEditor = () => {
         onBackButtonClicked();
       })
       .catch((error) => {
-        console.log(error);
         setErrorMessage("Failed to delete the user.");
         dispatch(setIsLoading(false));
       });
@@ -116,7 +114,6 @@ export const UsersEditor = () => {
         onBackButtonClicked();
       })
       .catch((error) => {
-        console.log(error);
         setErrorMessage("Failed to update the user.");
         dispatch(setIsLoading(false));
       });
@@ -167,7 +164,6 @@ export const UsersEditor = () => {
         onBackButtonClicked();
       })
       .catch((error) => {
-        console.log(error);
         setErrorMessage("Failed to create the user.");
         dispatch(setIsLoading(false));
       });
