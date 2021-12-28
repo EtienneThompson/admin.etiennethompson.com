@@ -100,7 +100,9 @@ export const AdminElementEditor: FunctionComponent<AdminElementEditorProps> = (
         })}
       <Row>
         <Button onClick={props.onBackButtonClicked}>Back</Button>
-        <Button onClick={props.onDeleteButtonClicked}>Delete</Button>
+        {!props.newElement && (
+          <Button onClick={props.onDeleteButtonClicked}>Delete</Button>
+        )}
         {!props.newElement && (
           <Button onClick={() => props.onSaveButtonClicked(values)}>
             Save
