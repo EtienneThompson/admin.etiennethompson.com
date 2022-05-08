@@ -12,6 +12,7 @@
     @media screen and (max-width: 600px) {
         .title {
             font-size: 2.4vmax;
+            margin-left: 75px;
             float: left;
         }
     }
@@ -19,7 +20,7 @@
     @media screen and(min-width: 600px) {
         .title {
             font-size: 2.6vmax;
-            padding-left: 75px;
+            margin-left: 75px;
             float: left;
         }
     }
