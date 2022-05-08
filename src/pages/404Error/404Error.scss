@@ -1,0 +1,18 @@
+@import "../../assets/styles/colors.scss";
+
+.error-404-container {
+    display: flex;
+    width: 100%;
+    height: calc(100vh - 50px);
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.error-404-title {
+    font-size: 70px;
+}
+
+.error-404-description {
+    padding: 20px;
+}
