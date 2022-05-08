@@ -9,19 +9,21 @@
     align-items: center;
     position: sticky;
 
+    .title {
+        margin-left: 75px;
+        float: left;
+        cursor: pointer;
+    }
+
     @media screen and (max-width: 600px) {
         .title {
-            font-size: 2.4vmax;
-            margin-left: 75px;
-            float: left;
+            font-size: 24px;
         }
     }
 
     @media screen and(min-width: 600px) {
         .title {
-            font-size: 2.6vmax;
-            margin-left: 75px;
-            float: left;
+            font-size: 30px;
         }
     }
 
