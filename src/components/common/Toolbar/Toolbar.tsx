@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router";
 import { AdminStore } from "../../../store/types";
 import { Button } from "../Button";
 import { Row, Col } from "../Grid";
@@ -9,7 +10,17 @@ import "./Toolbar.scss";
 export const Toolbar: React.FunctionComponent<ToolbarProps> = (
   props: ToolbarProps
 ) => {
+  const navigate = useNavigate();
+
   const isLoggedIn = useSelector((state: AdminStore) => state.isLoggedIn);
+
+  const onTitleTextClicked = () => {
+    if (isLoggedIn) {
+      navigate("/dashboard");
+    } else {
+      navigate("/");
+    }
+  };
 
   const onLoginButtonClicked = () => {
     window.open(
@@ -22,7 +33,9 @@ export const Toolbar: React.FunctionComponent<ToolbarProps> = (
     <div className="toolbar-container">
       <Row>
         <Col cols="1" align="start">
-          <div className="title">Admin Center</div>
+          <div onClick={onTitleTextClicked} className="title">
+            Admin Center
+          </div>
         </Col>
         <Col cols="4" align="end">
           {isLoggedIn ? (
