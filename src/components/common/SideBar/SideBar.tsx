@@ -8,7 +8,9 @@ export const SideBar: FunctionComponent<SideBarProps> = (
 ) => {
   const { children } = props;
   return (
-    <div className="side-bar-container">
+    <div
+      className={`side-bar-container ${props.className && props.className}`}
+    >
       {children &&
         children.map((child, index) => {
           return (

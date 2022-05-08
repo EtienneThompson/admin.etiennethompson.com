@@ -33,7 +33,7 @@ export const Dashboard: React.FunctionComponent<DashboardProps> = (
 
   return (
     <div className={"dashboard-container"}>
-      <SideBar>
+      <SideBar className="dashboard-sidebar">
         <SideBarItem onClick={() => setCurrentEditor("DashboardEditor")}>
           Dashboard
         </SideBarItem>
