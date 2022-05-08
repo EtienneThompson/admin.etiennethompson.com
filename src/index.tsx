@@ -9,6 +9,7 @@ import { Login } from "./pages/Login";
 import { Logout } from "./pages/Logout";
 import { Dashboard } from "./pages/Dashboard";
 import { ApplicationControl } from "./pages/ApplicationControl";
+import { Error404 } from "./pages/404Error";
 import "./index.scss";
 
 ReactDOM.render(
@@ -21,6 +22,7 @@ ReactDOM.render(
           <Route path="logout" element={<Logout />} />
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="application" element={<ApplicationControl />} />
+          <Route path="*" element={<Error404 />} />
         </Route>
       </Routes>
     </BrowserRouter>
