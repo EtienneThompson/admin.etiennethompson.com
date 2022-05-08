@@ -21,10 +21,10 @@ export const Toolbar: React.FunctionComponent<ToolbarProps> = (
   return (
     <div className="toolbar-container">
       <Row>
-        <Col cols="2" align="start">
-          <div className="title">Etienne Thompson Admin Center</div>
+        <Col cols="1" align="start">
+          <div className="title">Admin Center</div>
         </Col>
-        <Col cols="2" align="end">
+        <Col cols="4" align="end">
           {isLoggedIn ? (
             <Button onClick={props.onLogoutButtonClicked}>Logout</Button>
           ) : (

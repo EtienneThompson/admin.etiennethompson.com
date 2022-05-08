@@ -4,6 +4,7 @@ import {
   SideBarItem,
   SideBarTitle,
 } from "../../components/common/SideBar";
+import { AdminDashboard } from "../../components/AdminDashboard";
 import { UsersEditor } from "../../components/UsersEditor";
 import { Col, Container } from "../../components/common/Grid";
 import { ApplicationsEditor } from "../../components/ApplicationsEditor";
@@ -26,22 +27,13 @@ export const Dashboard: React.FunctionComponent<DashboardProps> = (
     } else if (currentEditor === "ApplicationUsersEditor") {
       return <ApplicationUsersEditor />;
     } else {
-      return (
-        <div
-          style={{
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          unknown
-        </div>
-      );
+      return <AdminDashboard />;
     }
   }, [currentEditor]);
 
   return (
     <div className={"dashboard-container"}>
-      <SideBar>
+      <SideBar className="dashboard-sidebar">
         <SideBarItem onClick={() => setCurrentEditor("DashboardEditor")}>
           Dashboard
         </SideBarItem>
