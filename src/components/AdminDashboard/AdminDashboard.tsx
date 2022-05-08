@@ -25,7 +25,6 @@ export const AdminDashboard: React.FunctionComponent<{}> = () => {
     api
       .get("/admin/dashboard/count")
       .then((response) => {
-        console.log(response);
         setCounts(response.data);
         dispatch(setIsLoading(false));
       })
