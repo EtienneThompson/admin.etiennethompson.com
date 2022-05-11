@@ -15,8 +15,9 @@ import "./Dashboard.scss";
 export const Dashboard: React.FunctionComponent<DashboardProps> = (
   props: DashboardProps
 ) => {
-  document.title = "Etienne Thompson - Dashboard";
+  document.title = "Etienne Thompson - Admin Center - Dashboard";
   document.documentElement.className = "theme-light";
+
   const [currentEditor, setCurrentEditor] = React.useState("DashboardEditor");
 
   const renderEditor = React.useMemo(() => {

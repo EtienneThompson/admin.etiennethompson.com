@@ -12,8 +12,9 @@ import "./Login.scss";
 export const Login: React.FunctionComponent<LoginProps> = (
   props: LoginProps
 ) => {
-  document.title = "Etienne Thompson Admin Center - Login";
+  document.title = "Etienne Thompson - Admin Center - Login";
   document.documentElement.className = "theme-light";
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 

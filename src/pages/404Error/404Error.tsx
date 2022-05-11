@@ -6,7 +6,7 @@ import { Col } from "../../components/common/Grid";
 export const Error404: React.FunctionComponent<Error404Props> = (
   props: Error404Props
 ) => {
-  document.title = "Etienne Thompson - Admin Center";
+  document.title = "Etienne Thompson - Admin Center - 404 Not Found";
   document.documentElement.className = "theme-light";
 
   return (
