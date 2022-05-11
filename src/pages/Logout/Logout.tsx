@@ -6,7 +6,7 @@ import { LogoutReasons } from "./Logout.types";
 import "./Logout.scss";
 
 export const Logout = () => {
-  document.title = "Etienne Thompson Admin Center - Logout";
+  document.title = "Etienne Thompson - Admin Center - Logout";
   document.documentElement.className = "theme-light";
 
   const [reason, setReason] = React.useState(0);
