@@ -1,14 +1,5 @@
 @import "../../../assets/styles/colors.scss";
 
-@keyframes move-in {
-    from {
-        transform: translateX(-500px);
-    }
-    to {
-        transform: translateX(0px);
-    }
-}
-
 .side-bar-container {
     display: flex;
     flex-direction: column;

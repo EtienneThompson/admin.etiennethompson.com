@@ -15,16 +15,6 @@ export const SideBar: React.FunctionComponent<SideBarProps> = (
 
   const showMenu = useSelector((state: AdminStore) => state.showMenu);
 
-  React.useEffect(() => {
-    if (showMenu) {
-      let container = document.getElementById("side-bar-component");
-      if (container) {
-        console.log("focusing side bar");
-        container.focus();
-      }
-    }
-  }, [showMenu]);
-
   const onCloseButtonClicked = () => {
     dispatch(setShowMenu(false));
   };
@@ -34,7 +24,6 @@ export const SideBar: React.FunctionComponent<SideBarProps> = (
       className={`side-bar-container ${props.className} ${
         showMenu && "display-menu"
       }`}
-      id="side-bar-container"
     >
       {showMenu && (
         <Row className="menu-control-bar" justify="end">
