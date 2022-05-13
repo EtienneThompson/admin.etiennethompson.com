@@ -41,7 +41,14 @@ export const AdminElementEditor: FunctionComponent<AdminElementEditorProps> = (
       {isLoading && <LoadingSpinner />}
       {!isLoading &&
         props.elements.map((element, index) => {
-          if (element.component === "text") {
+          if (element.editable === false) {
+            return (
+              <Row key={`${element.id}-${index}`}>
+                <div style={{ padding: "5px" }}>{element.label + ":"}</div>
+                <div>{element.value.toString()}</div>
+              </Row>
+            );
+          } else if (element.component === "text") {
             return (
               <Row key={`${element.id}-${index}`}>
                 <div style={{ padding: "5px" }}>{element.label + ":"}</div>

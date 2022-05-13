@@ -29,6 +29,7 @@ export const UsersEditor = () => {
 
   const headers = ["Username", "User ID", "Client ID"];
   const keys = ["username", "userid", "clientid"];
+  const editableFields = ["Username"];
 
   React.useEffect(() => {
     dispatch(setIsLoading(true));
@@ -59,6 +60,7 @@ export const UsersEditor = () => {
           value: value,
           label: headers[index],
           component: "text",
+          editable: editableFields.includes(headers[index]),
         };
       }
     );
@@ -120,13 +122,14 @@ export const UsersEditor = () => {
   };
 
   const onNewButtonClicked = () => {
-    let newUserFields = ["username", "password"];
+    let newUserFields = ["Username", "Password"];
     let editingConfig: EditingComponent[] = newUserFields.map((element) => {
       return {
         id: element,
         value: "",
         label: element,
         component: "text",
+        editable: true,
       };
     });
     setNewElement(true);
