@@ -4,7 +4,24 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    width: 20%;
+    min-width: 200px;
+    width: auto;
     height: 100%;
     border-right: 1px solid var(--primary);
+
+    @media screen and (max-width: 800px) {
+        display: none;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+}
+
+.display-menu {
+    display: block;
+    background: var(--base);
+}
+
+.menu-control-bar {
+    background-color: var(--primary);
 }

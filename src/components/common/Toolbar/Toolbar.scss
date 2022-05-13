@@ -32,3 +32,13 @@
         float: right;
     }
 }
+
+.menu-opener {
+    @media screen and (max-width: 800px) {
+        display: block;
+    }
+
+    @media screen and (min-width: 800px) {
+        display: none;
+    }
+}

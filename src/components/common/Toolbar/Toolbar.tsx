@@ -1,18 +1,24 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { AdminStore } from "../../../store/types";
 import { Button } from "../Button";
 import { Row, Col } from "../Grid";
 import { ToolbarProps } from "./Toolbar.types";
 import "./Toolbar.scss";
+import { setShowMenu } from "../../../store/actions";
 
 export const Toolbar: React.FunctionComponent<ToolbarProps> = (
   props: ToolbarProps
 ) => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const isLoggedIn = useSelector((state: AdminStore) => state.isLoggedIn);
+
+  const onMenuButtonClicked = () => {
+    dispatch(setShowMenu(true));
+  };
 
   const onTitleTextClicked = () => {
     if (isLoggedIn) {
@@ -32,10 +38,15 @@ export const Toolbar: React.FunctionComponent<ToolbarProps> = (
   return (
     <div className="toolbar-container">
       <Row>
-        <Col cols="1" align="start">
-          <div onClick={onTitleTextClicked} className="title">
-            Admin Center
-          </div>
+        <Col cols="1">
+          <Row justify="start">
+            <Button className="menu-opener" onClick={onMenuButtonClicked}>
+              Menu
+            </Button>
+            <div onClick={onTitleTextClicked} className="title">
+              Admin Center
+            </div>
+          </Row>
         </Col>
         <Col cols="4" align="end">
           {isLoggedIn ? (
