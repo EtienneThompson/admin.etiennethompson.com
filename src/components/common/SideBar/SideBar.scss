@@ -4,7 +4,33 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    width: 20%;
+    min-width: 200px;
+    width: auto;
     height: 100%;
     border-right: 1px solid var(--primary);
+    background: var(--base);
+    visibility: visible;
+    opacity: 1;
+    -webkit-transition: all 0.3s linear;
+    -moz-transition: all 0.3s linear;
+    -o-transition: all 0.3s linear;
+    transition: all 0.3s linear;
+
+    @media screen and (max-width: 800px) {
+        visibility: hidden;
+        opacity: 0;
+        position: absolute;
+        top: 0;
+        left: -50%;
+    }
+
+    &.display-menu {
+        visibility: visible;
+        opacity: 1;
+        left: 0;
+    }
+}
+
+.menu-control-bar {
+    background-color: var(--primary);
 }

@@ -5,5 +5,9 @@ import "./Container.scss";
 export const Container: React.FunctionComponent<ContainerProps> = (
   props: ContainerProps
 ) => {
-  return <div className="container-container">{props.children}</div>;
+  return (
+    <div className={`container-container ${props.className}`}>
+      {props.children}
+    </div>
+  );
 };

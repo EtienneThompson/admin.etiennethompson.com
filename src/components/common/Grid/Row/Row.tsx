@@ -15,7 +15,10 @@ export const Row: FunctionComponent<RowProps> = (props: RowProps) => {
   };
 
   return (
-    <div className="row-container" style={propStyles()}>
+    <div
+      className={`row-container ${props.className && props.className}`}
+      style={propStyles()}
+    >
       {props.children}
     </div>
   );

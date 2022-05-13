@@ -10,25 +10,38 @@
     position: sticky;
 
     .title {
-        margin-left: 75px;
         float: left;
         cursor: pointer;
         color: var(--base);
-    }
 
-    @media screen and (max-width: 600px) {
-        .title {
+        @media screen and (min-width: 800px) {
+            margin-left: 75px;
+        }
+
+        @media screen and (max-width: 800px) {
+            margin-left: 25px;
+        }
+
+        @media screen and (max-width: 600px) {
             font-size: 24px;
         }
-    }
 
-    @media screen and(min-width: 600px) {
-        .title {
+        @media screen and(min-width: 600px) {
             font-size: 30px;
         }
     }
 
     .options {
         float: right;
+    }
+}
+
+.menu-opener {
+    @media screen and (max-width: 800px) {
+        display: block;
+    }
+
+    @media screen and (min-width: 800px) {
+        display: none;
     }
 }

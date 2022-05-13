@@ -11,6 +11,15 @@ const setIsLoading = (state: AdminStore, action: AnyAction) => {
   return state.isLoading;
 };
 
+const setShowMenu = (state: AdminStore, action: AnyAction) => {
+  switch (action.type) {
+    case "menu/show":
+      return action.payload;
+  }
+
+  return state.showMenu;
+};
+
 const setClientId = (state: AdminStore, action: AnyAction) => {
   switch (action.type) {
     case "clientId/set":
@@ -62,6 +71,7 @@ export default function rootReducer(
 ) {
   return {
     isLoading: setIsLoading(state, action),
+    showMenu: setShowMenu(state, action),
     clientId: setClientId(state, action),
     isClientIdLoading: setClientIdLoading(state, action),
     isUser: setIsUser(state, action),

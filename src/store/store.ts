@@ -5,6 +5,7 @@ import rootReducer from "./reducers";
 
 export const initialState: AdminStore = {
   isLoading: false,
+  showMenu: false,
   clientId: undefined,
   isClientIdLoading: true,
   isUser: false,

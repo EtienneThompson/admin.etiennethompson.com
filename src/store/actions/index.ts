@@ -13,6 +13,13 @@ export const setIsLoading = (status: boolean): AnyAction => {
   };
 };
 
+export const setShowMenu = (status: boolean): AnyAction => {
+  return {
+    type: "menu/show",
+    payload: status,
+  };
+};
+
 export const updateClientId = (newClientId: string | undefined): AnyAction => {
   return {
     type: "clientId/set",
