@@ -28,6 +28,7 @@ export const ApplicationsEditor = () => {
 
   const headers = ["Application Name", "Application ID", "Redirect URL"];
   const keys = ["applicationname", "applicationid", "redirecturl"];
+  const editableFields = ["Application Name", "Redirect URL"];
 
   React.useEffect(() => {
     dispatch(setIsLoading(true));
@@ -57,6 +58,7 @@ export const ApplicationsEditor = () => {
           value: value,
           label: headers[index],
           component: "text",
+          editable: editableFields.includes(headers[index]),
         };
       }
     );
@@ -119,13 +121,14 @@ export const ApplicationsEditor = () => {
   };
 
   const onNewButtonClicked = () => {
-    let newAppFields = ["applicationname", "redirecturl"];
+    let newAppFields = ["Application Name", "Redirect URL"];
     let editingConfig: EditingComponent[] = newAppFields.map((app, index) => {
       return {
         id: app,
         value: "",
         label: headers[index * 2],
         component: "text",
+        editable: true,
       };
     });
     setNewElement(true);

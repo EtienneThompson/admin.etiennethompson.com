@@ -9,6 +9,7 @@ export interface EditingComponent {
   value: string | boolean;
   label: string;
   component: "text" | "select" | "checkbox";
+  editable: boolean;
   options?: OptionConfiguration[];
 }
 

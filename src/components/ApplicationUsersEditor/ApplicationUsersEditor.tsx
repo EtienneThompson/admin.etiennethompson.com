@@ -33,6 +33,7 @@ export const ApplicationUsersEditor = () => {
   const isLoading = useSelector((state: AdminStore) => state.isLoading);
 
   const headers = ["Username", "Application", "User Status", "Admin Status"];
+  const editableFields = ["User Status", "Admin Status"];
 
   React.useEffect(() => {
     let fetchData = async () => {
@@ -101,6 +102,7 @@ export const ApplicationUsersEditor = () => {
           value: value,
           label: headers[index],
           component: headers[index].includes("Status") ? "checkbox" : "select",
+          editable: editableFields.includes(headers[index]),
         };
       }
     );
@@ -202,6 +204,7 @@ export const ApplicationUsersEditor = () => {
         value: defaultValues[index],
         label: header,
         component: header.includes("Status") ? "checkbox" : "select",
+        editable: true,
       };
     });
     editingConfig[0].options = users.map((user) => {
