@@ -1,8 +1,8 @@
 import { FunctionComponent } from "react";
 import { useDispatch } from "react-redux";
 import { SideBarItemProps } from "./SideBarItem.types";
-import "./SideBarItem.scss";
 import { setShowMenu } from "../../../../store/actions";
+import "./SideBarItem.scss";
 
 export const SideBarItem: FunctionComponent<SideBarItemProps> = (
   props: SideBarItemProps
