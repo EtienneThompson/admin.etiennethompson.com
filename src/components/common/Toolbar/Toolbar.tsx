@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
+import { CgMenu } from "react-icons/cg";
 import { AdminStore } from "../../../store/types";
 import { Button } from "../Button";
 import { Row, Col } from "../Grid";
@@ -41,7 +42,7 @@ export const Toolbar: React.FunctionComponent<ToolbarProps> = (
         <Col cols="1">
           <Row justify="start">
             <Button className="menu-opener" onClick={onMenuButtonClicked}>
-              Menu
+              <CgMenu />
             </Button>
             <div onClick={onTitleTextClicked} className="title">
               Admin Center
