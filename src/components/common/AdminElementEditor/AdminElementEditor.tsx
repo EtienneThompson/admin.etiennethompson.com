@@ -1,5 +1,7 @@
 import React, { FunctionComponent } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { FaRegTrashAlt } from "react-icons/fa";
+import { BiArrowBack, BiSave, BiCheck } from "react-icons/bi";
 import { Row } from "../Grid";
 import { Button } from "../Button";
 import { LoadingSpinner } from "../LoadingSpinner";
@@ -106,18 +108,26 @@ export const AdminElementEditor: FunctionComponent<AdminElementEditorProps> = (
           }
         })}
       <Row>
-        <Button onClick={props.onBackButtonClicked}>Back</Button>
+        <Button onClick={props.onBackButtonClicked}>
+          <BiArrowBack />
+          &nbsp;Back
+        </Button>
         {!props.newElement && (
-          <Button onClick={props.onDeleteButtonClicked}>Delete</Button>
+          <Button onClick={props.onDeleteButtonClicked}>
+            <FaRegTrashAlt />
+            &nbsp;Delete
+          </Button>
         )}
         {!props.newElement && (
           <Button onClick={() => props.onSaveButtonClicked(values)}>
-            Save
+            <BiSave />
+            &nbsp;Save
           </Button>
         )}
         {props.newElement && (
           <Button onClick={() => props.onSubmitButtonClicked(values)}>
-            Submit
+            <BiCheck />
+            &nbsp;Submit
           </Button>
         )}
       </Row>

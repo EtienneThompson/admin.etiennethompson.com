@@ -5,6 +5,7 @@ import {
   GetApplicationsResponse,
   GetApplicationUsersResponse,
 } from "../../types";
+import { GoPlus } from "react-icons/go";
 import { Button } from "../common/Button";
 import { Row, Col } from "../common/Grid";
 import { LoadingSpinner } from "../common/LoadingSpinner";
@@ -276,7 +277,10 @@ export const ApplicationUsersEditor = () => {
         </Col>
         {!isLoading && !editing && (
           <Col cols="3" align="end">
-            <Button onClick={onNewButtonClicked}>New</Button>
+            <Button onClick={onNewButtonClicked}>
+              <GoPlus />
+              &nbsp;New
+            </Button>
           </Col>
         )}
       </Row>

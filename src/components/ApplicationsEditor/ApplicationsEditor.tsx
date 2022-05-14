@@ -1,5 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { GoPlus } from "react-icons/go";
 import { Row, Col } from "../common/Grid";
 import { Button } from "../common/Button";
 import { LoadingSpinner } from "../common/LoadingSpinner";
@@ -175,7 +176,10 @@ export const ApplicationsEditor = () => {
         </Col>
         {!isLoading && !editing && (
           <Col cols="3" align="end">
-            <Button onClick={onNewButtonClicked}>New</Button>
+            <Button onClick={onNewButtonClicked}>
+              <GoPlus />
+              &nbsp;New
+            </Button>
           </Col>
         )}
       </Row>

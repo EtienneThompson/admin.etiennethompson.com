@@ -1,5 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { GoPlus } from "react-icons/go";
 import { Button } from "../common/Button";
 import { Row, Col } from "../common/Grid";
 import { ErrorMessage } from "../common/ErrorMessage";
@@ -183,7 +184,10 @@ export const UsersEditor = () => {
         </Col>
         {!isLoading && !editing && (
           <Col cols="3" align="end">
-            <Button onClick={onNewButtonClicked}>New</Button>
+            <Button onClick={onNewButtonClicked}>
+              <GoPlus />
+              &nbsp;New
+            </Button>
           </Col>
         )}
       </Row>
