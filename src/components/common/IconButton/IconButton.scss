@@ -1,0 +1,21 @@
+.icon-button-container {
+    background-color: var(--secondary);
+    cursor: pointer;
+    width: auto;
+    height: auto;
+    padding: 5px;
+    border-radius: 3px;
+    margin: 5px;
+    box-shadow: 1px 2px 3px 0px var(--box-shadow);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+/**
+ * Remove the box-shadow when clicking to make a click effect.
+ */
+.icon-button-container:active {
+    box-shadow: none;
+}

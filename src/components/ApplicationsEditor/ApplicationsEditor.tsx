@@ -2,7 +2,8 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { GoPlus } from "react-icons/go";
 import { Row, Col } from "../common/Grid";
-import { Button } from "../common/Button";
+import { IconButton } from "../common/IconButton";
+import { ErrorMessage } from "../common/ErrorMessage";
 import { LoadingSpinner } from "../common/LoadingSpinner";
 import { AdminTable, ElementComponent } from "../common/AdminTable";
 import {
@@ -14,7 +15,6 @@ import { GenericStringMap, GetApplicationsResponse } from "../../types";
 import { AdminStore } from "../../store/types";
 import { setIsLoading } from "../../store/actions";
 import "./ApplicationsEditor.scss";
-import { ErrorMessage } from "../common/ErrorMessage";
 
 export const ApplicationsEditor = () => {
   const dispatch = useDispatch();
@@ -176,10 +176,11 @@ export const ApplicationsEditor = () => {
         </Col>
         {!isLoading && !editing && (
           <Col cols="3" align="end">
-            <Button onClick={onNewButtonClicked}>
-              <GoPlus />
-              &nbsp;New
-            </Button>
+            <IconButton
+              icon={<GoPlus />}
+              text="New"
+              onClick={onNewButtonClicked}
+            />
           </Col>
         )}
       </Row>

@@ -8,6 +8,7 @@ import { Row, Col } from "../Grid";
 import { ToolbarProps } from "./Toolbar.types";
 import "./Toolbar.scss";
 import { setShowMenu } from "../../../store/actions";
+import { IconButton } from "../IconButton";
 
 export const Toolbar: React.FunctionComponent<ToolbarProps> = (
   props: ToolbarProps
@@ -41,9 +42,11 @@ export const Toolbar: React.FunctionComponent<ToolbarProps> = (
       <Row>
         <Col cols="1">
           <Row justify="start">
-            <Button className="menu-opener" onClick={onMenuButtonClicked}>
-              <CgMenu />
-            </Button>
+            <IconButton
+              className="menu-opener"
+              icon={<CgMenu />}
+              onClick={onMenuButtonClicked}
+            />
             <div onClick={onTitleTextClicked} className="title">
               Admin Center
             </div>
