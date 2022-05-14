@@ -1,7 +1,9 @@
 import React, { FunctionComponent } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { FaRegTrashAlt } from "react-icons/fa";
+import { BiArrowBack, BiSave, BiCheck } from "react-icons/bi";
 import { Row } from "../Grid";
-import { Button } from "../Button";
+import { IconButton } from "../IconButton";
 import { LoadingSpinner } from "../LoadingSpinner";
 import { AdminElementEditorProps } from "./AdminElementEditor.types";
 import { AdminStore } from "../../../store/types";
@@ -106,19 +108,31 @@ export const AdminElementEditor: FunctionComponent<AdminElementEditorProps> = (
           }
         })}
       <Row>
-        <Button onClick={props.onBackButtonClicked}>Back</Button>
+        <IconButton
+          icon={<BiArrowBack />}
+          text="Back"
+          onClick={props.onBackButtonClicked}
+        />
         {!props.newElement && (
-          <Button onClick={props.onDeleteButtonClicked}>Delete</Button>
+          <IconButton
+            icon={<FaRegTrashAlt />}
+            text="Delete"
+            onClick={props.onDeleteButtonClicked}
+          />
         )}
         {!props.newElement && (
-          <Button onClick={() => props.onSaveButtonClicked(values)}>
-            Save
-          </Button>
+          <IconButton
+            icon={<BiSave />}
+            text="Save"
+            onClick={() => props.onSaveButtonClicked(values)}
+          />
         )}
         {props.newElement && (
-          <Button onClick={() => props.onSubmitButtonClicked(values)}>
-            Submit
-          </Button>
+          <IconButton
+            icon={<BiCheck />}
+            text="Submit"
+            onClick={() => props.onSubmitButtonClicked(values)}
+          />
         )}
       </Row>
     </div>

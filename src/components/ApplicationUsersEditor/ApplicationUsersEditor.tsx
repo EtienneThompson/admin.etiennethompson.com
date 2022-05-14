@@ -5,11 +5,12 @@ import {
   GetApplicationsResponse,
   GetApplicationUsersResponse,
 } from "../../types";
-import { Button } from "../common/Button";
+import { GoPlus } from "react-icons/go";
 import { Row, Col } from "../common/Grid";
+import { IconButton } from "../common/IconButton";
+import { ErrorMessage } from "../common/ErrorMessage";
 import { LoadingSpinner } from "../common/LoadingSpinner";
 import api from "../../api";
-import "./ApplicationUsersEditor.scss";
 import { AdminStore } from "../../store/types";
 import { setIsLoading } from "../../store/actions";
 import { AdminTable, ElementComponent } from "../common/AdminTable";
@@ -17,7 +18,7 @@ import {
   AdminElementEditor,
   EditingComponent,
 } from "../common/AdminElementEditor";
-import { ErrorMessage } from "../common/ErrorMessage";
+import "./ApplicationUsersEditor.scss";
 
 export const ApplicationUsersEditor = () => {
   const dispatch = useDispatch();
@@ -276,7 +277,11 @@ export const ApplicationUsersEditor = () => {
         </Col>
         {!isLoading && !editing && (
           <Col cols="3" align="end">
-            <Button onClick={onNewButtonClicked}>New</Button>
+            <IconButton
+              icon={<GoPlus />}
+              text="New"
+              onClick={onNewButtonClicked}
+            />
           </Col>
         )}
       </Row>

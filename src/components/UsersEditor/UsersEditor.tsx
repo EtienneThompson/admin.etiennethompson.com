@@ -1,7 +1,8 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Button } from "../common/Button";
+import { GoPlus } from "react-icons/go";
 import { Row, Col } from "../common/Grid";
+import { IconButton } from "../common/IconButton";
 import { ErrorMessage } from "../common/ErrorMessage";
 import { LoadingSpinner } from "../common/LoadingSpinner";
 import { AdminTable, ElementComponent } from "../common/AdminTable";
@@ -183,7 +184,11 @@ export const UsersEditor = () => {
         </Col>
         {!isLoading && !editing && (
           <Col cols="3" align="end">
-            <Button onClick={onNewButtonClicked}>New</Button>
+            <IconButton
+              icon={<GoPlus />}
+              text="New"
+              onClick={onNewButtonClicked}
+            />
           </Col>
         )}
       </Row>

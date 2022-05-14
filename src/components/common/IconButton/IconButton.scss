@@ -1,6 +1,4 @@
-@import "../../../assets/styles/colors.scss";
-
-.button-container {
+.icon-button-container {
     background-color: var(--secondary);
     cursor: pointer;
     width: auto;
@@ -18,6 +16,6 @@
 /**
  * Remove the box-shadow when clicking to make a click effect.
  */
-.button-container:active {
+.icon-button-container:active {
     box-shadow: none;
 }
