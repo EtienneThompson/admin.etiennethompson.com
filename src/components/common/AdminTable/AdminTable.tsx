@@ -24,7 +24,11 @@ export const AdminTable: FunctionComponent<AdminTableProps> = (
             key={`${element.id}`}
           >
             {element.values.map((value, index) => (
-              <td className={"admin-table-cell"} key={`${value}-${index}`}>
+              <td
+                data-th={`${props.headers[index]}`}
+                className={"admin-table-cell"}
+                key={`${value}-${index}`}
+              >
                 {value.toString()}
               </td>
             ))}

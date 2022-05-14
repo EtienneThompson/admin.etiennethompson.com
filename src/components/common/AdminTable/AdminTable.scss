@@ -1,40 +1,75 @@
 @import "../../../assets/styles/colors.scss";
 
 table {
-    width: 90%;
+    width: 80%;
     border: 1px solid lightgray;
     border-radius: 10px;
     border-spacing: 0;
-}
 
-tr:nth-child(even) {
-    background-color: lightgray;
-}
+    th {
+        padding: 5px;
+        background-color: var(--primary);
+        color: white;
+        display: none;
+    }
 
-thead tr th:first-child {
-    border-top-left-radius: 10px;
-}
+    td {
+        display: block;
 
-thead tr th:last-child {
-    border-top-right-radius: 10px;
-}
+        &:first-child {
+            padding-top: 10px;
+        }
 
-table th {
-    padding: 5px;
-    background-color: var(--primary);
-    color: white;
-}
+        &:last-child {
+            padding-bottom: 10px;
+        }
 
-table td, table th {
-    border-bottom: 1px solid lightgray;
-}
+        &:before {
+            content: attr(data-th)": ";
+            color: var(--primary);
+            font-weight: bold;
+            width: 6.5em;
+            display: inline-block;
 
-table tr:last-child > td {
-    border-bottom: none;
-}
+            @media screen and (min-width: 800px) {
+                display: none;
+            }
+        }
+    }
 
-tbody {
-    tr:hover {
+    td, th {
+        border-bottom: 1px solid lightgray;
+
+        @media screen and (min-width: 800px) {
+            display: table-cell;
+        }
+    }
+
+    tr:nth-child(even) {
+        background-color: lightgray;
+    }
+
+    tr:last-child > td {
+        @media screen and (min-width: 800px) {
+            border-bottom: none;
+        }
+    }
+
+    tr:last-child > td:last-child {
+        @media screen and (max-width: 800px) {
+            border-bottom: none;
+        }
+    }
+
+    thead tr th:first-child {
+        border-top-left-radius: 10px;
+    }
+    
+    thead tr th:last-child {
+        border-top-right-radius: 10px;
+    }
+
+    tbody tr:hover {
         cursor: pointer;
         background-color: rgb(200, 230, 240);
     }
