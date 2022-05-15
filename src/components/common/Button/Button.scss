@@ -3,6 +3,7 @@
 .button-container {
     background-color: var(--secondary);
     cursor: pointer;
+    min-width: 50px;
     width: auto;
     height: auto;
     padding: 5px;

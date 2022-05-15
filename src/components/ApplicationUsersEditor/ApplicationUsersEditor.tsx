@@ -7,12 +7,12 @@ import {
 } from "../../types";
 import { GoPlus } from "react-icons/go";
 import { Row, Col } from "../common/Grid";
-import { IconButton } from "../common/IconButton";
+import { AdminButton } from "../common/AdminButton";
 import { ErrorMessage } from "../common/ErrorMessage";
 import { LoadingSpinner } from "../common/LoadingSpinner";
 import api from "../../api";
 import { AdminStore } from "../../store/types";
-import { setIsLoading } from "../../store/actions";
+import { setIsButtonPressed, setIsLoading } from "../../store/actions";
 import { AdminTable, ElementComponent } from "../common/AdminTable";
 import {
   AdminElementEditor,
@@ -135,7 +135,7 @@ export const ApplicationUsersEditor = () => {
     if (!editing) {
       return;
     }
-    dispatch(setIsLoading(true));
+    dispatch(setIsButtonPressed(true));
     let username = editing.filter((element) => element.label === "Username")[0]
       .value;
     let appname = editing.filter(
@@ -155,17 +155,17 @@ export const ApplicationUsersEditor = () => {
             appUser.values[0] !== username || appUser.values[1] !== appname
         );
         setAppUsers(updatedAppUsers);
-        dispatch(setIsLoading(false));
+        dispatch(setIsButtonPressed(false));
         onBackButtonClicked();
       })
       .catch((error) => {
         setErrorMessage("Failed to delete the application user.");
-        dispatch(setIsLoading(false));
+        dispatch(setIsButtonPressed(false));
       });
   };
 
   const onSaveButtonClicked = (values: string[]) => {
-    dispatch(setIsLoading(true));
+    dispatch(setIsButtonPressed(true));
     let [username, appname, isuser, isadmin] = values;
     let userid = users.filter((user) => user.username === username)[0].userid;
     let appid = apps.filter((app) => app.applicationname === appname)[0]
@@ -188,12 +188,12 @@ export const ApplicationUsersEditor = () => {
         updatedAppUser.values[2] = isuser;
         updatedAppUser.values[3] = isadmin;
         setAppUsers(appUsers);
-        dispatch(setIsLoading(false));
+        dispatch(setIsButtonPressed(false));
         onBackButtonClicked();
       })
       .catch((error) => {
         setErrorMessage("Failed to update the application user.");
-        dispatch(setIsLoading(false));
+        dispatch(setIsButtonPressed(false));
       });
   };
 
@@ -227,9 +227,9 @@ export const ApplicationUsersEditor = () => {
   };
 
   const onSubmitButtonClicked = (values: string[]) => {
-    dispatch(setIsLoading(true));
+    dispatch(setIsButtonPressed(true));
     if (values[0] === "---" || values[1] === "---") {
-      dispatch(setIsLoading(false));
+      dispatch(setIsButtonPressed(false));
       setErrorMessage("You must select both a user and an application.");
       return;
     }
@@ -260,12 +260,12 @@ export const ApplicationUsersEditor = () => {
           ],
         });
         setAppUsers(newAppUsers);
-        dispatch(setIsLoading(false));
+        dispatch(setIsButtonPressed(false));
         onBackButtonClicked();
       })
       .catch((error) => {
         setErrorMessage("Failed to create the application user.");
-        dispatch(setIsLoading(false));
+        dispatch(setIsButtonPressed(false));
       });
   };
 
@@ -277,7 +277,8 @@ export const ApplicationUsersEditor = () => {
         </Col>
         {!isLoading && !editing && (
           <Col cols="3" align="end">
-            <IconButton
+            <AdminButton
+              type="icon"
               icon={<GoPlus />}
               text="New"
               onClick={onNewButtonClicked}

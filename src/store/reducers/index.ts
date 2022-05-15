@@ -11,6 +11,15 @@ const setIsLoading = (state: AdminStore, action: AnyAction) => {
   return state.isLoading;
 };
 
+const setIsButtonPressed = (state: AdminStore, action: AnyAction) => {
+  switch (action.type) {
+    case "loading/button":
+      return action.payload;
+  }
+
+  return state.isButtonPressed;
+};
+
 const setShowMenu = (state: AdminStore, action: AnyAction) => {
   switch (action.type) {
     case "menu/show":
@@ -71,6 +80,7 @@ export default function rootReducer(
 ) {
   return {
     isLoading: setIsLoading(state, action),
+    isButtonPressed: setIsButtonPressed(state, action),
     showMenu: setShowMenu(state, action),
     clientId: setClientId(state, action),
     isClientIdLoading: setClientIdLoading(state, action),

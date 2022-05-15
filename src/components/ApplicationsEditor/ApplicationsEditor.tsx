@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { GoPlus } from "react-icons/go";
 import { Row, Col } from "../common/Grid";
-import { IconButton } from "../common/IconButton";
+import { AdminButton } from "../common/AdminButton";
 import { ErrorMessage } from "../common/ErrorMessage";
 import { LoadingSpinner } from "../common/LoadingSpinner";
 import { AdminTable, ElementComponent } from "../common/AdminTable";
@@ -13,7 +13,7 @@ import {
 import api from "../../api";
 import { GenericStringMap, GetApplicationsResponse } from "../../types";
 import { AdminStore } from "../../store/types";
-import { setIsLoading } from "../../store/actions";
+import { setIsButtonPressed, setIsLoading } from "../../store/actions";
 import "./ApplicationsEditor.scss";
 
 export const ApplicationsEditor = () => {
@@ -77,7 +77,7 @@ export const ApplicationsEditor = () => {
     if (!editing) {
       return;
     }
-    dispatch(setIsLoading(true));
+    dispatch(setIsButtonPressed(true));
     let appid = editing.filter(
       (element) => element.label === "Application ID"
     )[0].value;
@@ -88,17 +88,17 @@ export const ApplicationsEditor = () => {
       .then((response) => {
         let updatedApps = apps.filter((app) => app.id !== appid);
         setApps(updatedApps);
-        dispatch(setIsLoading(false));
+        dispatch(setIsButtonPressed(false));
         onBackButtonClicked();
       })
       .catch((error) => {
         setErrorMessage("Failed to delete the application.");
-        dispatch(setIsLoading(false));
+        dispatch(setIsButtonPressed(false));
       });
   };
 
   const onSaveButtonClicked = (values: string[]) => {
-    dispatch(setIsLoading(true));
+    dispatch(setIsButtonPressed(true));
     let i = 0;
     let updateBody = {} as GenericStringMap;
     while (i < keys.length) {
@@ -112,12 +112,12 @@ export const ApplicationsEditor = () => {
         updatedApp.values[0] = values[0];
         updatedApp.values[2] = values[2];
         setApps(apps);
-        dispatch(setIsLoading(false));
+        dispatch(setIsButtonPressed(false));
         onBackButtonClicked();
       })
       .catch((error) => {
         setErrorMessage("Failed to update the application");
-        dispatch(setIsLoading(false));
+        dispatch(setIsButtonPressed(false));
       });
   };
 
@@ -137,7 +137,7 @@ export const ApplicationsEditor = () => {
   };
 
   const onSubmitButtonClicked = (values: string[]) => {
-    dispatch(setIsLoading(true));
+    dispatch(setIsButtonPressed(true));
     let createBody = {
       applicationname: values[0],
       redirecturl: values[1],
@@ -156,12 +156,12 @@ export const ApplicationsEditor = () => {
           ],
         });
         setApps(newApps);
-        dispatch(setIsLoading(false));
+        dispatch(setIsButtonPressed(false));
         onBackButtonClicked();
       })
       .catch((error) => {
         setErrorMessage("Failed to create the application.");
-        dispatch(setIsLoading(false));
+        dispatch(setIsButtonPressed(false));
       });
   };
 
@@ -176,7 +176,8 @@ export const ApplicationsEditor = () => {
         </Col>
         {!isLoading && !editing && (
           <Col cols="3" align="end">
-            <IconButton
+            <AdminButton
+              type="icon"
               icon={<GoPlus />}
               text="New"
               onClick={onNewButtonClicked}
