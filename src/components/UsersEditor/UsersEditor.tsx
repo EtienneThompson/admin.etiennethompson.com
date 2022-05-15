@@ -13,7 +13,7 @@ import {
 import api from "../../api";
 import { GenericStringMap, GetUsersResponse } from "../../types";
 import { AdminStore } from "../../store/types";
-import { setIsLoading } from "../../store/actions";
+import { setIsButtonPressed, setIsLoading } from "../../store/actions";
 import { hashString } from "../../utils/hash";
 import "./UsersEditor.scss";
 
@@ -79,7 +79,7 @@ export const UsersEditor = () => {
     if (!editing) {
       return;
     }
-    dispatch(setIsLoading(true));
+    dispatch(setIsButtonPressed(true));
     let userid = editing.filter((element) => element.label === "User ID")[0]
       .value;
     api
@@ -89,17 +89,17 @@ export const UsersEditor = () => {
       .then((response) => {
         let updatedUsers = users.filter((user) => user.id !== userid);
         setUsers(updatedUsers);
-        dispatch(setIsLoading(false));
+        dispatch(setIsButtonPressed(false));
         onBackButtonClicked();
       })
       .catch((error) => {
         setErrorMessage("Failed to delete the user.");
-        dispatch(setIsLoading(false));
+        dispatch(setIsButtonPressed(false));
       });
   };
 
   const onSaveButtonClicked = (values: string[]) => {
-    dispatch(setIsLoading(true));
+    dispatch(setIsButtonPressed(true));
     let i = 0;
     let updateBody = {} as GenericStringMap;
     while (i < keys.length) {
@@ -113,12 +113,12 @@ export const UsersEditor = () => {
         updatedUser.values[0] = values[0];
         // The array is being modified itself, so we just set it to itself again.
         setUsers(users);
-        dispatch(setIsLoading(false));
+        dispatch(setIsButtonPressed(false));
         onBackButtonClicked();
       })
       .catch((error) => {
         setErrorMessage("Failed to update the user.");
-        dispatch(setIsLoading(false));
+        dispatch(setIsButtonPressed(false));
       });
   };
 
@@ -138,9 +138,9 @@ export const UsersEditor = () => {
   };
 
   const onSubmitButtonClicked = (values: string[]) => {
-    dispatch(setIsLoading(true));
+    dispatch(setIsButtonPressed(true));
     if (values[0].match(/\s/g) != null || values[1].match(/\s/g) != null) {
-      dispatch(setIsLoading(false));
+      dispatch(setIsButtonPressed(false));
       setErrorMessage(
         "Invalid character in username or password. Cannot contain whitespace."
       );
@@ -164,12 +164,12 @@ export const UsersEditor = () => {
           ],
         });
         setUsers(newUsers);
-        dispatch(setIsLoading(false));
+        dispatch(setIsButtonPressed(false));
         onBackButtonClicked();
       })
       .catch((error) => {
         setErrorMessage("Failed to create the user.");
-        dispatch(setIsLoading(false));
+        dispatch(setIsButtonPressed(false));
       });
   };
 
