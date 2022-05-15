@@ -13,6 +13,13 @@ export const setIsLoading = (status: boolean): AnyAction => {
   };
 };
 
+export const setIsButtonPressed = (status: boolean): AnyAction => {
+  return {
+    type: "loading/button",
+    payload: status,
+  };
+};
+
 export const setShowMenu = (status: boolean): AnyAction => {
   return {
     type: "menu/show",

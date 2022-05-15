@@ -7,7 +7,7 @@ import {
 } from "../../types";
 import { GoPlus } from "react-icons/go";
 import { Row, Col } from "../common/Grid";
-import { IconButton } from "../common/IconButton";
+import { AdminButton } from "../common/AdminButton";
 import { ErrorMessage } from "../common/ErrorMessage";
 import { LoadingSpinner } from "../common/LoadingSpinner";
 import api from "../../api";
@@ -277,7 +277,8 @@ export const ApplicationUsersEditor = () => {
         </Col>
         {!isLoading && !editing && (
           <Col cols="3" align="end">
-            <IconButton
+            <AdminButton
+              type="icon"
               icon={<GoPlus />}
               text="New"
               onClick={onNewButtonClicked}

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { BiArrowBack, BiSave, BiCheck } from "react-icons/bi";
 import { Row } from "../Grid";
-import { IconButton } from "../IconButton";
+import { AdminButton } from "../AdminButton";
 import { LoadingSpinner } from "../LoadingSpinner";
 import { AdminElementEditorProps } from "./AdminElementEditor.types";
 import { AdminStore } from "../../../store/types";
@@ -108,27 +108,31 @@ export const AdminElementEditor: FunctionComponent<AdminElementEditorProps> = (
           }
         })}
       <Row>
-        <IconButton
+        <AdminButton
+          type="icon"
           icon={<BiArrowBack />}
           text="Back"
           onClick={props.onBackButtonClicked}
         />
         {!props.newElement && (
-          <IconButton
+          <AdminButton
+            type="icon"
             icon={<FaRegTrashAlt />}
             text="Delete"
             onClick={props.onDeleteButtonClicked}
           />
         )}
         {!props.newElement && (
-          <IconButton
+          <AdminButton
+            type="icon"
             icon={<BiSave />}
             text="Save"
             onClick={() => props.onSaveButtonClicked(values)}
           />
         )}
         {props.newElement && (
-          <IconButton
+          <AdminButton
+            type="icon"
             icon={<BiCheck />}
             text="Submit"
             onClick={() => props.onSubmitButtonClicked(values)}
