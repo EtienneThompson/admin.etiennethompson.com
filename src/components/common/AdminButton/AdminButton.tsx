@@ -10,13 +10,15 @@ import { IconButton } from "../IconButton";
 export const AdminButton: React.FunctionComponent<AdminButtonProps> = (
   props: AdminButtonProps
 ) => {
-  const isButtonPressed = useSelector((state: AdminStore) => state.isLoading);
+  const isButtonPressed = useSelector(
+    (state: AdminStore) => state.isButtonPressed
+  );
 
   const buttonType = () => {
     return (
       <Button
         className={props.className}
-        onClick={() => props.onClick && props.onClick()}
+        onClick={() => !isButtonPressed && props.onClick && props.onClick()}
       >
         {isButtonPressed ? <LoadingSpinner /> : props.children}
       </Button>
@@ -24,12 +26,20 @@ export const AdminButton: React.FunctionComponent<AdminButtonProps> = (
   };
 
   const iconButtonType = () => {
+    if (isButtonPressed) {
+      return (
+        <Button>
+          <LoadingSpinner size="small" />
+        </Button>
+      );
+    }
+
     return (
       <IconButton
         icon={props.icon}
         text={props.text}
         className={props.className}
-        onClick={() => props.onClick && props.onClick()}
+        onClick={() => !isButtonPressed && props.onClick && props.onClick()}
       />
     );
   };
