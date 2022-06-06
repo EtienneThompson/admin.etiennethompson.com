@@ -1,0 +1,51 @@
+.element-field {
+    margin: 7px 0px 7px 0px;
+}
+
+.element-label {
+    font-size: 14px;
+}
+
+.element-editable {
+    width: 100%;
+}
+
+.input-none {
+    font-size: 20px;
+}
+
+.input-text {
+    padding: 6px 10px;
+    font-size: 20px;
+    box-sizing: border-box;
+    border: 1px solid lightgray;
+    outline: none;
+    border-radius: 5px;
+    transition: 0.5s;
+    -webkit-transition: 0.5s;
+}
+
+.input-text:focus {
+    border: 1px solid black;
+}
+
+.input-select {
+    padding: 6px 10px;
+    font-size: 20px;
+    background-color: white;
+    outline: none;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    transition: 0.5s;
+    -webkit-transition: 0.5s;
+}
+
+.input-select:focus {
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+.input-checkbox {
+    width: auto;
+    margin: 0;
+}
