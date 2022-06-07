@@ -6,21 +6,28 @@ import {
   GetApplicationUsersResponse,
 } from "../../types";
 import { GoPlus } from "react-icons/go";
-import { Row, Col } from "../common/Grid";
-import { AdminButton } from "../common/AdminButton";
-import { ErrorMessage } from "../common/ErrorMessage";
-import { LoadingSpinner } from "../common/LoadingSpinner";
+import { Row, Col } from "../../components/common/Grid";
+import { AdminButton } from "../../components/common/AdminButton";
+import { ErrorMessage } from "../../components/common/ErrorMessage";
+import { LoadingSpinner } from "../../components/common/LoadingSpinner";
 import api from "../../api";
 import { AdminStore } from "../../store/types";
 import { setIsButtonPressed, setIsLoading } from "../../store/actions";
-import { AdminTable, ElementComponent } from "../common/AdminTable";
+import {
+  AdminTable,
+  ElementComponent,
+} from "../../components/common/AdminTable";
 import {
   AdminElementEditor,
   EditingComponent,
-} from "../common/AdminElementEditor";
+} from "../../components/common/AdminElementEditor";
 import "./ApplicationUsersEditor.scss";
+import { AdminNavBar } from "../../components/AdminNavBar/AdminNavBar";
 
 export const ApplicationUsersEditor = () => {
+  document.title = "Etienne Thompson - Admin Center - Application Users";
+  document.documentElement.className = "theme-light";
+
   const dispatch = useDispatch();
   const [users, setUsers] = React.useState([] as any[]);
   const [apps, setApps] = React.useState([] as any[]);
@@ -270,47 +277,50 @@ export const ApplicationUsersEditor = () => {
   };
 
   return (
-    <div className="application-users-editor-container">
-      <Row>
-        <Col align={isLoading ? "center" : editing ? "center" : "end"}>
-          <h1>Application Users Editor</h1>
-        </Col>
-        {!isLoading && !editing && (
-          <Col cols="3" align="end">
-            <AdminButton
-              type="icon"
-              icon={<GoPlus />}
-              text="New"
-              onClick={onNewButtonClicked}
-            />
+    <Row className="application-users-editor-containter">
+      <AdminNavBar />
+      <div className="application-users-editor-containter">
+        <Row>
+          <Col align={isLoading ? "center" : editing ? "center" : "end"}>
+            <h1>Application Users Editor</h1>
           </Col>
-        )}
-      </Row>
-      <Row>
-        <Col>
-          {isLoading && <LoadingSpinner />}
-          {!isLoading && errorMessage && (
-            <ErrorMessage message={errorMessage} />
-          )}
           {!isLoading && !editing && (
-            <AdminTable
-              headers={headers}
-              elements={appUsers}
-              onEditClick={onEditClick}
-            />
+            <Col cols="3" align="end">
+              <AdminButton
+                type="icon"
+                icon={<GoPlus />}
+                text="New"
+                onClick={onNewButtonClicked}
+              />
+            </Col>
           )}
-          {!isLoading && editing && (
-            <AdminElementEditor
-              elements={editing}
-              newElement={newElement}
-              onBackButtonClicked={onBackButtonClicked}
-              onDeleteButtonClicked={onDeleteButtonClicked}
-              onSaveButtonClicked={onSaveButtonClicked}
-              onSubmitButtonClicked={onSubmitButtonClicked}
-            />
-          )}
-        </Col>
-      </Row>
-    </div>
+        </Row>
+        <Row>
+          <Col>
+            {isLoading && <LoadingSpinner />}
+            {!isLoading && errorMessage && (
+              <ErrorMessage message={errorMessage} />
+            )}
+            {!isLoading && !editing && (
+              <AdminTable
+                headers={headers}
+                elements={appUsers}
+                onEditClick={onEditClick}
+              />
+            )}
+            {!isLoading && editing && (
+              <AdminElementEditor
+                elements={editing}
+                newElement={newElement}
+                onBackButtonClicked={onBackButtonClicked}
+                onDeleteButtonClicked={onDeleteButtonClicked}
+                onSaveButtonClicked={onSaveButtonClicked}
+                onSubmitButtonClicked={onSubmitButtonClicked}
+              />
+            )}
+          </Col>
+        </Row>
+      </div>
+    </Row>
   );
 };
