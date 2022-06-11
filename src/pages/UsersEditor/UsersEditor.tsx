@@ -61,19 +61,19 @@ export const UsersEditor = () => {
   }, [dispatch]);
 
   const onEditClick = (element: ElementComponent) => {
-    let editingConfig: EditingComponent[] = element.values.map(
-      (value, index) => {
-        return {
-          id: value,
-          value: value,
-          label: headers[index],
-          component: "text",
-          editable: editableFields.includes(headers[index]),
-        };
-      }
-    );
-    setNewElement(false);
-    setEditing(editingConfig);
+    // let editingConfig: EditingComponent[] = element.values.map(
+    //   (value, index) => {
+    //     return {
+    //       id: value,
+    //       value: value,
+    //       label: headers[index],
+    //       component: "text",
+    //       editable: editableFields.includes(headers[index]),
+    //     };
+    //   }
+    // );
+    // setNewElement(false);
+    // setEditing(editingConfig);
   };
 
   const onBackButtonClicked = () => {
@@ -208,14 +208,14 @@ export const UsersEditor = () => {
             {!isLoading && errorMessage && (
               <ErrorMessage message={errorMessage} />
             )}
-            {!isLoading && !editing && (
+            {/* {!isLoading && !editing && (
               <AdminTable
                 headers={headers}
                 elements={users}
                 onEditClick={onEditClick}
               />
-            )}
-            {!isLoading && editing && (
+            )} */}
+            {/* {!isLoading && editing && (
               <AdminElementEditor
                 elements={editing}
                 newElement={newElement}
@@ -224,7 +224,7 @@ export const UsersEditor = () => {
                 onSaveButtonClicked={onSaveButtonClicked}
                 onSubmitButtonClicked={onSubmitButtonClicked}
               />
-            )}
+            )} */}
           </Col>
         </Row>
       </div>

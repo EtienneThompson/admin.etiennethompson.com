@@ -1,10 +1,14 @@
+interface Header {
+  text: string;
+  field: string;
+}
+
 export interface ElementComponent {
-  id: string;
-  values: string[];
+  [key: string]: string;
 }
 
 export interface AdminTableProps {
-  headers: string[];
+  headers: Header[];
   elements: ElementComponent[];
-  onEditClick: (element: any) => void;
+  onEditClick: (index: number) => void;
 }

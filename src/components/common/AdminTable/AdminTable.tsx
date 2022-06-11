@@ -1,6 +1,7 @@
 import { FunctionComponent } from "react";
 import { AdminTableProps } from "./AdminTable.types";
 import "./AdminTable.scss";
+import { getFirstValue, getObjValue } from "./AdminTable.utils";
 
 export const AdminTable: FunctionComponent<AdminTableProps> = (
   props: AdminTableProps
@@ -9,21 +10,22 @@ export const AdminTable: FunctionComponent<AdminTableProps> = (
     <table>
       <thead>
         <tr>
-          {props.headers.map((name) => (
-            <th key={name}>{name}</th>
+          {props.headers.map((headerInfo) => (
+            <th key={headerInfo.text}>{headerInfo.text}</th>
           ))}
         </tr>
       </thead>
       <tbody>
-        {props.elements.map((element) => (
-          <tr
-            onClick={() => {
-              props.onEditClick(element);
-            }}
-            className={"admin-table-row"}
-            key={`${element.id}`}
-          >
-            {element.values.map((value, index) => (
+        {props.elements.map((element, index) => {
+          return (
+            <tr
+              onClick={() => {
+                props.onEditClick(index);
+              }}
+              className={"admin-table-row"}
+              key={`${getFirstValue(element)}-${index}`}
+            >
+              {/* {elements.map((value, index) => (
               <td
                 data-th={`${props.headers[index]}`}
                 className={"admin-table-cell"}
@@ -31,9 +33,21 @@ export const AdminTable: FunctionComponent<AdminTableProps> = (
               >
                 {value.toString()}
               </td>
-            ))}
-          </tr>
-        ))}
+            ))} */}
+              {props.headers.map((headerInfo, index) => {
+                return (
+                  <td
+                    data-th={`${headerInfo.text}`}
+                    className="admin-table-cell"
+                    key={`${headerInfo.text}-${index}`}
+                  >
+                    {getObjValue(element, headerInfo.field).toString()}
+                  </td>
+                );
+              })}
+            </tr>
+          );
+        })}
       </tbody>
     </table>
   );

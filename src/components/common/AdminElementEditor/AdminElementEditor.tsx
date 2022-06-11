@@ -34,15 +34,53 @@ export const AdminElementEditor: FunctionComponent<AdminElementEditorProps> = (
       }
       return element.value.toString();
     });
+
+    if (props.newElement) {
+      props.newFields.map(
+        (field) =>
+          (props.elements.filter(
+            (elem) => elem.label === field.text
+          )[0].editable = true)
+      );
+    } else {
+      props.editableFields.map(
+        (field) =>
+          (props.elements.filter(
+            (elem) => elem.label === field.text
+          )[0].editable = field.edit)
+      );
+    }
+
     setValues(defaultValues);
     dispatch(setIsLoading(false));
-  }, [props.newElement, props.elements, dispatch]);
+  }, [
+    props.newElement,
+    props.elements,
+    props.editableFields,
+    props.newFields,
+    dispatch,
+  ]);
 
   return (
     <div>
       {isLoading && <LoadingSpinner />}
       {!isLoading &&
         props.elements.map((element, index) => {
+          // if the element is not in the headers, return nothing.
+          if (
+            props.newElement &&
+            props.newFields.filter((head) => head.text === element.label)
+              .length === 0
+          ) {
+            return null;
+          } else if (
+            !props.newElement &&
+            props.editableFields.filter((head) => head.text === element.label)
+              .length === 0
+          ) {
+            return null;
+          }
+
           if (element.editable === false) {
             return (
               <Row className="element-field" key={`${element.id}-${index}`}>

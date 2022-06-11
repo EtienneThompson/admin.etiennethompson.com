@@ -103,33 +103,33 @@ export const ApplicationUsersEditor = () => {
   }, [dispatch]);
 
   const onEditClick = (element: ElementComponent) => {
-    let editingConfig: EditingComponent[] = element.values.map(
-      (value, index) => {
-        return {
-          id: `${value.toString()}-${index}`,
-          value: value,
-          label: headers[index],
-          component: headers[index].includes("Status") ? "checkbox" : "select",
-          editable: editableFields.includes(headers[index]),
-        };
-      }
-    );
-    editingConfig[0].options = users.map((user) => {
-      return {
-        id: user.userid,
-        value: user.userid,
-        text: user.username,
-      };
-    });
-    editingConfig[1].options = apps.map((app) => {
-      return {
-        id: app.applicationid,
-        value: app.applicationid,
-        text: app.applicationname,
-      };
-    });
-    setNewElement(false);
-    setEditing(editingConfig);
+    // let editingConfig: EditingComponent[] = element.values.map(
+    //   (value, index) => {
+    //     return {
+    //       id: `${value.toString()}-${index}`,
+    //       value: value,
+    //       label: headers[index],
+    //       component: headers[index].includes("Status") ? "checkbox" : "select",
+    //       editable: editableFields.includes(headers[index]),
+    //     };
+    //   }
+    // );
+    // editingConfig[0].options = users.map((user) => {
+    //   return {
+    //     id: user.userid,
+    //     value: user.userid,
+    //     text: user.username,
+    //   };
+    // });
+    // editingConfig[1].options = apps.map((app) => {
+    //   return {
+    //     id: app.applicationid,
+    //     value: app.applicationid,
+    //     text: app.applicationname,
+    //   };
+    // });
+    // setNewElement(false);
+    // setEditing(editingConfig);
   };
 
   const onBackButtonClicked = () => {
@@ -301,14 +301,14 @@ export const ApplicationUsersEditor = () => {
             {!isLoading && errorMessage && (
               <ErrorMessage message={errorMessage} />
             )}
-            {!isLoading && !editing && (
+            {/* {!isLoading && !editing && (
               <AdminTable
                 headers={headers}
                 elements={appUsers}
                 onEditClick={onEditClick}
               />
-            )}
-            {!isLoading && editing && (
+            )} */}
+            {/* {!isLoading && editing && (
               <AdminElementEditor
                 elements={editing}
                 newElement={newElement}
@@ -317,7 +317,7 @@ export const ApplicationUsersEditor = () => {
                 onSaveButtonClicked={onSaveButtonClicked}
                 onSubmitButtonClicked={onSubmitButtonClicked}
               />
-            )}
+            )} */}
           </Col>
         </Row>
       </div>

@@ -1,3 +1,5 @@
+import { EditField, Header } from "../../AdminEditorPage";
+
 export interface OptionConfiguration {
   id: string;
   value: string;
@@ -16,6 +18,8 @@ export interface EditingComponent {
 export interface AdminElementEditorProps {
   elements: EditingComponent[];
   newElement: boolean;
+  editableFields: EditField[];
+  newFields: Header[];
   onBackButtonClicked: () => void;
   onDeleteButtonClicked: () => void;
   onSaveButtonClicked: (values: string[]) => void;
