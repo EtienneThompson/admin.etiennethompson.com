@@ -10,7 +10,7 @@ export interface EditingComponent {
   id: string;
   value: string | boolean;
   label: string;
-  component: "text" | "select" | "checkbox";
+  component: "text" | "password" | "select" | "checkbox";
   editable: boolean;
   options?: OptionConfiguration[];
 }
@@ -22,6 +22,6 @@ export interface AdminElementEditorProps {
   newFields: Header[];
   onBackButtonClicked: () => void;
   onDeleteButtonClicked: () => void;
-  onSaveButtonClicked: (values: string[]) => void;
-  onSubmitButtonClicked: (values: string[]) => void;
+  onSaveButtonClicked: (values: EditingComponent[]) => void;
+  onSubmitButtonClicked: (values: EditingComponent[]) => void;
 }

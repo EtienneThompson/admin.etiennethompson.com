@@ -31,9 +31,9 @@ ReactDOM.render(
             path="admin/applicationusers"
             element={<ApplicationUsersEditor />}
           /> */}
+          <Route path="test/:elementId" element={<AdminEdtorPage />} />
           <Route path="application" element={<ApplicationControl />} />
           <Route path="*" element={<Error404 />} />
-          <Route path="test/:elementId" element={<AdminEdtorPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

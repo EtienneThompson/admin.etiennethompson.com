@@ -18,10 +18,9 @@ import {
   EditingComponent,
 } from "../common/AdminElementEditor";
 import { useDispatch, useSelector } from "react-redux";
-import { setIsLoading } from "../../store/actions";
+import { setIsButtonPressed, setIsLoading } from "../../store/actions";
 import { AdminStore } from "../../store/types";
 import { LoadingSpinner } from "../common/LoadingSpinner";
-import { Button } from "../common/Button";
 
 export const AdminEdtorPage: React.FunctionComponent<AdminEditorPageProps> = (
   props: AdminEditorPageProps
@@ -74,12 +73,11 @@ export const AdminEdtorPage: React.FunctionComponent<AdminEditorPageProps> = (
     let editingElement: EditingComponent[] = [...defaultValues];
     headers.map(
       (head) =>
-        (editingElement.filter((elem) => elem.id === head.text)[0].value =
+        (editingElement.filter((elem) => elem.id === head.field)[0].value =
           elements[index][head.field])
     );
     setEditorElement(editingElement);
     setEditorState(EditorState.Edit);
-    console.log(defaultValues);
   };
 
   const onBackButtonClicked = () => {
@@ -89,9 +87,25 @@ export const AdminEdtorPage: React.FunctionComponent<AdminEditorPageProps> = (
 
   const onDeleteButtonClicked = () => {};
 
-  const onSaveButtonClicked = (values: string[]) => {};
+  const onSaveButtonClicked = (values: EditingComponent[]) => {};
 
-  const onSubmitButtonClicked = (values: string[]) => {};
+  const onSubmitButtonClicked = (values: EditingComponent[]) => {
+    dispatch(setIsButtonPressed(true));
+    api
+      .post(`/admin/${params.elementId}/create`, {
+        newElement: values,
+      })
+      .then((response) => {
+        elements.push(response.data.newElement as never);
+        setElements(elements);
+        dispatch(setIsButtonPressed(false));
+        onBackButtonClicked();
+      })
+      .catch((error) => {
+        console.log(error);
+        dispatch(setIsButtonPressed(false));
+      });
+  };
 
   return (
     <Row className="admin-editor-container">
