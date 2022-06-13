@@ -214,6 +214,11 @@ export const AdminElementEditor: FunctionComponent<AdminElementEditorProps> = (
                 onClick={() => {
                   // Check if any of the fields are type password. If they are,
                   // hash the string and update the value.
+                  for (let value of values) {
+                    if (value.component === "password") {
+                      value.value = hashString(value.value as string);
+                    }
+                  }
                   props.onSubmitButtonClicked(values);
                 }}
               />
