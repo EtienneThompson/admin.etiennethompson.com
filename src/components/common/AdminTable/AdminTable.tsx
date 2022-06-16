@@ -25,15 +25,6 @@ export const AdminTable: FunctionComponent<AdminTableProps> = (
               className={"admin-table-row"}
               key={`${getFirstValue(element)}-${index}`}
             >
-              {/* {elements.map((value, index) => (
-              <td
-                data-th={`${props.headers[index]}`}
-                className={"admin-table-cell"}
-                key={`${value}-${index}`}
-              >
-                {value.toString()}
-              </td>
-            ))} */}
               {props.headers.map((headerInfo, index) => {
                 return (
                   <td

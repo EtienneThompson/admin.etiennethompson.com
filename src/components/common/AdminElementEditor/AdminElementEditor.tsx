@@ -5,14 +5,12 @@ import { BiArrowBack, BiSave, BiCheck } from "react-icons/bi";
 import { Row, Col } from "../Grid";
 import { AdminButton } from "../AdminButton";
 import { LoadingSpinner } from "../LoadingSpinner";
-import {
-  AdminElementEditorProps,
-  EditingComponent,
-} from "./AdminElementEditor.types";
 import { AdminStore } from "../../../store/types";
+import { EditingComponent } from "../../../types";
+import { AdminElementEditorProps } from "./AdminElementEditor.types";
 import { setIsLoading } from "../../../store/actions";
-import "./AdminElementEditor.scss";
 import { hashString } from "../../../utils/hash";
+import "./AdminElementEditor.scss";
 
 export const AdminElementEditor: FunctionComponent<AdminElementEditorProps> = (
   props: AdminElementEditorProps
@@ -87,6 +85,7 @@ export const AdminElementEditor: FunctionComponent<AdminElementEditorProps> = (
               return null;
             }
 
+            // Render the component based on editable and component field.
             if (element.editable === false) {
               return (
                 <Row className="element-field" key={`${element.id}-${index}`}>
@@ -195,7 +194,7 @@ export const AdminElementEditor: FunctionComponent<AdminElementEditorProps> = (
                 type="icon"
                 icon={<FaRegTrashAlt />}
                 text="Delete"
-                onClick={props.onDeleteButtonClicked}
+                onClick={() => props.onDeleteButtonClicked(values)}
               />
             )}
             {!props.newElement && (

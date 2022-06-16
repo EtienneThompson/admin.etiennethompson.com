@@ -1,26 +1,19 @@
 import React from "react";
-import {
-  AdminEditorPageProps,
-  EditField,
-  EditorState,
-  Header,
-} from "./AdminEditorPage.types";
-import "./AdminEditorPage.scss";
-import api from "../../api";
 import { useParams } from "react-router";
-import { AdminNavBar } from "../AdminNavBar/AdminNavBar";
+import { useDispatch, useSelector } from "react-redux";
 import { GoPlus } from "react-icons/go";
 import { Row, Col } from "../common/Grid";
-import { AdminButton } from "../../components/common/AdminButton";
 import { AdminTable } from "../common/AdminTable";
-import {
-  AdminElementEditor,
-  EditingComponent,
-} from "../common/AdminElementEditor";
-import { useDispatch, useSelector } from "react-redux";
+import { AdminNavBar } from "../AdminNavBar/AdminNavBar";
+import { LoadingSpinner } from "../common/LoadingSpinner";
+import { AdminButton } from "../../components/common/AdminButton";
+import { AdminElementEditor } from "../common/AdminElementEditor";
 import { setIsButtonPressed, setIsLoading } from "../../store/actions";
 import { AdminStore } from "../../store/types";
-import { LoadingSpinner } from "../common/LoadingSpinner";
+import { EditingComponent, EditField, Header } from "../../types";
+import { AdminEditorPageProps, EditorState } from "./AdminEditorPage.types";
+import api from "../../api";
+import "./AdminEditorPage.scss";
 
 export const AdminEdtorPage: React.FunctionComponent<AdminEditorPageProps> = (
   props: AdminEditorPageProps
@@ -32,10 +25,13 @@ export const AdminEdtorPage: React.FunctionComponent<AdminEditorPageProps> = (
   document.documentElement.className = "theme-light";
 
   const [elements, setElements] = React.useState([]);
-  const [defaultValues, setDefaultValues] = React.useState([]);
+  const [defaultValues, setDefaultValues] = React.useState<EditingComponent[]>(
+    []
+  );
   const [editorElement, setEditorElement] = React.useState<EditingComponent[]>(
     []
   );
+  const [editingIndex, setEditingIndex] = React.useState(-1);
   const [editorState, setEditorState] = React.useState(EditorState.View);
   const [headers, setHeaders] = React.useState<Header[]>([]);
   const [editableFields, setEditableFields] = React.useState<EditField[]>([]);
@@ -44,11 +40,12 @@ export const AdminEdtorPage: React.FunctionComponent<AdminEditorPageProps> = (
   const isLoading = useSelector((state: AdminStore) => state.isLoading);
 
   React.useEffect(() => {
+    // Get the response data based on common data schema from the API endpoint
+    // defined by the current path.
     dispatch(setIsLoading(true));
     api
       .get(`/admin/${params.elementId}`)
       .then((response) => {
-        console.log(response);
         setElements(response.data.elements);
         setDefaultValues(response.data.defaultValues);
         setHeaders(response.data.headers);
@@ -63,6 +60,7 @@ export const AdminEdtorPage: React.FunctionComponent<AdminEditorPageProps> = (
   }, [dispatch, params]);
 
   const onNewButtonClicked = () => {
+    // Grab the default values and use it for the editor element.
     let editingElement: EditingComponent[] = [...defaultValues];
     editingElement.map((elem) => (elem.value = ""));
     setEditorElement(editingElement);
@@ -70,26 +68,66 @@ export const AdminEdtorPage: React.FunctionComponent<AdminEditorPageProps> = (
   };
 
   const onEditButtonClicked = (index: number): void => {
+    // Use the default values as a framework and update the values with the
+    // clicked elements' values.
     let editingElement: EditingComponent[] = [...defaultValues];
     headers.map(
       (head) =>
         (editingElement.filter((elem) => elem.id === head.field)[0].value =
           elements[index][head.field])
     );
+    setEditingIndex(index);
     setEditorElement(editingElement);
     setEditorState(EditorState.Edit);
   };
 
   const onBackButtonClicked = () => {
+    // Update state so it isn't displaying the editor.
+    setEditingIndex(-1);
     setEditorState(EditorState.View);
     setEditorElement([]);
   };
 
-  const onDeleteButtonClicked = () => {};
+  const onDeleteButtonClicked = (values: EditingComponent[]) => {
+    // Send the values of the editing element and delete it.
+    dispatch(setIsButtonPressed(true));
+    api
+      .delete(`/admin/${params.elementId}/delete`, {
+        data: { deleteElement: values },
+      })
+      .then((response) => {
+        elements.splice(editingIndex, 1);
+        setElements(elements);
+        onBackButtonClicked();
+        dispatch(setIsButtonPressed(false));
+      })
+      .catch((error) => {
+        console.log(error);
+        dispatch(setIsButtonPressed(false));
+      });
+  };
 
-  const onSaveButtonClicked = (values: EditingComponent[]) => {};
+  const onSaveButtonClicked = (values: EditingComponent[]) => {
+    // Send the values of the editing elment and update it.
+    dispatch(setIsButtonPressed(true));
+    api
+      .put(`/admin/${params.elementId}/update`, {
+        updateElement: values,
+      })
+      .then((response) => {
+        elements[editingIndex] = response.data.updatedElement as never;
+        setElements(elements);
+        dispatch(setIsButtonPressed(false));
+        onBackButtonClicked();
+      })
+      .catch((error) => {
+        console.log(error);
+        dispatch(setIsButtonPressed(false));
+      });
+  };
 
   const onSubmitButtonClicked = (values: EditingComponent[]) => {
+    // Send the values of the editing element and add it.
     dispatch(setIsButtonPressed(true));
     api
       .post(`/admin/${params.elementId}/create`, {

@@ -11,9 +11,6 @@ import { Dashboard } from "./pages/Dashboard";
 import { ApplicationControl } from "./pages/ApplicationControl";
 import { Error404 } from "./pages/404Error";
 import "./index.scss";
-import { UsersEditor } from "./pages/UsersEditor";
-import { ApplicationsEditor } from "./pages/ApplicationsEditor";
-import { ApplicationUsersEditor } from "./pages/ApplicationUsersEditor";
 import { AdminEdtorPage } from "./components/AdminEditorPage";
 
 ReactDOM.render(
@@ -25,13 +22,7 @@ ReactDOM.render(
           <Route path="login" element={<Login />} />
           <Route path="logout" element={<Logout />} />
           <Route path="dashboard" element={<Dashboard />} />
-          {/* <Route path="admin/users" element={<UsersEditor />} />
-          <Route path="admin/applications" element={<ApplicationsEditor />} />
-          <Route
-            path="admin/applicationusers"
-            element={<ApplicationUsersEditor />}
-          /> */}
-          <Route path="test/:elementId" element={<AdminEdtorPage />} />
+          <Route path="admin/:elementId" element={<AdminEdtorPage />} />
           <Route path="application" element={<ApplicationControl />} />
           <Route path="*" element={<Error404 />} />
         </Route>
