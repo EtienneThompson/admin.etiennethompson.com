@@ -1,16 +1,14 @@
 import React from "react";
-import {
-  SideBar,
-  SideBarItem,
-  SideBarTitle,
-} from "../../components/common/SideBar";
-import { AdminDashboard } from "../../components/AdminDashboard";
-import { UsersEditor } from "../../components/UsersEditor";
-import { Col, Container } from "../../components/common/Grid";
-import { ApplicationsEditor } from "../../components/ApplicationsEditor";
-import { ApplicationUsersEditor } from "../../components/ApplicationUsersEditor";
-import { DashboardProps } from "./Dashboard.types";
+import { useDispatch, useSelector } from "react-redux";
+import { Row, Col, Container } from "../../components/common/Grid";
+import { Card, CardTitle } from "../../components/common/Card";
+import { LoadingSpinner } from "../../components/common/LoadingSpinner";
+import { AdminStore } from "../../store/types";
+import { DashboardProps, CountData } from "./Dashboard.types";
+import { setIsLoading } from "../../store/actions";
+import api from "../../api";
 import "./Dashboard.scss";
+import { AdminNavBar } from "../../components/AdminNavBar/AdminNavBar";
 
 export const Dashboard: React.FunctionComponent<DashboardProps> = (
   props: DashboardProps
@@ -18,41 +16,63 @@ export const Dashboard: React.FunctionComponent<DashboardProps> = (
   document.title = "Etienne Thompson - Admin Center - Dashboard";
   document.documentElement.className = "theme-light";
 
-  const [currentEditor, setCurrentEditor] = React.useState("DashboardEditor");
+  const dispatch = useDispatch();
 
-  const renderEditor = React.useMemo(() => {
-    if (currentEditor === "UsersEditor") {
-      return <UsersEditor />;
-    } else if (currentEditor === "ApplicationsEditor") {
-      return <ApplicationsEditor />;
-    } else if (currentEditor === "ApplicationUsersEditor") {
-      return <ApplicationUsersEditor />;
-    } else {
-      return <AdminDashboard />;
-    }
-  }, [currentEditor]);
+  const isLoading = useSelector((state: AdminStore) => state.isLoading);
+
+  const [counts, setCounts] = React.useState({
+    total: 0,
+    tables: [],
+  } as CountData);
+
+  React.useEffect(() => {
+    dispatch(setIsLoading(true));
+    api
+      .get("/admin/dashboard/count")
+      .then((response) => {
+        setCounts(response.data);
+        dispatch(setIsLoading(false));
+      })
+      .catch((error) => {
+        console.log(error);
+        dispatch(setIsLoading(false));
+      });
+  }, [dispatch]);
 
   return (
     <div className="dashboard-container">
-      <SideBar>
-        <SideBarItem onClick={() => setCurrentEditor("DashboardEditor")}>
-          Dashboard
-        </SideBarItem>
-        <SideBarTitle>API</SideBarTitle>
-        <SideBarItem onClick={() => setCurrentEditor("UsersEditor")}>
-          Users
-        </SideBarItem>
-        <SideBarItem onClick={() => setCurrentEditor("ApplicationsEditor")}>
-          Applications
-        </SideBarItem>
-        <SideBarItem
-          onClick={() => setCurrentEditor("ApplicationUsersEditor")}
-        >
-          ApplicationUsers
-        </SideBarItem>
-      </SideBar>
+      <AdminNavBar />
       <Container>
-        <Col>{renderEditor}</Col>
+        <Col>
+          {isLoading && <LoadingSpinner />}
+          {!isLoading && counts.tables.length !== 0 && (
+            <Card className="dashboard-card">
+              <Col>
+                <CardTitle>Table Counts</CardTitle>
+                <Row>
+                  <Col cols="1" align="start">
+                    <div>Total:</div>
+                  </Col>
+                  <Col cols="4" align="end">
+                    <div>{counts.total}</div>
+                  </Col>
+                </Row>
+                {counts.tables.map((count, index) => {
+                  return (
+                    <Row key={`table-count-${index}`}>
+                      <Col cols="1" align="start">
+                        <div>{count.name}:</div>
+                      </Col>
+                      <Col cols="4" align="end">
+                        <div>{count.count}</div>
+                      </Col>
+                    </Row>
+                  );
+                })}
+              </Col>
+            </Card>
+          )}
+        </Col>
       </Container>
     </div>
   );
