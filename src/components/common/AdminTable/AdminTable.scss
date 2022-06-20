@@ -11,6 +11,11 @@ table {
         background-color: var(--primary);
         color: white;
         display: none;
+
+        &:hover {
+            background-color: var(--primary-shadow);
+            cursor: pointer;
+        }
     }
 
     td {
@@ -73,6 +78,14 @@ table {
         cursor: pointer;
         background-color: rgb(200, 230, 240);
     }
+}
+
+.admin-table-header-text {
+    padding: 5px;
+}
+
+.admin-table-header-sort-char {
+    min-width: 20px;
 }
 
 .admin-table-cell {

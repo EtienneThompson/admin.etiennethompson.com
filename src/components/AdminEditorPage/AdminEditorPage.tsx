@@ -145,6 +145,21 @@ export const AdminEdtorPage: React.FunctionComponent<AdminEditorPageProps> = (
       });
   };
 
+  const onHeaderClicked = (header: Header, dir: boolean) => {
+    // Sort the database entries based on the given header.
+    let sortedElements = [...elements];
+    if (dir) {
+      sortedElements.sort((a: any, b: any) =>
+        a[header.field] >= b[header.field] ? 1 : -1
+      );
+    } else {
+      sortedElements.sort((a: any, b: any) =>
+        a[header.field] < b[header.field] ? 1 : -1
+      );
+    }
+    setElements(sortedElements);
+  };
+
   return (
     <Row className="admin-editor-container">
       <AdminNavBar />
@@ -172,6 +187,7 @@ export const AdminEdtorPage: React.FunctionComponent<AdminEditorPageProps> = (
                 <AdminTable
                   headers={headers}
                   elements={elements}
+                  onHeaderClick={onHeaderClicked}
                   onEditClick={onEditButtonClicked}
                 />
               )}

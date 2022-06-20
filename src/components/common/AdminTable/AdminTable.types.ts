@@ -10,5 +10,6 @@ export interface ElementComponent {
 export interface AdminTableProps {
   headers: Header[];
   elements: ElementComponent[];
+  onHeaderClick?: (header: Header, direction: boolean) => void;
   onEditClick: (index: number) => void;
 }
