@@ -32,7 +32,7 @@ export const Toolbar: React.FunctionComponent<ToolbarProps> = (
 
   const onLoginButtonClicked = () => {
     window.open(
-      `${process.env.REACT_APP_LOGIN_ENDPOINT}/login?appid=${process.env.REACT_APP_APPLICATION_ID}&redirectBase=${process.env.REACT_APP_LOGIN_REDIRECT}`,
+      `${import.meta.env.VITE_LOGIN_ENDPOINT}/login?appid=${import.meta.env.VITE_APPLICATION_ID}&redirectBase=${import.meta.env.VITE_LOGIN_REDIRECT}`,
       "_self"
     );
   };
