@@ -3,7 +3,7 @@ import { store } from "../store/store";
 import { logout } from "../store/actions";
 
 const instance = axios.create({
-  baseURL: `${process.env.REACT_APP_API_ENDPOINT}`,
+  baseURL: `${import.meta.env.VITE_API_ENDPOINT}`,
   timeout: 60000,
 });
 
@@ -14,7 +14,7 @@ instance.interceptors.request.use(
       if (!req.params) {
         req.params = {};
       }
-      req.params.appid = process.env.REACT_APP_APPLICATION_ID;
+      req.params.appid = import.meta.env.VITE_APPLICATION_ID;
       req.params.clientid = store.getState().clientId;
     } else {
       let data;
@@ -23,7 +23,7 @@ instance.interceptors.request.use(
       } else {
         data = req.data;
       }
-      data.appid = process.env.REACT_APP_APPLICATION_ID;
+      data.appid = import.meta.env.VITE_APPLICATION_ID;
       data.clientid = store.getState().clientId;
       req.data = data;
     }

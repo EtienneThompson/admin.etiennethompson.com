@@ -210,12 +210,10 @@ export const AdminElementEditor: FunctionComponent<AdminElementEditorProps> = (
                 type="icon"
                 icon={<BiCheck />}
                 text="Submit"
-                onClick={() => {
-                  // Check if any of the fields are type password. If they are,
-                  // hash the string and update the value.
+                onClick={async () => {
                   for (let value of values) {
                     if (value.component === "password") {
-                      value.value = hashString(value.value as string);
+                      value.value = await hashString(value.value as string);
                     }
                   }
                   props.onSubmitButtonClicked(values);
