@@ -1,22 +1,23 @@
-import React from "react";
-import { Error404Props } from "./404Error.types";
+import { Link } from "react-router-dom";
+import { SplashCard } from "../../components/common/SplashCard";
+import { buttonClassName } from "../../components/common/Button";
+import { ArrowLeftIcon } from "../../components/common/Icons";
+import { useDocumentTitle } from "../../utils/useDocumentTitle";
 import "./404Error.scss";
-import { Col } from "../../components/common/Grid";
 
-export const Error404: React.FunctionComponent<Error404Props> = (
-  props: Error404Props
-) => {
-  document.title = "Etienne Thompson - Admin Center - 404 Not Found";
-  document.documentElement.className = "theme-light";
+export const Error404 = () => {
+  useDocumentTitle("Page not found");
 
   return (
-    <div className="error-404-container">
-      <Col>
-        <h1 className="error-404-title">404 - Not Found</h1>
-        <p className="error-404-description">
-          That's not a page on this site! Did you go to the right URL?
-        </p>
-      </Col>
-    </div>
+    <SplashCard
+      icon={<span className="error-404-code">404</span>}
+      title="Page not found"
+      description="That's not a page on this site. Double-check the URL, or head back home."
+    >
+      <Link to="/" className={buttonClassName("primary", true)}>
+        <ArrowLeftIcon />
+        Go home
+      </Link>
+    </SplashCard>
   );
 };

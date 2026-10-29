@@ -1,0 +1,13 @@
+.brand-mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--primary-deep);
+    background: linear-gradient(160deg, #f79a52 0%, var(--secondary) 55%, #e5701f 100%);
+    border-radius: 28%;
+    box-shadow: 0 4px 12px -2px rgba(238, 123, 48, 0.45),
+        inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}

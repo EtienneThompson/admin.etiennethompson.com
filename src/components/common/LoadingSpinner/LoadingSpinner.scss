@@ -1,38 +1,15 @@
-@import "../../../assets/styles/colors.scss";
-
 @keyframes spinner {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
+    to {
         transform: rotate(360deg);
     }
 }
 
-.loading-spinner-container {
-    width: 50px;
-    height: 50px;
-    animation: spinner 1.5s linear infinite;
-    border: 5px solid #cfd0d1;
+.loading-spinner {
+    display: inline-block;
+    width: 1.1em;
+    height: 1.1em;
+    border: 2px solid currentColor;
+    border-right-color: transparent;
     border-radius: 50%;
-    border-bottom-color: var(--secondary); 
-
-    &.small {
-        width: 10px;
-        height: 10px;
-        border: 4px solid #cfd0d1;
-        border-bottom-color: var(--secondary); 
-    }
-
-    &.medium {
-        width: 50px;
-        height: 50px;
-    }
-
-    &.large {
-        width: 100px;
-        height: 100px;
-        border: 10px solid #cfd0d1;
-        border-bottom-color: var(--secondary); 
-    }
+    animation: spinner 0.7s linear infinite;
 }

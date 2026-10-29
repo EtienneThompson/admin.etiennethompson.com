@@ -40,8 +40,8 @@ instance.interceptors.response.use(
   },
   (err) => {
     if (
-      err.response.status === 400 &&
-      err.response.data.message ===
+      err.response?.status === 400 &&
+      err.response?.data?.message ===
         "Your session has expired. Please login again."
     ) {
       store.dispatch(logout());
@@ -50,5 +50,17 @@ instance.interceptors.response.use(
     return Promise.reject(err);
   }
 );
+
+// A message to show the user when a request fails.
+export const errorMessage = (error: any, fallback: string): string => {
+  const message = error?.response?.data?.message;
+  if (typeof message === "string" && message) {
+    return message;
+  }
+  if (error?.response === undefined) {
+    return "Couldn't reach the server. Check your connection and try again.";
+  }
+  return fallback;
+};
 
 export default instance;

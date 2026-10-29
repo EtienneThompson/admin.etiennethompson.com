@@ -1,14 +1,198 @@
-@import "../../assets/styles/colors.scss";
-
-.dashboard-container {
+.dashboard-loading {
     display: flex;
+    align-items: center;
     justify-content: center;
-    align-items: flex-start;
-    height: 100%;
-    width: 100%;
+    gap: 10px;
+    padding: 48px 24px;
+    font-size: 14px;
+    color: var(--text-muted);
+
+    .loading-spinner {
+        color: var(--primary);
+    }
 }
 
-.dashboard-card {
-    width: 25%;
-    min-width: 200px;
+.dashboard-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+}
+
+.dashboard-stat {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 20px 22px;
+    overflow: hidden;
+    color: var(--text);
+    text-decoration: none;
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-panel);
+}
+
+.dashboard-stat--link {
+    transition: border-color var(--transition), box-shadow var(--transition),
+        transform var(--transition);
+
+    &:hover {
+        border-color: var(--primary-accent);
+        box-shadow: 0 1px 2px rgba(28, 40, 47, 0.06),
+            0 10px 24px -8px rgba(28, 40, 47, 0.18);
+        transform: translateY(-1px);
+    }
+
+    &:focus-visible {
+        outline: none;
+        box-shadow: var(--focus-ring);
+    }
+}
+
+// The headline number, in the same gradient as the login pages.
+.dashboard-stat--total {
+    color: var(--text-on-primary);
+    background:
+        radial-gradient(
+            ellipse 90% 80% at 0% 0%,
+            rgba(134, 187, 216, 0.35) 0%,
+            transparent 60%
+        ),
+        linear-gradient(150deg, var(--primary) 0%, var(--primary-shadow) 100%);
+    border-color: transparent;
+
+    .dashboard-stat-label,
+    .dashboard-stat-meta {
+        color: var(--text-on-primary-muted);
+    }
+}
+
+.dashboard-stat-icon {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    color: var(--secondary);
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-md);
+}
+
+.dashboard-stat-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+.dashboard-stat-value {
+    font-size: 34px;
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+}
+
+.dashboard-stat-meta {
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.dashboard-stat-bar {
+    height: 6px;
+    margin: 8px 0 4px;
+    overflow: hidden;
+    background-color: var(--surface-subtle);
+    border-radius: 999px;
+
+    span {
+        display: block;
+        height: 100%;
+        min-width: 6px;
+        background: linear-gradient(90deg, var(--secondary) 0%, #f79a52 100%);
+        border-radius: inherit;
+    }
+}
+
+.dashboard-links {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    li + li {
+        border-top: 1px solid #e6ecf1;
+    }
+
+    li:last-child .dashboard-link {
+        border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+    }
+}
+
+.dashboard-link {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 24px;
+    color: var(--text);
+    text-decoration: none;
+    transition: background-color var(--transition);
+
+    > .icon {
+        flex-shrink: 0;
+        margin-left: auto;
+        font-size: 18px;
+        color: var(--border-strong);
+        transition: color var(--transition), transform var(--transition);
+    }
+
+    &:hover {
+        background-color: var(--row-hover);
+
+        > .icon {
+            color: var(--primary);
+            transform: translateX(2px);
+        }
+    }
+
+    &:focus-visible {
+        outline: none;
+        box-shadow: inset var(--focus-ring);
+    }
+
+    @media (max-width: 600px) {
+        padding: 14px 18px;
+    }
+}
+
+.dashboard-link-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    color: var(--primary);
+    background-color: var(--info-surface);
+    border-radius: var(--radius-md);
+}
+
+.dashboard-link-text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.dashboard-link-label {
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.dashboard-link-description {
+    font-size: 14px;
+    color: var(--text-muted);
 }

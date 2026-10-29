@@ -1,0 +1,19 @@
+.select-field-input {
+    padding-right: 42px;
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+
+    &:disabled {
+        cursor: not-allowed;
+    }
+}
+
+.select-field-chevron {
+    position: absolute;
+    right: 14px;
+    display: flex;
+    font-size: 18px;
+    color: var(--text-muted);
+    pointer-events: none;
+}
