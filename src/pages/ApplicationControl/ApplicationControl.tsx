@@ -1,15 +1,26 @@
-import { Row, Col } from "../../components/common/Grid";
-import "./ApplicationControl.scss";
+import { EmptyState } from "../../components/common/EmptyState";
+import { ToolIcon } from "../../components/common/Icons";
+import { PageHeader } from "../../components/common/PageHeader";
+import { Panel } from "../../components/common/Panel";
+import { useDocumentTitle } from "../../utils/useDocumentTitle";
 
 export const ApplicationControl = () => {
-  document.title = "Etienen Thompson - Admin Center - Application Control";
-  document.documentElement.className = "theme-light";
+  useDocumentTitle("Application control");
 
   return (
-    <div className="application-control-content">
-      <Row>
-        <Col>ApplicationControl</Col>
-      </Row>
-    </div>
+    <>
+      <PageHeader
+        eyebrow="Applications"
+        title="Application control"
+        description="Monitor and manage the status of each application."
+      />
+      <Panel>
+        <EmptyState
+          icon={<ToolIcon />}
+          title="Coming soon"
+          description="Application controls haven't been built yet. Check back later."
+        />
+      </Panel>
+    </>
   );
 };

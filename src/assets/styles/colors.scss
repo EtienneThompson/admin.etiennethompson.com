@@ -1,23 +1,55 @@
 /*
- * Light and dark theme color variables.
+ * Brand colors and design tokens.
  */
- .theme-light {
-    --base: #ffffff;
+:root {
+    // Brand.
     --primary: #33658a;
     --primary-shadow: #2f4858;
+    --primary-deep: #1c282f;
     --primary-accent: #86bbd8;
     --secondary: #ee7b30;
-    --invert: #000000;
-    --box-shadow: rgba(0, 0, 0, 0.25);
-  }
-  
-  .theme-dark {
-    --base: #121212;
-    --primary: #2f4858;
-    --primary-shadow: #1c282f;
-    --primary-accent: #33658a;
-    --secondary: #ee7b30;
-    --invert: #ffffff;
-    --box-shadow: rgba(255, 255, 255, 0.25);
-  }
-  
+    --secondary-hover: #f48d4a;
+    --secondary-active: #dd6a20;
+    --base: #ffffff;
+
+    // Text.
+    --text: #1c282f;
+    --text-muted: #5a6b78;
+    --text-on-primary: #ffffff;
+    --text-on-primary-muted: rgba(255, 255, 255, 0.72);
+
+    // Surfaces and borders.
+    --surface: #ffffff;
+    --surface-subtle: #f4f7fa;
+    --border: #d3dde5;
+    --border-strong: #a9b8c4;
+
+    // Feedback.
+    --danger: #c0392b;
+    --danger-hover: #a93226;
+    --danger-surface: #fdf0ee;
+    --danger-border: #f3c5bf;
+    --success: #2e7d4f;
+    --success-surface: #ecf7f0;
+    --info-surface: #eef5fa;
+    --info-border: #c9deec;
+
+    // Shape and depth.
+    --radius-sm: 8px;
+    --radius-md: 10px;
+    --radius-lg: 18px;
+    --shadow-card: 0 1px 2px rgba(28, 40, 47, 0.08),
+        0 12px 32px -8px rgba(28, 40, 47, 0.35),
+        0 32px 64px -24px rgba(28, 40, 47, 0.35);
+    // A lighter shadow for panels sitting on the admin background.
+    --shadow-panel: 0 1px 2px rgba(28, 40, 47, 0.06),
+        0 4px 12px -4px rgba(28, 40, 47, 0.08);
+    --focus-ring: 0 0 0 3px rgba(134, 187, 216, 0.55);
+
+    // Admin layout.
+    --sidebar-width: 264px;
+    --app-background: #eef2f6;
+    --row-hover: #f2f7fb;
+
+    --transition: 150ms ease;
+}

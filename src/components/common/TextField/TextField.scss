@@ -1,0 +1,109 @@
+.text-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+}
+
+.text-field-label-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.text-field-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.text-field-control {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.text-field-input {
+    width: 100%;
+    height: 46px;
+    padding: 0 14px;
+    font-size: 16px;
+    color: var(--text);
+    background-color: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-md);
+    outline: none;
+    transition: border-color var(--transition), box-shadow var(--transition);
+
+    &::placeholder {
+        color: #93a3af;
+    }
+
+    &:hover:not(:disabled) {
+        border-color: var(--border-strong);
+    }
+
+    &:focus {
+        border-color: var(--primary);
+        box-shadow: var(--focus-ring);
+    }
+
+    &:disabled {
+        background-color: var(--surface-subtle);
+        cursor: not-allowed;
+    }
+
+    // Leave room for the show password button.
+    &:not(:last-child) {
+        padding-right: 48px;
+    }
+}
+
+.text-field-toggle {
+    position: absolute;
+    right: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    font-size: 18px;
+    color: var(--text-muted);
+    background: none;
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: color var(--transition), background-color var(--transition);
+
+    &:hover:not(:disabled) {
+        color: var(--primary);
+        background-color: var(--surface-subtle);
+    }
+
+    &:focus-visible {
+        outline: none;
+        box-shadow: var(--focus-ring);
+    }
+}
+
+.text-field-message {
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.text-field--error {
+    .text-field-input,
+    .text-field-input:hover:not(:disabled) {
+        border-color: var(--danger);
+    }
+
+    .text-field-input:focus {
+        box-shadow: 0 0 0 3px rgba(192, 57, 43, 0.2);
+    }
+
+    .text-field-message {
+        color: var(--danger);
+    }
+}

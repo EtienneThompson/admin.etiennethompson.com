@@ -1,24 +1,141 @@
-@import "../../../assets/styles/colors.scss";
-
-.button-container {
-    background-color: var(--secondary);
-    cursor: pointer;
-    min-width: 50px;
-    width: auto;
-    height: auto;
-    padding: 5px;
-    border-radius: 3px;
-    margin: 5px;
-    box-shadow: 1px 2px 3px 0px var(--box-shadow);
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
+.button {
+    display: inline-flex;
     align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 46px;
+    padding: 0 20px;
+    border: 1.5px solid transparent;
+    border-radius: var(--radius-md);
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background-color var(--transition),
+        border-color var(--transition), box-shadow var(--transition),
+        transform var(--transition);
+
+    .icon {
+        font-size: 18px;
+        flex-shrink: 0;
+    }
+
+    &:focus-visible {
+        outline: none;
+        box-shadow: var(--focus-ring);
+    }
+
+    &:active:not(:disabled) {
+        transform: translateY(1px);
+    }
+
+    &:disabled {
+        cursor: not-allowed;
+        opacity: 0.65;
+    }
 }
 
-/**
- * Remove the box-shadow when clicking to make a click effect.
- */
-.button-container:active {
-    box-shadow: none;
+.button--full {
+    width: 100%;
+}
+
+// Orange with dark text, matching the ET logo.
+.button--primary {
+    color: var(--primary-deep);
+    background-color: var(--secondary);
+    box-shadow: 0 1px 2px rgba(28, 40, 47, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.25);
+
+    &:hover:not(:disabled) {
+        background-color: var(--secondary-hover);
+    }
+
+    &:active:not(:disabled) {
+        background-color: var(--secondary-active);
+    }
+
+    &:focus-visible {
+        box-shadow: 0 0 0 3px rgba(238, 123, 48, 0.4);
+    }
+}
+
+.button--secondary {
+    color: var(--primary);
+    background-color: var(--surface);
+    border-color: var(--border);
+
+    &:hover:not(:disabled) {
+        background-color: var(--surface-subtle);
+        border-color: var(--border-strong);
+    }
+}
+
+.button--ghost {
+    color: var(--text-muted);
+    background-color: transparent;
+
+    &:hover:not(:disabled) {
+        color: var(--text);
+        background-color: var(--surface-subtle);
+    }
+}
+
+.button--danger {
+    color: var(--danger);
+    background-color: var(--surface);
+    border-color: var(--danger-border);
+
+    &:hover:not(:disabled) {
+        color: var(--base);
+        background-color: var(--danger);
+        border-color: var(--danger);
+    }
+
+    &:focus-visible {
+        box-shadow: 0 0 0 3px rgba(192, 57, 43, 0.25);
+    }
+}
+
+// Solid red, for confirming something destructive.
+.button--danger.button--solid {
+    color: var(--base);
+    background-color: var(--danger);
+    border-color: var(--danger);
+
+    &:hover:not(:disabled) {
+        background-color: var(--danger-hover);
+        border-color: var(--danger-hover);
+    }
+}
+
+.button--sm {
+    min-height: 38px;
+    padding: 0 14px;
+    font-size: 14px;
+
+    .icon {
+        font-size: 16px;
+    }
+}
+
+.button--link {
+    min-height: 0;
+    padding: 0;
+    color: var(--primary);
+    background: none;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 4px;
+
+    &:hover:not(:disabled) {
+        color: var(--primary-shadow);
+        text-decoration: underline;
+        text-underline-offset: 3px;
+    }
+
+    &:active:not(:disabled) {
+        transform: none;
+    }
 }
